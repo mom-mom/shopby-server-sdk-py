@@ -3,15 +3,19 @@ from src.clients.products.models import (
     ChangedProductsResponse,
     ChangedProductItem,
     ProductDetailV3Response,
+    ProductListItem,
+    ProductListSearchResponse,
     ProductSearchV2Response,
     ProductSearchItem,
 )
 
 __all__ = [
     "ShopbyServerProductApiClient",
-    "ProductDetailV3Response",
-    "ProductSearchV2Response",
-    "ProductSearchItem",
     "ChangedProductsResponse",
     "ChangedProductItem",
+    "ProductDetailV3Response",
+    "ProductListItem",
+    "ProductListSearchResponse",
+    "ProductSearchV2Response",
+    "ProductSearchItem",
 ]

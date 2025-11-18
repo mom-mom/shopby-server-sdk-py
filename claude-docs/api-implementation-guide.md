@@ -125,6 +125,26 @@ __all__ = [
   - 예: 스펙에 명확한 타입 정의가 없는 경우
   - 예: `oneOf`로 여러 타입이 혼재된 경우
 
+### 파라미터 처리
+- **쉼표 구분 리스트**: OpenAPI에서 쉼표로 구분된 문자열을 받는 경우
+  - Python에서는 `list[int]` 또는 `list[str]`로 받기
+  - 내부에서 `",".join()` 처리
+  ```python
+  # Bad
+  async def method(self, product_nos: str):  # "1,2,3"
+      params = {"productNos": product_nos}
+
+  # Good
+  async def method(self, product_nos: list[int]):  # [1, 2, 3]
+      params = {"productNos": ",".join(str(no) for no in product_nos)}
+  ```
+- **Array 응답**: API가 배열을 직접 반환하는 경우
+  - Response 타입을 `list[Model]`로 정의
+  - 각 item을 `model_validate()`로 파싱
+  ```python
+  return [ItemModel.model_validate(item) for item in resp.json()]
+  ```
+
 ## 참조
 
 - **예제 코드**: `src/clients/examples/`

@@ -6,6 +6,8 @@ from src.clients.base import ShopbyServerApiClient
 from src.clients.products.models import (
     ChangedProductsResponse,
     ProductDetailV3Response,
+    ProductListItem,
+    ProductListSearchResponse,
     ProductSearchV2Response,
 )
 
@@ -291,3 +293,41 @@ class ShopbyServerProductApiClient(ShopbyServerApiClient):
             resp.raise_for_status()
 
             return ChangedProductsResponse.model_validate(resp.json())
+
+    async def search_products_by_list(
+        self,
+        product_nos: list[int],
+        partner_no: int | None = None,
+    ) -> ProductListSearchResponse:
+        """
+        상품 리스트로 상품 검색하기
+
+        상품번호 목록으로 상품을 검색하는 API (최대 100개)
+
+        Args:
+            product_nos: 검색 할 상품 번호들 (예: [10001, 10002, 10003])
+            partner_no: 파트너 번호 (자사파트너의 경우에만 사용 가능)
+
+        Returns:
+            ProductListSearchResponse: 상품 목록 (list)
+        """
+        async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
+            # Version 1.0 헤더 추가
+            headers = {"version": "1.0"}
+
+            # 쿼리 파라미터 구성
+            params: dict[str, str | int] = {
+                "productNos": ",".join(str(no) for no in product_nos),
+            }
+
+            if partner_no is not None:
+                params["partnerNo"] = partner_no
+
+            resp = await client.get(
+                "/products/search-by-nos",
+                headers=headers,
+                params=params,
+            )
+            resp.raise_for_status()
+
+            return [ProductListItem.model_validate(item) for item in resp.json()]
