@@ -3,7 +3,11 @@ from typing import Literal
 import httpx
 
 from src.clients.base import ShopbyServerApiClient
-from src.clients.products.models import ProductDetailV3Response, ProductSearchV2Response
+from src.clients.products.models import (
+    ChangedProductsResponse,
+    ProductDetailV3Response,
+    ProductSearchV2Response,
+)
 
 
 # shopby-docs/product-server-public.yml
@@ -231,3 +235,59 @@ class ShopbyServerProductApiClient(ShopbyServerApiClient):
             resp.raise_for_status()
 
             return ProductSearchV2Response.model_validate(resp.json())
+
+    async def get_changed_product_nos(
+        self,
+        as_of: str,
+        sort_by: Literal["REGISTERED_AT", "UPDATED_AT"],
+        size: int,
+        direction: Literal["ASC", "DESC"] | None = None,
+        including_stock_changes: bool | None = None,
+        page: int | None = None,
+        search_after: str | None = None,
+    ) -> ChangedProductsResponse:
+        """
+        변경된 상품 번호 목록 조회
+
+        조회 기준시점을 기준으로 이후에 등록/수정된 상품번호 목록을 조회
+
+        Args:
+            as_of: 조회 기준시점 (yyyy-MM-dd HH:mm:ss)
+            sort_by: 정렬 기준 (REGISTERED_AT: 등록일, UPDATED_AT: 수정일)
+            size: 페이지 사이즈
+            direction: 정렬 방향 (ASC: 오름차순, DESC: 내림차순, default: ASC)
+            including_stock_changes: 재고변경이력 포함여부 (default: true, 정렬기준이 UPDATED_AT 일때만 적용가능)
+            page: 페이지 번호 (default: 1)
+            search_after: 검색 기준 값(lastId) - keySet search 용, 정렬기준이 REGISTERED_AT 일때만 사용가능
+
+        Returns:
+            ChangedProductsResponse: 변경된 상품 목록
+        """
+        async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
+            # Version 1.0 헤더 추가
+            headers = {"version": "1.0"}
+
+            # 쿼리 파라미터 구성
+            params: dict[str, str | int | bool] = {
+                "asOf": as_of,
+                "sortBy": sort_by,
+                "size": size,
+            }
+
+            if direction is not None:
+                params["direction"] = direction
+            if including_stock_changes is not None:
+                params["includingStockChanges"] = including_stock_changes
+            if page is not None:
+                params["page"] = page
+            if search_after is not None:
+                params["searchAfter"] = search_after
+
+            resp = await client.get(
+                "/products/changed",
+                headers=headers,
+                params=params,
+            )
+            resp.raise_for_status()
+
+            return ChangedProductsResponse.model_validate(resp.json())

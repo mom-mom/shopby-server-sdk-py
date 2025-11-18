@@ -5,27 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2a92c7a7-fa3b-4370-8bfa-7dd599c6bffc" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/ruff.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shopby-products.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pyproject.toml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shopby-docs/product-server-public.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/base/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/base/dto.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/clients/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/clients/base.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/clients/examples/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/clients/examples/client.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/clients/examples/models.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/clients/products/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/clients/products/client.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/clients/products/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/clients/products/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/clients/products/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/clients/products/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/clients/products/client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/clients/products/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/clients/products/models.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,7 +73,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1763458167296</updated>
-      <workItem from="1763458168328" duration="3118000" />
+      <workItem from="1763458168328" duration="4205000" />
     </task>
     <servers />
   </component>

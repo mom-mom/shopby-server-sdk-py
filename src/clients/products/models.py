@@ -518,3 +518,33 @@ class ProductSearchV2Response(BaseDto):
     last_id: str | None = Field(None, description="검색 기준 값")
     displayable_stock: bool = Field(..., description="재고 노출 여부")
     items: list[ProductSearchItem] = Field(default_factory=list, description="검색된 상품 목록")
+
+
+# ============================================================================
+# 변경된 상품 번호 목록 조회 Models
+# ============================================================================
+
+
+class ChangedProductItem(BaseDto):
+    """
+    변경된 상품 아이템
+
+    OpenAPI Schema: products-changed-756650823 > contents
+    """
+
+    product_no: int = Field(..., description="상품 번호")
+    registered_at: str = Field(..., description="등록일")
+    updated_at: str | None = Field(None, description="수정일")
+
+
+class ChangedProductsResponse(BaseDto):
+    """
+    변경된 상품 번호 목록 조회 응답 모델
+
+    OpenAPI Schema: products-changed-756650823
+    """
+
+    total_count: int = Field(..., description="전체 상품수")
+    total_page: int = Field(..., description="전체 페이지수")
+    last_id: str = Field(..., description="검색 기준 값")
+    contents: list[ChangedProductItem] = Field(default_factory=list, description="변경된 상품 목록")
