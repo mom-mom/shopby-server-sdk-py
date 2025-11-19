@@ -1,5 +1,5 @@
 [project]
-name = "shopby-products"
+name = "shopby-server-sdk-py"
 version = "0.1.0"
 description = "Add your description here"
 requires-python = ">=3.13"
@@ -24,5 +24,4 @@ fix = true
 output-format = "grouped"
 
 [tool.ruff.lint.per-file-ignores]
-"api/main.py" = ["E402"]
 "__init__.py" = ["F401"]
