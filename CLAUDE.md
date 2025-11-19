@@ -14,17 +14,17 @@ uv sync                          # Install dependencies
 uv sync --group dev              # Install with dev dependencies
 
 # Code Quality
-uv run ruff check src/           # Lint code
-uv run ruff format src/          # Format code
-uv run isort src/                # Sort imports
-uv run black src/                # Format with black
+uv run ruff check shopby_sdk/    # Lint code
+uv run ruff format shopby_sdk/   # Format code
+uv run isort shopby_sdk/         # Sort imports
+uv run black shopby_sdk/         # Format with black
 ```
 
 ## Architecture
 
 ### Core Pattern: BaseDto + API Clients
 
-All API models inherit from `BaseDto` (in `src/base/dto.py`) which provides automatic **camelCase ↔ snake_case** conversion between Python code and API JSON responses.
+All API models inherit from `BaseDto` (in `shopby_sdk/base/dto.py`) which provides automatic **camelCase ↔ snake_case** conversion between Python code and API JSON responses.
 
 ```python
 # API returns: {"mallProductNo": 123}
@@ -34,7 +34,7 @@ All API models inherit from `BaseDto` (in `src/base/dto.py`) which provides auto
 ### File Structure
 
 ```
-src/
+shopby_sdk/
 ├── base/
 │   └── dto.py                    # BaseDto with camelCase conversion
 ├── clients/
@@ -48,7 +48,7 @@ src/
 
 ### API Client Base Class
 
-`ShopbyServerApiClient` (in `src/clients/base.py`):
+`ShopbyServerApiClient` (in `shopby_sdk/clients/base.py`):
 - Base URL: `https://server-api.e-ncp.com`
 - Auth: Bearer token + systemKey headers
 - All clients inherit from this and use httpx.AsyncClient
@@ -59,4 +59,4 @@ src/
 
 This guide contains all implementation patterns, type mapping rules, parameter handling, and common pitfalls. Do not proceed without reading it.
 
-Reference implementations: `src/clients/products/` and `src/clients/examples/`
+Reference implementations: `shopby_sdk/clients/products/` and `shopby_sdk/clients/examples/`

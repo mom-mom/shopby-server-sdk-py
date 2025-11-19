@@ -1,6 +1,6 @@
 from pydantic import Field
 
-from src.base.dto import BaseDto
+from shopby_sdk.base.dto import BaseDto
 
 
 class SomeComplexReqDto(BaseDto):

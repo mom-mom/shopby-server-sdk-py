@@ -1,5 +1,5 @@
-from src.clients.products.client import ShopbyServerProductsApiClient
-from src.clients.products.models import (
+from shopby_sdk.clients.products.client import ShopbyServerProductsApiClient
+from shopby_sdk.clients.products.models import (
     ChangedProductsResponse,
     ChangedProductItem,
     ProductDetailV3Response,

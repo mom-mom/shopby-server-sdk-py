@@ -36,7 +36,7 @@ def get_settings() -> Settings:
     설정 인스턴스 반환 (싱글톤)
 
     사용 예:
-        from src.config import get_settings
+        from shopby_sdk.config import get_settings
 
         settings = get_settings()
         client = ShopbyServerProductsApiClient(

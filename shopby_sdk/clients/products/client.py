@@ -2,8 +2,8 @@ from typing import Literal
 
 import httpx
 
-from src.clients.base import ShopbyServerApiClient
-from src.clients.products.models import (
+from shopby_sdk.clients.base import ShopbyServerApiClient
+from shopby_sdk.clients.products.models import (
     ChangedProductsResponse,
     ProductDetailV3Response,
     ProductListItem,

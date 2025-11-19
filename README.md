@@ -41,8 +41,8 @@ SHOPBY_SYSTEM_KEY=your_system_key_here
 ### Products API
 
 ```python
-from shopby_server_sdk_py.clients.products import ShopbyServerProductsApiClient
-from shopby_server_sdk_py.config import Settings
+from shopby_sdk.clients.products import ShopbyServerProductsApiClient
+from shopby_sdk.config import Settings
 
 # Load settings
 settings = Settings()
@@ -80,22 +80,22 @@ uv sync --group dev
 
 ```bash
 # Lint
-uv run ruff check src/
+uv run ruff check shopby_sdk/
 
 # Format
-uv run ruff format src/
+uv run ruff format shopby_sdk/
 
 # Sort imports
-uv run isort src/
+uv run isort shopby_sdk/
 
 # Format with black
-uv run black src/
+uv run black shopby_sdk/
 ```
 
 ## Project Structure
 
 ```
-src/
+shopby_sdk/
 ├── base/
 │   └── dto.py                    # BaseDto with camelCase conversion
 ├── clients/

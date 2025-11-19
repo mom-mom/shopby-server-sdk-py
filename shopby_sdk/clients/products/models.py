@@ -2,7 +2,7 @@ from typing import Any, Literal
 
 from pydantic import Field
 
-from src.base.dto import BaseDto
+from shopby_sdk.base.dto import BaseDto
 
 
 # Nested models

@@ -2,8 +2,8 @@
 # just example
 import httpx
 
-from src.clients.base import ShopbyServerApiClient
-from src.clients.examples.models import SomeExampleModel, SomeComplexReqDto
+from shopby_sdk.clients.base import ShopbyServerApiClient
+from shopby_sdk.clients.examples.models import SomeExampleModel, SomeComplexReqDto
 
 
 class ShopbyServerExampleApiClient(ShopbyServerApiClient):
