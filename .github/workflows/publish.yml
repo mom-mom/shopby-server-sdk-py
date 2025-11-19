@@ -1,4 +1,4 @@
-name: Publish to GitHub Packages
+name: Build and Release
 
 on:
   release:
@@ -6,11 +6,10 @@ on:
   workflow_dispatch:  # 수동 실행 가능
 
 jobs:
-  publish:
+  build-and-release:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
-      packages: write
+      contents: write  # 릴리스에 파일 업로드 권한
 
     steps:
       - name: Checkout code
@@ -27,10 +26,12 @@ jobs:
       - name: Build package
         run: uv build
 
-      - name: Publish to GitHub Packages
+      - name: Upload to Release
+        uses: softprops/action-gh-release@v1
+        if: github.event_name == 'release'
+        with:
+          files: |
+            dist/*.whl
+            dist/*.tar.gz
         env:
-          UV_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          uv publish \
-            --token $UV_PUBLISH_TOKEN \
-            --publish-url https://pypi.pkg.github.com/mom-mom
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

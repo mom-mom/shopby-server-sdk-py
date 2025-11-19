@@ -4,34 +4,28 @@ Python SDK for Shopby Server API - Type-safe API clients for all Shopby API doma
 
 ## Installation
 
-### From GitHub Repository (Recommended for Internal Use)
+### Method 1: From GitHub Repository (Recommended)
 
 ```bash
-# Using uv
+# Latest version
 uv add git+https://github.com/mom-mom/shopby-server-sdk-py.git
+
+# Specific tag/release
+uv add git+https://github.com/mom-mom/shopby-server-sdk-py.git@v0.1.0
 
 # Using pip
 pip install git+https://github.com/mom-mom/shopby-server-sdk-py.git
 ```
 
-### Install Specific Version
+### Method 2: From GitHub Release (Wheel File)
+
+1. [Releases 페이지](https://github.com/mom-mom/shopby-server-sdk-py/releases)에서 원하는 버전의 `.whl` 파일 다운로드
+2. 다운로드한 파일로 설치:
 
 ```bash
-# Install from specific tag/release
-uv add git+https://github.com/mom-mom/shopby-server-sdk-py.git@v0.1.0
-
-# Install from specific branch
-uv add git+https://github.com/mom-mom/shopby-server-sdk-py.git@main
-```
-
-### From GitHub Packages (After First Release)
-
-```bash
-# Configure GitHub Packages (one-time setup)
-uv pip config set global.extra-index-url https://pypi.pkg.github.com/mom-mom
-
-# Install package
-uv add shopby-server-sdk-py
+uv add shopby_server_sdk_py-0.1.0-py3-none-any.whl
+# 또는
+pip install shopby_server_sdk_py-0.1.0-py3-none-any.whl
 ```
 
 ## Configuration
