@@ -1,7 +1,9 @@
+from datetime import datetime
 from typing import Literal
 
 import httpx
 
+from shopby_sdk.base.kst import to_kst_string
 from shopby_sdk.clients.base import ShopbyServerApiClient
 from shopby_sdk.clients.products.models import (
     ChangedProductsResponse,
@@ -69,10 +71,10 @@ class ShopbyServerProductsApiClient(ShopbyServerApiClient):
         front_display: Literal["Y", "N", "ALL"] | None = None,
         url_direct_display: Literal["Y", "N", "ALL"] | None = None,
         # Date ranges
-        registration_period_start_ymdt: str | None = None,
-        registration_period_end_ymdt: str | None = None,
-        modification_period_start_ymdt: str | None = None,
-        modification_period_end_ymdt: str | None = None,
+        registration_period_start_ymdt: datetime | None = None,
+        registration_period_end_ymdt: datetime | None = None,
+        modification_period_start_ymdt: datetime | None = None,
+        modification_period_end_ymdt: datetime | None = None,
         # Status and method
         sale_setting_types: str | None = None,
         apply_status_type: str | None = None,
@@ -197,13 +199,13 @@ class ShopbyServerProductsApiClient(ShopbyServerApiClient):
 
             # Date ranges
             if registration_period_start_ymdt is not None:
-                params["registrationPeriod.startYmdt"] = registration_period_start_ymdt
+                params["registrationPeriod.startYmdt"] = to_kst_string(registration_period_start_ymdt)
             if registration_period_end_ymdt is not None:
-                params["registrationPeriod.endYmdt"] = registration_period_end_ymdt
+                params["registrationPeriod.endYmdt"] = to_kst_string(registration_period_end_ymdt)
             if modification_period_start_ymdt is not None:
-                params["modificationPeriod.startYmdt"] = modification_period_start_ymdt
+                params["modificationPeriod.startYmdt"] = to_kst_string(modification_period_start_ymdt)
             if modification_period_end_ymdt is not None:
-                params["modificationPeriod.endYmdt"] = modification_period_end_ymdt
+                params["modificationPeriod.endYmdt"] = to_kst_string(modification_period_end_ymdt)
 
             # Status and method
             if sale_setting_types is not None:
@@ -240,7 +242,7 @@ class ShopbyServerProductsApiClient(ShopbyServerApiClient):
 
     async def get_changed_product_nos(
         self,
-        as_of: str,
+        as_of: datetime,
         sort_by: Literal["REGISTERED_AT", "UPDATED_AT"],
         size: int,
         direction: Literal["ASC", "DESC"] | None = None,
@@ -254,7 +256,7 @@ class ShopbyServerProductsApiClient(ShopbyServerApiClient):
         조회 기준시점을 기준으로 이후에 등록/수정된 상품번호 목록을 조회
 
         Args:
-            as_of: 조회 기준시점 (yyyy-MM-dd HH:mm:ss)
+            as_of: 조회 기준시점 (datetime 객체)
             sort_by: 정렬 기준 (REGISTERED_AT: 등록일, UPDATED_AT: 수정일)
             size: 페이지 사이즈
             direction: 정렬 방향 (ASC: 오름차순, DESC: 내림차순, default: ASC)
@@ -271,7 +273,7 @@ class ShopbyServerProductsApiClient(ShopbyServerApiClient):
 
             # 쿼리 파라미터 구성
             params: dict[str, str | int | bool] = {
-                "asOf": as_of,
+                "asOf": to_kst_string(as_of),
                 "sortBy": sort_by,
                 "size": size,
             }

@@ -35,7 +35,7 @@ grep -n "{schema_name}:" shopby-docs/product-server-public.yml
 ```python
 from typing import Any, Literal
 from pydantic import Field
-from src.base.dto import BaseDto
+from shopby_sdk.base.dto import BaseDto
 
 class NestedModel(BaseDto):
     field_name: str = Field(..., description="설명")
@@ -59,23 +59,15 @@ class MainResponse(BaseDto):
 - `resp.raise_for_status()` 호출
 - `model_validate(resp.json())` 로 파싱
 
-**예제:**
+**기본 예제:**
 ```python
 import httpx
-from src.clients.base import ShopbyServerApiClient
-from src.clients.{api_name}.models import ResponseModel
+from shopby_sdk.clients.base import ShopbyServerApiClient
+from shopby_sdk.clients.{api_name}.models import ResponseModel
 
 class ShopbyServer{Name}ApiClient(ShopbyServerApiClient):
     async def method_name(self, param: int) -> ResponseModel:
-        """
-        API 설명
-
-        Args:
-            param: 파라미터 설명
-
-        Returns:
-            ResponseModel: 응답 모델
-        """
+        """API 설명"""
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "3.0"}  # 필요시 추가
 
@@ -88,10 +80,66 @@ class ShopbyServer{Name}ApiClient(ShopbyServerApiClient):
             return ResponseModel.model_validate(resp.json())
 ```
 
+**요청 파라미터 타입 지정:**
+```python
+from datetime import datetime
+from typing import Literal
+from shopby_sdk.base.kst import to_kst_string
+
+async def search_products(
+    self,
+    # 필수 파라미터
+    as_of: datetime,                           # Datetime → datetime 타입
+    sort_by: Literal["CREATED", "UPDATED"],    # Enum → Literal
+    size: int,                                 # 숫자 → int
+    # 선택 파라미터
+    direction: Literal["ASC", "DESC"] | None = None,
+    start_date: datetime | None = None,        # Optional datetime
+    keywords: str | None = None,               # Optional string
+) -> ResponseModel:
+    """
+    상품 검색 API
+
+    Args:
+        as_of: 조회 기준시점 (KST로 자동 변환)
+        sort_by: 정렬 기준
+        size: 페이지 크기
+        direction: 정렬 방향 (default: ASC)
+        start_date: 시작일 (선택)
+        keywords: 검색어 (선택)
+    """
+    async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
+        # 쿼리 파라미터 구성
+        params: dict[str, str | int | bool] = {
+            "asOf": to_kst_string(as_of),      # datetime → KST 문자열
+            "sortBy": sort_by,
+            "size": size,
+        }
+
+        # Optional 파라미터 처리
+        if direction is not None:
+            params["direction"] = direction
+        if start_date is not None:
+            params["startDate"] = to_kst_string(start_date)  # datetime → KST 문자열
+        if keywords is not None:
+            params["keywords"] = keywords
+
+        resp = await client.get("/search", params=params)
+        resp.raise_for_status()
+
+        return ResponseModel.model_validate(resp.json())
+```
+
+**핵심 규칙:**
+- 요청 파라미터: Python `datetime` 타입으로 받기
+- API 전송 시: `to_kst_string()`으로 변환
+- Optional: `datetime | None = None`
+- None 체크 후 변환
+
 ### 4. __init__.py 작성
 ```python
-from src.clients.{api_name}.client import ShopbyServer{Name}ApiClient
-from src.clients.{api_name}.models import ResponseModel
+from shopby_sdk.clients.{api_name}.client import ShopbyServer{Name}ApiClient
+from shopby_sdk.clients.{api_name}.models import ResponseModel
 
 __all__ = [
     "ShopbyServer{Name}ApiClient",
@@ -117,6 +165,19 @@ __all__ = [
 - OpenAPI `type: string` + Enum → Python `Literal["A", "B"]`
 - OpenAPI `type: array` → Python `list[...]`
 - OpenAPI `nullable` → Python `| None`
+- **Datetime/Date 필드**: Shopby API는 timezone 명시가 없으면 KST 사용
+  - `*_ymdt` (날짜+시간) → `KstDatetime` 또는 `KstDatetime | None`
+  - `*_ymd` (날짜만) → `KstDate` 또는 `KstDate | None`
+  - `registered_at`, `updated_at` 등 → `KstDatetime | None`
+  ```python
+  from shopby_sdk.base.kst import KstDate, KstDatetime
+
+  class MyModel(BaseDto):
+      created_at: KstDatetime              # 필수 datetime
+      updated_at: KstDatetime | None       # 선택 datetime
+      start_date: KstDate                  # 필수 date
+      end_date: KstDate | None             # 선택 date
+  ``` 
 
 ### 복잡한 스키마
 - **원칙**: 모든 필드를 최대한 정확하게 구현

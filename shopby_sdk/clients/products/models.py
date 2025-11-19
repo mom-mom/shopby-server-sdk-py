@@ -3,6 +3,7 @@ from typing import Any, Literal
 from pydantic import Field
 
 from shopby_sdk.base.dto import BaseDto
+from shopby_sdk.base.kst import KstDate, KstDatetime
 
 
 # Nested models
@@ -16,22 +17,22 @@ class PlatformDisplayInfo(BaseDto):
 class PromotionTextInfo(BaseDto):
     text: str = Field(..., description="홍보문구")
     period_yn: str = Field(..., description="홍보문구 기간설정 유무")
-    start_ymd: str | None = Field(None, description="홍보문구 노출 시작 시간")
-    end_ymd: str | None = Field(None, description="홍보문구 노출 종료 시간")
+    start_ymd: KstDate | None = Field(None, description="홍보문구 노출 시작 시간")
+    end_ymd: KstDate | None = Field(None, description="홍보문구 노출 종료 시간")
 
 
 class SalePeriodInfo(BaseDto):
     period_type: Literal["REGULAR", "PERIOD"] = Field(..., description="판매기간설정")
-    start_ymdt: str = Field(..., description="판매 시작 시간")
-    end_ymdt: str = Field(..., description="판매 종료 시간")
+    start_ymdt: KstDatetime = Field(..., description="판매 시작 시간")
+    end_ymdt: KstDatetime = Field(..., description="판매 종료 시간")
 
 
 class ImmediateDiscountInfo(BaseDto):
     unit_type: Literal["AMOUNT", "PERCENT"] = Field(..., description="즉시할인 단위")
     amount: float = Field(..., description="즉시할인 양")
     period_yn: str = Field(..., description="즉시할인 기간설정 여부")
-    start_ymdt: str | None = Field(None, description="즉시할인 시작 시간")
-    end_ymdt: str | None = Field(None, description="즉시할인 종료 시간")
+    start_ymdt: KstDatetime | None = Field(None, description="즉시할인 시작 시간")
+    end_ymdt: KstDatetime | None = Field(None, description="즉시할인 종료 시간")
 
 
 class CommissionInfo(BaseDto):
@@ -49,8 +50,8 @@ class MaxBuyCountInfo(BaseDto):
 class CartInfo(BaseDto):
     use_yn: str = Field(..., description="장바구니 사용 여부")
     off_period_yn: str = Field(..., description="장바구니 OFF 기간 설정 여부")
-    off_start_ymd: str | None = Field(None, description="장바구니 OFF 시작일")
-    off_end_ymd: str | None = Field(None, description="장바구니 OFF 종료일")
+    off_start_ymd: KstDate | None = Field(None, description="장바구니 OFF 시작일")
+    off_end_ymd: KstDate | None = Field(None, description="장바구니 OFF 종료일")
 
 
 class MallProductImage(BaseDto):
@@ -215,8 +216,8 @@ class ProductDetailV3Response(BaseDto):
 
     # 원산지 및 제조정보
     place_origin_info: dict[str, Any] = Field(..., description="원산지 정보")
-    manufacture_ymdt: str | None = Field(None, description="제조일시")
-    expiration_ymdt: str | None = Field(None, description="유효기간")
+    manufacture_ymdt: KstDatetime | None = Field(None, description="제조일시")
+    expiration_ymdt: KstDatetime | None = Field(None, description="유효기간")
 
     # 부가세
     value_added_tax_type: str = Field(..., description="부가세타입")
@@ -332,8 +333,8 @@ class ProductDetailV3Response(BaseDto):
 
 # Nested models for search
 class DisplayPeriod(BaseDto):
-    start_date_time: str | None = Field(None, description="스티커 노출 시작일자")
-    end_date_time: str | None = Field(None, description="스티커 노출 종료일자")
+    start_date_time: KstDatetime | None = Field(None, description="스티커 노출 시작일자")
+    end_date_time: KstDatetime | None = Field(None, description="스티커 노출 종료일자")
 
 
 class StickerInfo(BaseDto):
@@ -352,9 +353,9 @@ class HasCoupons(BaseDto):
 
 
 class ReservationData(BaseDto):
-    reservation_start_ymdt: str = Field(..., description="예약판매 시작일")
-    reservation_end_ymdt: str = Field(..., description="예약판매 종료일")
-    reservation_delivery_ymdt: str = Field(..., description="예약판매 배송시작일")
+    reservation_start_ymdt: KstDatetime = Field(..., description="예약판매 시작일")
+    reservation_end_ymdt: KstDatetime = Field(..., description="예약판매 종료일")
+    reservation_delivery_ymdt: KstDatetime = Field(..., description="예약판매 배송시작일")
     reservation_stock_cnt: int = Field(..., description="예약판매 재고수량")
 
 
@@ -453,8 +454,8 @@ class ProductSearchItem(BaseDto):
     # 성인 상품 및 판매 기간
     adult: bool = Field(..., description="성인 상품 여부")
     product_sale_period_type: Literal["REGULAR", "PERIOD"] = Field(..., description="상품의 상품 노출 타입")
-    sale_start_ymdt: str = Field(..., description="판매시작일시")
-    sale_end_ymdt: str = Field(..., description="판매종료일시")
+    sale_start_ymdt: KstDatetime = Field(..., description="판매시작일시")
+    sale_end_ymdt: KstDatetime = Field(..., description="판매종료일시")
     sale_status_type: Literal["READY", "ONSALE", "FINISHED", "STOP", "PROHIBITION"] = Field(
         ..., description="판매상태"
     )
@@ -473,7 +474,7 @@ class ProductSearchItem(BaseDto):
     enable_coupons: bool | None = Field(None, description="사용가능쿠폰 존재 여부")
 
     # 등록일 및 기타
-    register_ymdt: str = Field(..., description="상품 등록일")
+    register_ymdt: KstDatetime = Field(..., description="상품 등록일")
     contents_if_pausing: str = Field(..., description="가격대체문구")
 
     # 카테고리
@@ -533,8 +534,8 @@ class ChangedProductItem(BaseDto):
     """
 
     product_no: int = Field(..., description="상품 번호")
-    registered_at: str = Field(..., description="등록일")
-    updated_at: str | None = Field(None, description="수정일")
+    registered_at: KstDatetime = Field(..., description="등록일")
+    updated_at: KstDatetime | None = Field(None, description="수정일")
 
 
 class ChangedProductsResponse(BaseDto):
@@ -558,8 +559,8 @@ class ChangedProductsResponse(BaseDto):
 class CartInfo(BaseDto):
     use_yn: str = Field(..., description="장바구니 사용 여부")
     off_period_yn: str = Field(..., description="장바구니 담기 불가능한 기간 설정 여부")
-    off_start_ymd: str | None = Field(None, description="장바구니 담기 불가능한 시작 시간")
-    off_end_ymd: str | None = Field(None, description="장바구니 담기 불가능한 종료 시간")
+    off_start_ymd: KstDate | None = Field(None, description="장바구니 담기 불가능한 시작 시간")
+    off_end_ymd: KstDate | None = Field(None, description="장바구니 담기 불가능한 종료 시간")
 
 
 class Commission(BaseDto):
@@ -579,8 +580,8 @@ class CategoryInfo(BaseDto):
 
 class SalePeriod(BaseDto):
     period_type: Literal["REGULAR", "PERIOD"] = Field(..., description="판매기간설정")
-    start_ymdt: str = Field(..., description="판매 시작 시간")
-    end_ymdt: str = Field(..., description="판매 종료 시간")
+    start_ymdt: KstDatetime = Field(..., description="판매 시작 시간")
+    end_ymdt: KstDatetime = Field(..., description="판매 종료 시간")
 
 
 class SaleInfo(BaseDto):
@@ -596,8 +597,8 @@ class ImmediateDiscount(BaseDto):
     unit_type: Literal["AMOUNT", "PERCENT"] = Field(..., description="즉시할인 단위")
     amount: float = Field(..., description="즉시할인 양")
     period_yn: str = Field(..., description="즉시할인 기간설정 여부")
-    start_ymdt: str | None = Field(None, description="즉시할인 시작 시간")
-    end_ymdt: str | None = Field(None, description="즉시할인 종료 시간")
+    start_ymdt: KstDatetime | None = Field(None, description="즉시할인 시작 시간")
+    end_ymdt: KstDatetime | None = Field(None, description="즉시할인 종료 시간")
 
 
 class AdditionalDiscount(BaseDto):
@@ -608,8 +609,8 @@ class AdditionalDiscount(BaseDto):
     member_grade_nos: list[int] = Field(default_factory=list, description="할인 적용 회원 등급 번호 목록")
     member_group_nos: list[int] = Field(default_factory=list, description="할인 적용 회원 그룹 번호 목록")
     mall_charge_amount: float = Field(..., description="몰의 할인 부담금액")
-    start_ymdt: str | None = Field(None, description="추가할인 시작일")
-    end_ymdt: str | None = Field(None, description="추가할인 종료일")
+    start_ymdt: KstDatetime | None = Field(None, description="추가할인 시작일")
+    end_ymdt: KstDatetime | None = Field(None, description="추가할인 종료일")
 
 
 class DiscountInfo(BaseDto):
@@ -671,8 +672,8 @@ class ProductOptionDetail(BaseDto):
     forced_sold_out: bool = Field(..., description="임시 품절 여부")
     is_required_option: bool = Field(..., description="필수 옵션 여부")
     display_order: int = Field(..., description="정렬 순서")
-    register_ymdt: str = Field(..., description="등록 날짜")
-    update_ymdt: str = Field(..., description="수정 날짜")
+    register_ymdt: KstDatetime = Field(..., description="등록 날짜")
+    update_ymdt: KstDatetime = Field(..., description="수정 날짜")
     sale_status_type: str = Field(..., description="판매 상태")
     images: list[OptionImage] = Field(default_factory=list, description="옵션 이미지 목록")
 
@@ -820,8 +821,8 @@ class ProductListItem(BaseDto):
     content: str = Field(..., description="상품 상세")
 
     # 날짜
-    register_date_time: str = Field(..., description="등록일")
-    update_date_time: str | None = Field(None, description="최종수정일")
+    register_date_time: KstDatetime = Field(..., description="등록일")
+    update_date_time: KstDatetime | None = Field(None, description="최종수정일")
 
     # 기타
     comparing_price_site_types: str | None = Field(None, description="가격비교정보등록 사이트")
