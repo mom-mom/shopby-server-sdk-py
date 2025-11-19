@@ -210,14 +210,14 @@ class ProductDetailV3Response(BaseDto):
     options: list[ProductOption] = Field(default_factory=list, description="옵션정보")
 
     # 상품정보고시 및 인증
-    duty_content: dict[str, Any] = Field(..., description="상품정보고시")
-    will_duty_content: dict[str, Any] = Field(..., description="예정 상품정보고시")
+    duty_content: dict[str, Any] | None = Field(None, description="상품정보고시")
+    will_duty_content: dict[str, Any] | None = Field(None, description="예정 상품정보고시")
     certification_info: dict[str, Any] = Field(..., description="인증정보")
 
     # 원산지 및 제조정보
     place_origin_info: dict[str, Any] | None = Field(None, description="원산지 정보")
     manufacture_ymdt: KstDatetime | None = Field(None, description="제조일시")
-    expiration_ymdt: KstDatetime | None = Field(None, description="유효기간")
+    expiration_ymdt: KstDate | None = Field(None, description="유효기간")
 
     # 부가세
     value_added_tax_type: str = Field(..., description="부가세타입")
