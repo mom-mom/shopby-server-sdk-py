@@ -192,10 +192,10 @@ class ProductDetailV3Response(BaseDto):
     immediate_discount_info: ImmediateDiscountInfo = Field(..., description="즉시할인 정보")
 
     # 적립금
-    accumulation_rate: float = Field(..., description="적립금적립 - %")
+    accumulation_rate: float | None = Field(None, description="적립금적립 - %")
     partner_charge_amt: float = Field(..., description="파트너 부담 금액")
     accumulation_use_yn: str = Field(..., description="적립금 사용 가능 여부")
-    accumulation_limit_info: dict[str, Any] = Field(..., description="적립금 제한 정보")
+    accumulation_limit_info: dict[str, Any] | None = Field(None, description="적립금 제한 정보")
 
     # 프로모션
     promotion_info: PromotionInfo = Field(..., description="프로모션 정보")
@@ -215,7 +215,7 @@ class ProductDetailV3Response(BaseDto):
     certification_info: dict[str, Any] = Field(..., description="인증정보")
 
     # 원산지 및 제조정보
-    place_origin_info: dict[str, Any] = Field(..., description="원산지 정보")
+    place_origin_info: dict[str, Any] | None = Field(None, description="원산지 정보")
     manufacture_ymdt: KstDatetime | None = Field(None, description="제조일시")
     expiration_ymdt: KstDatetime | None = Field(None, description="유효기간")
 
@@ -224,7 +224,7 @@ class ProductDetailV3Response(BaseDto):
 
     # 관리코드
     product_management_cd: str = Field(..., description="상품 관리코드")
-    extra_management_cd: str = Field(..., description="추가관리코드")
+    extra_management_cd: str | None = Field(None, description="추가관리코드")
 
     # 환불
     refundable_yn: str = Field(..., description="환불가능여부")
@@ -312,10 +312,10 @@ class ProductDetailV3Response(BaseDto):
     contents_if_pausing: str = Field(..., description="판매 중지 시 안내 내용")
 
     # 매입처 상품명
-    supplier_product_name: str = Field(..., description="매입처 상품명")
+    supplier_product_name: str | None = Field(None, description="매입처 상품명")
 
     # 관련 상품 정보
-    related_product_info: dict[str, Any] = Field(..., description="관련 상품 정보")
+    related_product_info: dict[str, Any] | None = Field(None, description="관련 상품 정보")
 
     # 재입고 알림
     use_restock_noti_yn: str = Field(..., description="재입고 알림 사용 여부")
@@ -330,6 +330,7 @@ class ProductDetailV3Response(BaseDto):
 # ============================================================================
 # 상품 검색하기 version 2.0 (검색엔진) Models
 # ============================================================================
+
 
 # Nested models for search
 class DisplayPeriod(BaseDto):
@@ -456,9 +457,7 @@ class ProductSearchItem(BaseDto):
     product_sale_period_type: Literal["REGULAR", "PERIOD"] = Field(..., description="상품의 상품 노출 타입")
     sale_start_ymdt: KstDatetime = Field(..., description="판매시작일시")
     sale_end_ymdt: KstDatetime = Field(..., description="판매종료일시")
-    sale_status_type: Literal["READY", "ONSALE", "FINISHED", "STOP", "PROHIBITION"] = Field(
-        ..., description="판매상태"
-    )
+    sale_status_type: Literal["READY", "ONSALE", "FINISHED", "STOP", "PROHIBITION"] = Field(..., description="판매상태")
 
     # 예약 판매
     reservation_data: ReservationData | None = Field(None, description="예약판매정보")
@@ -469,7 +468,9 @@ class ProductSearchItem(BaseDto):
 
     # 쿠폰
     has_coupons: HasCoupons = Field(..., description="쿠폰여부")
-    max_coupon_amt: float = Field(..., description="해당 상품의 옵션을 여러개 구매할 경우 받을 수 있는 최대한의 쿠폰할인 금액")
+    max_coupon_amt: float = Field(
+        ..., description="해당 상품의 옵션을 여러개 구매할 경우 받을 수 있는 최대한의 쿠폰할인 금액"
+    )
     coupon_discount_amt: float = Field(..., description="최대 쿠폰 적용 가격")
     enable_coupons: bool | None = Field(None, description="사용가능쿠폰 존재 여부")
 
