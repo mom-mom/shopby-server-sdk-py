@@ -1,13 +1,30 @@
 [project]
 name = "shopby-server-sdk-py"
 version = "0.1.0"
-description = "Add your description here"
+description = "Python SDK for Shopby Server API - Type-safe API clients for all Shopby domains"
+readme = "README.md"
 requires-python = ">=3.13"
+license = {text = "MIT"}
+authors = [
+    {name = "mom-mom", email = "dev@example.com"}
+]
+keywords = ["shopby", "api", "sdk", "ecommerce"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.13",
+]
 dependencies = [
     "httpx>=0.28.1",
     "pydantic>=2.12.4",
     "pydantic-settings>=2.7.0",
 ]
+
+[project.urls]
+Homepage = "https://github.com/mom-mom/shopby-server-sdk-py"
+Repository = "https://github.com/mom-mom/shopby-server-sdk-py"
+Issues = "https://github.com/mom-mom/shopby-server-sdk-py/issues"
 
 [dependency-groups]
 dev = [
@@ -25,3 +42,7 @@ output-format = "grouped"
 
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["F401"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
