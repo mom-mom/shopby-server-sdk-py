@@ -30,7 +30,7 @@ jobs:
       - name: Publish to GitHub Packages
         env:
           UV_PUBLISH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          UV_PUBLISH_USERNAME: __token__
         run: |
           uv publish \
+            --token $UV_PUBLISH_TOKEN \
             --publish-url https://pypi.pkg.github.com/mom-mom
