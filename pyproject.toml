@@ -1,6 +1,6 @@
 [project]
 name = "shopby-server-sdk-py"
-version = "0.1.4"
+version = "0.1.5"
 description = "Python SDK for Shopby Server API - Type-safe API clients for all Shopby domains"
 readme = "README.md"
 requires-python = ">=3.12"

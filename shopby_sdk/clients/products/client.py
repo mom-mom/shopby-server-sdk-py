@@ -36,7 +36,7 @@ class ShopbyServerProductsApiClient(ShopbyServerApiClient):
                 f"/products/{mall_product_no}/",
                 headers=headers,
             )
-            resp.raise_for_status()
+            self.raise_for_status(resp)
 
             return ProductDetailV3Response.model_validate(resp.json())
 
@@ -236,7 +236,7 @@ class ShopbyServerProductsApiClient(ShopbyServerApiClient):
                 headers=headers,
                 params=params,
             )
-            resp.raise_for_status()
+            self.raise_for_status(resp)
 
             return ProductSearchV2Response.model_validate(resp.json())
 
@@ -292,7 +292,7 @@ class ShopbyServerProductsApiClient(ShopbyServerApiClient):
                 headers=headers,
                 params=params,
             )
-            resp.raise_for_status()
+            self.raise_for_status(resp)
 
             return ChangedProductsResponse.model_validate(resp.json())
 
@@ -330,6 +330,6 @@ class ShopbyServerProductsApiClient(ShopbyServerApiClient):
                 headers=headers,
                 params=params,
             )
-            resp.raise_for_status()
+            self.raise_for_status(resp)
 
             return [ProductListItem.model_validate(item) for item in resp.json()]
