@@ -39,7 +39,7 @@ def get_settings() -> Settings:
         from src.config import get_settings
 
         settings = get_settings()
-        client = ShopbyServerProductApiClient(
+        client = ShopbyServerProductsApiClient(
             server_access_token=settings.shopby_server_access_token,
             server_system_key=settings.shopby_server_system_key,
         )

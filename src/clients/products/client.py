@@ -15,7 +15,7 @@ from src.clients.products.models import (
 # shopby-docs/product-server-public.yml
 
 
-class ShopbyServerProductApiClient(ShopbyServerApiClient):
+class ShopbyServerProductsApiClient(ShopbyServerApiClient):
     async def get_product_detail_v3(self, mall_product_no: int) -> ProductDetailV3Response:
         """
         상품 상세 조회하기 (Version 3.0)

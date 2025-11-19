@@ -1,4 +1,4 @@
-from src.clients.products.client import ShopbyServerProductApiClient
+from src.clients.products.client import ShopbyServerProductsApiClient
 from src.clients.products.models import (
     ChangedProductsResponse,
     ChangedProductItem,
@@ -10,7 +10,7 @@ from src.clients.products.models import (
 )
 
 __all__ = [
-    "ShopbyServerProductApiClient",
+    "ShopbyServerProductsApiClient",
     "ChangedProductsResponse",
     "ChangedProductItem",
     "ProductDetailV3Response",

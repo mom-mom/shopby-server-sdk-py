@@ -57,26 +57,27 @@ SHOPBY_SYSTEM_KEY=your_system_key_here
 ### Products API
 
 ```python
-from shopby_server_sdk_py.clients.products import ProductsClient
+from shopby_server_sdk_py.clients.products import ShopbyServerProductsApiClient
 from shopby_server_sdk_py.config import Settings
 
 # Load settings
 settings = Settings()
 
 # Initialize client
-async with ProductsClient(
-    access_token=settings.shopby_access_token,
-    system_key=settings.shopby_system_key
-) as client:
-    # Search products
-    products = await client.search_products(
-        keyword="샴푸",
-        page_number=1,
-        page_size=20
-    )
+client = ShopbyServerProductsApiClient(
+    access_token=settings.shopby_server_access_token,
+    system_key=settings.shopby_server_system_key
+)
 
-    # Get product by mall_product_no
-    product = await client.get_product_by_mall_no(12345)
+# Search products
+products = await client.search_products_v2(
+    keywords="샴푸",
+    page_number=1,
+    page_size=20
+)
+
+# Get product detail
+product = await client.get_product_detail_v3(mall_product_no=12345)
 ```
 
 ## Development
