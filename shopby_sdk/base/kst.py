@@ -53,7 +53,7 @@ def _serialize_kst_datetime(value: datetime) -> str:
 KstDatetime = Annotated[
     datetime,
     BeforeValidator(_validate_kst_datetime),
-    PlainSerializer(_serialize_kst_datetime),
+    PlainSerializer(_serialize_kst_datetime, when_used="json-unless-none"),
 ]
 """
 Shopby API의 datetime 필드용 커스텀 타입 (KST timezone)
@@ -105,7 +105,7 @@ def _serialize_kst_date(value: date) -> str:
 KstDate = Annotated[
     date,
     BeforeValidator(_validate_kst_date),
-    PlainSerializer(_serialize_kst_date),
+    PlainSerializer(_serialize_kst_date, when_used="json-unless-none"),
 ]
 """
 Shopby API의 date 필드용 커스텀 타입 (날짜만)
