@@ -3,7 +3,7 @@ name = "shopby-server-sdk-py"
 version = "0.1.0"
 description = "Python SDK for Shopby Server API - Type-safe API clients for all Shopby domains"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.12"
 license = {text = "MIT"}
 authors = [
     {name = "mom-mom", email = "dev@example.com"}
@@ -13,6 +13,7 @@ classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
 ]
 dependencies = [
@@ -36,7 +37,7 @@ dev = [
 [tool.ruff]
 src = ["src"]
 line-length = 120
-target-version = "py313"
+target-version = "py312"
 fix = true
 output-format = "grouped"
 
