@@ -216,8 +216,8 @@ class ProductDetailV3Response(BaseDto):
 
     # 원산지 및 제조정보
     place_origin_info: dict[str, Any] | None = Field(None, description="원산지 정보")
-    manufacture_ymdt: KstDatetime | None = Field(None, description="제조일시")
-    expiration_ymdt: KstDatetime | None = Field(None, description="유효기간")
+    manufacture_ymdt: KstDate | None = Field(None, description="제조일자")
+    expiration_ymdt: KstDate | None = Field(None, description="유효일자")
 
     # 부가세
     value_added_tax_type: str = Field(..., description="부가세타입")
