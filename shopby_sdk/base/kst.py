@@ -21,6 +21,7 @@ def _validate_kst_datetime(value: Any) -> datetime:
 
     입력:
       - "YYYY-MM-DD HH:MM:SS" 문자열
+      - "YYYY-MM-DD" 문자열 (시간 없으면 00:00:00으로 처리)
       - naive datetime → KST로 간주
       - aware datetime → KST로 변환
     """
@@ -35,12 +36,19 @@ def _validate_kst_datetime(value: Any) -> datetime:
 
     # 문자열 입력
     if isinstance(value, str):
+        # "YYYY-MM-DD HH:MM:SS" 형식 시도
         try:
             dt = datetime.strptime(value, "%Y-%m-%d %H:%M:%S")
+            return dt.replace(tzinfo=KST)
         except ValueError:
-            raise ValueError(f"Invalid datetime format (expected 'YYYY-MM-DD HH:MM:SS'): {value}")
+            pass
 
-        return dt.replace(tzinfo=KST)
+        # "YYYY-MM-DD" 형식 시도 (00:00:00으로 처리)
+        try:
+            dt = datetime.strptime(value, "%Y-%m-%d")
+            return dt.replace(tzinfo=KST)
+        except ValueError:
+            raise ValueError(f"Invalid datetime format (expected 'YYYY-MM-DD HH:MM:SS' or 'YYYY-MM-DD'): {value}")
 
     raise TypeError(f"Invalid type for KstDatetime: {type(value)}")
 
