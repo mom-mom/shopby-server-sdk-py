@@ -60,7 +60,7 @@ class MallProductImage(BaseDto):
     main_yn: str = Field(..., description="메인 이미지 여부")
     display_order: int = Field(..., description="노출 순서")
     image_id: str | None = Field(None, description="사용하지 않음")
-    mall_no: int = Field(..., description="이미지의 몰번호")
+    mall_no: int | None = Field(None, description="이미지의 몰번호")  # nonnull 이랬는데 null 도 들어옴
     image_url_type: Literal["IMAGE_URL", "VIDEO_URL"] = Field(..., description="이미지 URL 타입")
 
 
