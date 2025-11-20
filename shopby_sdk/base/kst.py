@@ -20,7 +20,8 @@ def _validate_kst_datetime(value: Any) -> datetime:
     KST datetime으로 변환
 
     입력:
-      - "YYYY-MM-DD HH:MM:SS" 문자열
+      - ISO 8601 문자열 ("2025-11-06T17:27:44.085197059", "2025-11-06T17:27:44")
+      - "YYYY-MM-DD HH:MM:SS" 문자열 (공백 구분)
       - "YYYY-MM-DD" 문자열 (시간 없으면 00:00:00으로 처리)
       - naive datetime → KST로 간주
       - aware datetime → KST로 변환
@@ -36,7 +37,18 @@ def _validate_kst_datetime(value: Any) -> datetime:
 
     # 문자열 입력
     if isinstance(value, str):
-        # "YYYY-MM-DD HH:MM:SS" 형식 시도
+        # ISO 8601 형식 시도 (가장 포괄적 - 'T' 구분자와 microseconds 처리)
+        # 예: "2025-11-06T17:27:44.085197059", "2025-11-06T17:27:44"
+        try:
+            dt = datetime.fromisoformat(value.replace('Z', '+00:00'))
+            if dt.tzinfo is None:
+                return dt.replace(tzinfo=KST)
+            else:
+                return dt.astimezone(KST)
+        except ValueError:
+            pass
+
+        # "YYYY-MM-DD HH:MM:SS" 형식 시도 (공백 구분)
         try:
             dt = datetime.strptime(value, "%Y-%m-%d %H:%M:%S")
             return dt.replace(tzinfo=KST)
@@ -48,7 +60,9 @@ def _validate_kst_datetime(value: Any) -> datetime:
             dt = datetime.strptime(value, "%Y-%m-%d")
             return dt.replace(tzinfo=KST)
         except ValueError:
-            raise ValueError(f"Invalid datetime format (expected 'YYYY-MM-DD HH:MM:SS' or 'YYYY-MM-DD'): {value}")
+            raise ValueError(
+                f"Invalid datetime format (expected ISO 8601, 'YYYY-MM-DD HH:MM:SS', or 'YYYY-MM-DD'): {value}"
+            )
 
     raise TypeError(f"Invalid type for KstDatetime: {type(value)}")
 
@@ -67,7 +81,9 @@ KstDatetime = Annotated[
 Shopby API의 datetime 필드용 커스텀 타입 (KST timezone)
 
 입력:
-  - "YYYY-MM-DD HH:MM:SS" 문자열
+  - ISO 8601 문자열 ("2025-11-06T17:27:44.085197059" 등)
+  - "YYYY-MM-DD HH:MM:SS" 문자열 (공백 구분)
+  - "YYYY-MM-DD" 문자열 (날짜만)
   - naive datetime → KST로 변환
   - aware datetime → KST로 변환
 출력(JSON):
