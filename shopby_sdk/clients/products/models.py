@@ -413,7 +413,7 @@ class ProductSearchItem(BaseDto):
 
     # 파트너 및 홍보
     partner_name: str = Field(..., description="파트너명")
-    promotion_text: str = Field(..., description="홍보문구")
+    promotion_text: str | None = Field(None, description="홍보문구")
 
     # 가격 정보
     sale_price: float = Field(..., description="상품판매가")
@@ -433,7 +433,7 @@ class ProductSearchItem(BaseDto):
     total_review_count: int = Field(..., description="총 리뷰 수")
 
     # 배송 정보
-    delivery_condition_type: Literal["FREE", "CONDITIONAL", "FIXED_FEE"] = Field(..., description="배송비 타입")
+    delivery_condition_type: Literal["FREE", "CONDITIONAL", "FIXED_FEE"] | None = Field(None, description="배송비 타입")
     shipping_area: Literal["PARTNER_SHIPPING_AREA", "MALL_SHIPPING_AREA"] = Field(..., description="배송 구분")
 
     # 판매 및 재고
@@ -504,8 +504,8 @@ class ProductSearchItem(BaseDto):
     # 옵션 정보
     option_values: list[OptionValue] | None = Field(None, description="상품 조합형 옵션정보")
 
-    # Deprecated
-    comparing_price_site_types: str | None = Field(None, description="가격비교 사이트(deprecated)")
+    # Deprecated (스펙은 string이지만 실제로 빈 리스트가 올 수 있음)
+    comparing_price_site_types: str | list[Any] | None = Field(None, description="가격비교 사이트(deprecated)")
 
 
 class ProductSearchV2Response(BaseDto):
