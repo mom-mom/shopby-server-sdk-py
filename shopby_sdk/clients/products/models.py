@@ -443,10 +443,10 @@ class ProductSearchItem(BaseDto):
 
     # 브랜드 정보
     brand_no: int = Field(..., description="브랜드 번호")
-    brand_name: str = Field(..., description="브랜드 명")
-    brand_name_ko: str = Field(..., description="브랜드 한글명")
-    brand_name_en: str = Field(..., description="브랜드 영문 명")
-    brand_name_type: Literal["NAME_KO", "NAME_EN", "NONE"] = Field(..., description="브랜드명 타입")
+    brand_name: str | None = Field(None, description="브랜드 명")
+    brand_name_ko: str | None = Field(None, description="브랜드 한글명")
+    brand_name_en: str | None = Field(None, description="브랜드 영문 명")
+    brand_name_type: Literal["NAME_KO", "NAME_EN", "NONE"] | None = Field(None, description="브랜드명 타입")
 
     # 스티커
     sticker_infos: list[StickerInfo] = Field(default_factory=list, description="스티커 정보")
