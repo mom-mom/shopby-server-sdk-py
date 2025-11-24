@@ -7,6 +7,7 @@ from shopby_sdk.base.kst import to_kst_string
 from shopby_sdk.clients.base import ShopbyServerApiClient
 from shopby_sdk.clients.products.models import (
     ChangedProductsResponse,
+    PatchProductV2Request,
     ProductDetailV3Response,
     ProductListItem,
     ProductListSearchResponse,
@@ -329,3 +330,42 @@ class ShopbyServerProductsApiClient(ShopbyServerApiClient):
             )
 
             return self.handle_resp(resp, list[ProductListItem])
+
+    async def patch_product_v2(
+        self,
+        product_no: int,
+        request: PatchProductV2Request,
+    ) -> None:
+        """
+        상품 부분 수정하기 (version 2.0)
+
+        상품의 일부를 수정하는 API입니다.
+        수정을 원하는 필드의 키와 값만 넣습니다.
+        nullable 한 필드값에 null 값으로 요청하는 경우, null 값이 반영됩니다.
+
+        주의사항:
+        - 상품 부분 수정 API는 request body의 1depth를 기준으로 수정이 됩니다.
+        - 예를 들어 상품 이미지(request body에서 `image.images`)를 수정하려고 하는 경우,
+          수정하는 값(`image.images`) 외에 다른 값(`image.listImage`, `image.usesExternalImage` 등)은
+          기존 값을 그대로 입력해야합니다.
+
+        Args:
+            product_no: 상품번호
+            request: 수정할 상품 정보 (PatchProductV2Request)
+
+        Returns:
+            None (204 No Content)
+        """
+        async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
+            # Version 2.0 헤더 추가
+            headers = {"version": "2.0"}
+
+            # None 값을 제외하고 JSON 직렬화
+            body = request.model_dump(by_alias=True, exclude_none=True)
+
+            resp = await client.patch(
+                f"/products/{product_no}",
+                headers=headers,
+                json=body,
+            )
+            resp.raise_for_status()

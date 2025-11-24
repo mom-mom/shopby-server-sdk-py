@@ -1,21 +1,23 @@
 from shopby_sdk.clients.products.client import ShopbyServerProductsApiClient
 from shopby_sdk.clients.products.models import (
-    ChangedProductsResponse,
     ChangedProductItem,
+    ChangedProductsResponse,
+    PatchProductV2Request,
     ProductDetailV3Response,
     ProductListItem,
     ProductListSearchResponse,
-    ProductSearchV2Response,
     ProductSearchItem,
+    ProductSearchV2Response,
 )
 
 __all__ = [
     "ShopbyServerProductsApiClient",
-    "ChangedProductsResponse",
     "ChangedProductItem",
+    "ChangedProductsResponse",
+    "PatchProductV2Request",
     "ProductDetailV3Response",
     "ProductListItem",
     "ProductListSearchResponse",
-    "ProductSearchV2Response",
     "ProductSearchItem",
+    "ProductSearchV2Response",
 ]
