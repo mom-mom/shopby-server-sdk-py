@@ -368,4 +368,5 @@ class ShopbyServerProductsApiClient(ShopbyServerApiClient):
                 headers=headers,
                 json=body,
             )
-            resp.raise_for_status()
+
+            self.raise_for_status(resp)
