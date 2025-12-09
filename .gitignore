@@ -110,6 +110,7 @@ venv.bak/
 .prod.env
 .test.env
 .local.env
+.env.local
 *.env
 !*.env.example
 

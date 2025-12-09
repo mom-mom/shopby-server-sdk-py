@@ -10,10 +10,17 @@ _ResponseType = TypeVar("_ResponseType")
 
 
 class ShopbyServerApiClient:
-    def __init__(self, server_access_token: str, server_system_key: str):
+    DEFAULT_BASE_URL = "https://server-api.e-ncp.com"
+
+    def __init__(
+        self,
+        server_access_token: str,
+        server_system_key: str,
+        base_url: str | None = None,
+    ):
         self._access_token = server_access_token
         self._system_key = server_system_key
-        self.base_url = "https://server-api.e-ncp.com"
+        self.base_url = base_url or self.DEFAULT_BASE_URL
 
     @property
     def common_header(self):
