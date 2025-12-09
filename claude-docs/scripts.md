@@ -15,8 +15,8 @@ uv run --env-file .env.local python scripts/<script_name>.py [args...]
 `.env.local` 파일에 다음 환경변수가 필요합니다:
 
 ```env
-SHOPBY_ACCESS_TOKEN=your_access_token
-SHOPBY_SYSTEM_KEY=your_system_key
+SHOPBY_SERVER_ACCESS_TOKEN=your_access_token
+SHOPBY_SERVER_SYSTEM_KEY=your_system_key
 SHOPBY_BASE_URL=https://server-api.e-ncp.com  # optional
 ```
 
@@ -24,13 +24,38 @@ SHOPBY_BASE_URL=https://server-api.e-ncp.com  # optional
 
 ## 스크립트 목록
 
-### 1. get_product_detail.py - 상품 상세 조회
+### 1. get_product_detail_v1.py - 상품 상세 조회 (Version 1.0)
 
-**용도**: 단일 상품의 상세 정보 조회
+**용도**: 단일 상품의 상세 정보 조회 (Version 1.0)
 
 **실행**:
 ```bash
-uv run --env-file .env.local python scripts/get_product_detail.py <mall_product_no>
+uv run --env-file .env.local python scripts/get_product_detail_v1.py <mall_product_no>
+```
+
+**사용 Client/Method**:
+- Client: `ShopbyServerProductsApiClient`
+- Method: `get_product_detail(mall_product_no: int)`
+- Response Model: `ProductDetailV1Response`
+
+**주요 응답 필드**:
+- `mall_product` - 상품 정보 (`V1MallProduct`)
+  - `product_name` - 상품명
+  - `sale_status_type` - 판매상태 (READY, ONSALE, FINISHED, STOP, PROHIBITION)
+  - `sale_price` - 판매가
+- `mall_product_images` - 상품 이미지 목록 (`list[V1MallProductImage]`)
+- `mall_product_option_web_models` - 옵션 목록 (`list[V1MallProductOption]`)
+- `mall_product_inputs` - 구매자 작성형 정보 (`list[V1MallProductInput]`)
+
+---
+
+### 2. get_product_detail_v3.py - 상품 상세 조회 (Version 3.0)
+
+**용도**: 단일 상품의 상세 정보 조회 (Version 3.0)
+
+**실행**:
+```bash
+uv run --env-file .env.local python scripts/get_product_detail_v3.py <mall_product_no>
 ```
 
 **사용 Client/Method**:
@@ -47,7 +72,7 @@ uv run --env-file .env.local python scripts/get_product_detail.py <mall_product_
 
 ---
 
-### 2. search_products.py - 상품 검색
+### 3. search_products.py - 상품 검색
 
 **용도**: 키워드 또는 필터 조건으로 상품 검색
 
@@ -78,7 +103,7 @@ uv run --env-file .env.local python scripts/search_products.py [검색어]
 
 ---
 
-### 3. get_changed_products.py - 변경된 상품 조회
+### 4. get_changed_products.py - 변경된 상품 조회
 
 **용도**: 특정 시점 이후 등록/수정된 상품 번호 목록 조회
 
@@ -107,7 +132,7 @@ uv run --env-file .env.local python scripts/get_changed_products.py
 
 ---
 
-### 4. patch_product.py - 상품 수정
+### 5. patch_product.py - 상품 수정
 
 **용도**: 상품 정보 부분 수정
 
@@ -140,11 +165,21 @@ from shopby_sdk.clients.products import ShopbyServerProductsApiClient
 
 # Response Models
 from shopby_sdk.clients.products.models import (
+    # V1 상품 상세
+    ProductDetailV1Response,
+    V1MallProduct,
+    V1MallProductImage,
+    V1MallProductOption,
+    V1MallProductInput,
+    # V3 상품 상세
     ProductDetailV3Response,
+    # 검색
     ProductSearchV2Response,
     ProductSearchItem,
+    # 변경 상품 목록
     ChangedProductsResponse,
     ChangedProductItem,
+    # 상품 리스트 검색
     ProductListSearchResponse,
     ProductListItem,
 )
@@ -182,11 +217,11 @@ logging.basicConfig(level=logging.DEBUG)
 
 ### 특정 필드만 확인
 ```python
-# 옵션 정보
-for opt in product.options:
+# V1 API 옵션 정보
+for opt in result.mall_product_option_web_models:
     print(f"옵션: {opt.option_name}={opt.option_value}, 재고: {opt.stock_cnt}")
 
-# 이미지 URL
-for img in product.mall_product_images:
+# V1 API 이미지 URL
+for img in result.mall_product_images:
     print(f"이미지: {img.image_url} (메인: {img.main_yn})")
 ```

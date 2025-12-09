@@ -8,6 +8,7 @@ from shopby_sdk.clients.base import ShopbyServerApiClient
 from shopby_sdk.clients.products.models import (
     ChangedProductsResponse,
     PatchProductV2Request,
+    ProductDetailV1Response,
     ProductDetailV3Response,
     ProductListItem,
     ProductListSearchResponse,
@@ -19,6 +20,27 @@ from shopby_sdk.clients.products.models import (
 
 
 class ShopbyServerProductsApiClient(ShopbyServerApiClient):
+    async def get_product_detail(self, mall_product_no: int) -> ProductDetailV1Response:
+        """
+        상품 상세 조회하기 (Version 1.0)
+
+        Args:
+            mall_product_no: 상품번호
+
+        Returns:
+            ProductDetailV1Response: 상품 상세 정보
+        """
+        async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
+            # Version 1.0 헤더 추가
+            headers = {"version": "1.0"}
+
+            resp = await client.get(
+                f"/products/{mall_product_no}",
+                headers=headers,
+            )
+
+            return self.handle_resp(resp, ProductDetailV1Response)
+
     async def get_product_detail_v3(self, mall_product_no: int) -> ProductDetailV3Response:
         """
         상품 상세 조회하기 (Version 3.0)
@@ -121,7 +143,7 @@ class ShopbyServerProductsApiClient(ShopbyServerApiClient):
             registration_period_end_ymdt: 등록일 - 종료일
             modification_period_start_ymdt: 수정일 - 시작일
             modification_period_end_ymdt: 수정일 - 종료일
-            sale_setting_types: 판매설정타입 (콤마 구분)
+            sale_setting_types: 판매설정타입 (콤마 구분) Enum: [AVAILABLE_FOR_SALE: 판매가능, STOP_SELLING: 판매중지, PROHIBITION_SALE: 판매금지]
             apply_status_type: 승인상태 (default: ALL)
             sale_method_type: 판매방식 (default: ALL)
             stock_range_type: 재고조건 - 재고 범위 종류

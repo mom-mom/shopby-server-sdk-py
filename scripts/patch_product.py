@@ -22,8 +22,8 @@ async def main():
     new_name = sys.argv[2]
 
     # 환경변수에서 인증 정보 읽기
-    access_token = os.environ["SHOPBY_ACCESS_TOKEN"]
-    system_key = os.environ["SHOPBY_SYSTEM_KEY"]
+    access_token = os.environ["SHOPBY_SERVER_ACCESS_TOKEN"]
+    system_key = os.environ["SHOPBY_SERVER_SYSTEM_KEY"]
     base_url = os.environ.get("SHOPBY_BASE_URL")
 
     client = ShopbyServerProductsApiClient(
