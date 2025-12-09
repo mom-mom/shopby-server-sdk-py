@@ -131,6 +131,12 @@ from .search_v2 import (
     StickerInfo,
 )
 
+# 상품 변경 히스토리
+from .history import (
+    ProductHistoriesResponse,
+    ProductHistoryItem,
+)
+
 __all__ = [
     # Base
     "CartInfo",
@@ -242,4 +248,7 @@ __all__ = [
     "ProductSearchV2Response",
     "ReservationData",
     "StickerInfo",
+    # History
+    "ProductHistoriesResponse",
+    "ProductHistoryItem",
 ]

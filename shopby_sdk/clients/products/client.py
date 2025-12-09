@@ -10,6 +10,8 @@ from shopby_sdk.clients.products.models import (
     PatchProductV2Request,
     ProductDetailV1Response,
     ProductDetailV3Response,
+    ProductHistoriesResponse,
+    ProductHistoryItem,
     ProductListItem,
     ProductListSearchResponse,
     ProductSearchV2Response,
@@ -392,3 +394,46 @@ class ShopbyServerProductsApiClient(ShopbyServerApiClient):
             )
 
             self.raise_for_status(resp)
+
+    async def get_product_histories(
+        self,
+        product_no: int,
+        partner_no: int | None = None,
+        page: int | None = None,
+        page_size: int | None = None,
+    ) -> ProductHistoriesResponse:
+        """
+        상품 변경 히스토리 조회
+
+        상품 변경 히스토리를 조회하는 API입니다.
+
+        Args:
+            product_no: 상품번호
+            partner_no: 파트너 번호 (자사파트너의 경우에만 사용 가능)
+            page: 페이지 번호 (default: 1)
+            page_size: 한 페이지당 노출 수 (default: 30)
+
+        Returns:
+            ProductHistoriesResponse: 상품 변경 히스토리 목록
+        """
+        async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
+            # Version 1.0 헤더 추가
+            headers = {"version": "1.0"}
+
+            # 쿼리 파라미터 구성
+            params: dict[str, int] = {}
+
+            if partner_no is not None:
+                params["partnerNo"] = partner_no
+            if page is not None:
+                params["page"] = page
+            if page_size is not None:
+                params["pageSize"] = page_size
+
+            resp = await client.get(
+                f"/products/{product_no}/histories",
+                headers=headers,
+                params=params,
+            )
+
+            return self.handle_resp(resp, list[ProductHistoryItem])
