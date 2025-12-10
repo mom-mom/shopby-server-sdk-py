@@ -157,11 +157,41 @@ uv run --env-file .env.local python scripts/patch_product.py <product_no> <new_p
 
 ---
 
+## Display API
+
+### 6. get_event_detail.py - 기획전 단건 조회
+
+**용도**: 기획전 상세 정보 조회
+
+**실행**:
+```bash
+uv run --env-file .env.local python scripts/get_event_detail.py <event_no>
+```
+
+**사용 Client/Method**:
+- Client: `ShopbyServerDisplayApiClient`
+- Method: `get_event_detail(event_no: int)`
+- Response Model: `EventDetailResponse`
+
+**주요 응답 필드**:
+- `event_name` - 기획전 이름
+- `event_type` - 기획전 유형 (GENERAL, EXTERNAL)
+- `event_yn` - 이벤트 여부
+- `register_ymdt` - 등록일
+- `event_sections` - 섹션 목록 (`list[EventSection]`)
+  - `event_section_name` - 섹션명
+  - `event_section_value.mall_products` - 섹션 내 상품 목록
+
+---
+
 ## Client/Model Import 경로
 
 ```python
-# Client
+# Products Client
 from shopby_sdk.clients.products import ShopbyServerProductsApiClient
+
+# Display Client
+from shopby_sdk.clients.display import ShopbyServerDisplayApiClient
 
 # Response Models
 from shopby_sdk.clients.products.models import (

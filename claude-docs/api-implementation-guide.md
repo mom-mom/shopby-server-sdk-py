@@ -3,13 +3,21 @@
 ## 파일 구조
 
 ```
-src/clients/{api_name}/
+shopby_sdk/clients/{domain_name}/
 ├── __init__.py      # exports 정의
 ├── client.py        # API 클라이언트 클래스
 └── models.py        # Pydantic 모델 정의
 ```
 
 ## 구현 순서
+
+**전체 흐름:**
+1. API 스펙 찾기 (OpenAPI yml)
+2. models.py 작성
+3. client.py 작성
+4. __init__.py 작성
+5. **테스트 스크립트 작성** (scripts/ 폴더)
+6. 테스트 실행으로 검증
 
 ### 1. API 스펙 찾기
 ```bash
@@ -56,28 +64,26 @@ class MainResponse(BaseDto):
 - `ShopbyServerApiClient` 상속
 - httpx.AsyncClient 사용
 - 필요시 헤더 추가 (예: version)
-- `resp.raise_for_status()` 호출
-- `model_validate(resp.json())` 로 파싱
+- `self.handle_resp(resp, ResponseModel)` 로 응답 처리 (에러 핸들링 + 파싱)
 
 **기본 예제:**
 ```python
 import httpx
 from shopby_sdk.clients.base import ShopbyServerApiClient
-from shopby_sdk.clients.{api_name}.models import ResponseModel
+from shopby_sdk.clients.{domain_name}.models import ResponseModel
 
-class ShopbyServer{Name}ApiClient(ShopbyServerApiClient):
+class ShopbyServer{DomainName}ApiClient(ShopbyServerApiClient):
     async def method_name(self, param: int) -> ResponseModel:
         """API 설명"""
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
-            headers = {"version": "3.0"}  # 필요시 추가
+            headers = {"version": "1.0"}  # API 버전에 맞게 설정
 
             resp = await client.get(
                 f"/path/{param}",
                 headers=headers,
             )
-            resp.raise_for_status()
 
-            return ResponseModel.model_validate(resp.json())
+            return self.handle_resp(resp, ResponseModel)
 ```
 
 **요청 파라미터 타입 지정:**
@@ -138,13 +144,65 @@ async def search_products(
 
 ### 4. __init__.py 작성
 ```python
-from shopby_sdk.clients.{api_name}.client import ShopbyServer{Name}ApiClient
-from shopby_sdk.clients.{api_name}.models import ResponseModel
+from shopby_sdk.clients.{domain_name}.client import ShopbyServer{DomainName}ApiClient
+from shopby_sdk.clients.{domain_name}.models import ResponseModel
 
 __all__ = [
-    "ShopbyServer{Name}ApiClient",
+    "ShopbyServer{DomainName}ApiClient",
     "ResponseModel",
 ]
+```
+
+### 5. 테스트 스크립트 작성
+
+`scripts/` 폴더에 테스트용 스크립트 생성:
+
+```python
+"""
+{API 설명}
+
+Usage:
+    uv run --env-file .env.local python scripts/{script_name}.py <param>
+"""
+
+import asyncio
+import os
+import sys
+
+from shopby_sdk.clients.{domain_name} import ShopbyServer{DomainName}ApiClient
+
+
+async def main():
+    if len(sys.argv) < 2:
+        print("Usage: python scripts/{script_name}.py <param>")
+        sys.exit(1)
+
+    param = int(sys.argv[1])
+
+    # 환경변수에서 인증 정보 읽기
+    access_token = os.environ["SHOPBY_SERVER_ACCESS_TOKEN"]
+    system_key = os.environ["SHOPBY_SERVER_SYSTEM_KEY"]
+    base_url = os.environ.get("SHOPBY_BASE_URL")
+
+    client = ShopbyServer{DomainName}ApiClient(
+        server_access_token=access_token,
+        server_system_key=system_key,
+        base_url=base_url,
+    )
+
+    result = await client.method_name(param)
+    print(f"필드1: {result.field1}")
+    print(f"필드2: {result.field2}")
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
+### 6. 테스트 실행
+
+```bash
+uv run --env-file .env.local python scripts/{script_name}.py <test_value>
 ```
 
 ## 주의사항
@@ -208,14 +266,19 @@ __all__ = [
 
 ## 참조
 
-- **예제 코드**: `src/clients/examples/`
-- **Base 클래스**: `src/clients/base.py`
-- **BaseDto**: `src/base/dto.py`
-- **API 스펙**: `shopby-docs/product-server-public.yml`
+- **예제 코드**: `shopby_sdk/clients/examples/`
+- **Base 클래스**: `shopby_sdk/clients/base.py`
+- **BaseDto**: `shopby_sdk/base/dto.py`
+- **KST 타입**: `shopby_sdk/base/kst.py`
+- **API 스펙**:
+  - product: `shopby-docs/product-server-public.yml`
+  - display: `shopby-docs/display-server-public.yml`
+  - order: `shopby-docs/order-server-public.yml`
 
-## 완성된 예제
+## 완성된 구현 예제
 
-**상품 상세 조회하기 (Version 3.0)**
-- `src/clients/products/` 참조
-- API endpoint: `GET /products/{mallProductNo}/`
-- Version 3.0 헤더 사용
+| 도메인 | 클라이언트 경로 | 스크립트 예제 |
+|--------|----------------|---------------|
+| products | `shopby_sdk/clients/products/` | `scripts/get_product_detail_v1.py` |
+| display | `shopby_sdk/clients/display/` | `scripts/get_event_detail.py` |
+| order | - | - |

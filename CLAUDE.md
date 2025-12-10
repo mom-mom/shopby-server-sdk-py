@@ -59,4 +59,9 @@ shopby_sdk/
 
 This guide contains all implementation patterns, type mapping rules, parameter handling, and common pitfalls. Do not proceed without reading it.
 
-Reference implementations: `shopby_sdk/clients/products/` and `shopby_sdk/clients/examples/`
+**Reference implementations:**
+- `shopby_sdk/clients/products/` - Products API
+- `shopby_sdk/clients/display/` - Display API (기획전 등)
+- `shopby_sdk/clients/examples/` - 기본 예제
+
+**Scripts reference:** `claude-docs/scripts.md` - 테스트 스크립트 가이드
