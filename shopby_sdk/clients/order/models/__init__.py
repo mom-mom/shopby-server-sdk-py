@@ -1,7 +1,6 @@
-"""Order API 클라이언트 및 모델"""
+"""Order API 모델"""
 
-from shopby_sdk.clients.order.client import ShopbyServerOrderApiClient
-from shopby_sdk.clients.order.models import (
+from shopby_sdk.clients.order.models.base import (
     # Enum types
     ClaimStatusType,
     ClaimType,
@@ -25,14 +24,8 @@ from shopby_sdk.clients.order.models import (
     RentalInfo,
     SetOption,
     UserInput,
-    # List response models
-    DeliveryGroup,
-    Order,
-    OrderProduct,
-    OrderProductOption,
-    OrderSheetInfo,
-    OrdersResponse,
-    # Detail response models
+)
+from shopby_sdk.clients.order.models.detail import (
     ClaimedOption,
     ClaimInfo,
     OrderDetailResponse,
@@ -42,10 +35,16 @@ from shopby_sdk.clients.order.models import (
     Receiver,
     Shipping,
 )
+from shopby_sdk.clients.order.models.list import (
+    DeliveryGroup,
+    Order,
+    OrderProduct,
+    OrderProductOption,
+    OrderSheetInfo,
+    OrdersResponse,
+)
 
 __all__ = [
-    # Client
-    "ShopbyServerOrderApiClient",
     # Enum types
     "OrderRequestType",
     "SearchDateType",

@@ -336,4 +336,4 @@ return [ItemModel.model_validate(item) for item in resp.json()]
 |--------|----------------|---------------|
 | products | `shopby_sdk/clients/products/` | `scripts/get_product_detail_v1.py` |
 | display | `shopby_sdk/clients/display/` | `scripts/get_event_detail.py` |
-| order | `shopby_sdk/clients/order/` | `scripts/get_orders.py` |
+| order | `shopby_sdk/clients/order/` | `scripts/get_orders.py`, `scripts/get_order_detail.py` |

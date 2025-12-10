@@ -8,6 +8,7 @@ from shopby_sdk.base.kst import to_kst_string
 from shopby_sdk.clients.base import ShopbyServerApiClient
 from shopby_sdk.clients.order.models import (
     DeliveryCompanyType,
+    OrderDetailResponse,
     OrderRequestType,
     OrdersResponse,
     PayType,
@@ -148,3 +149,26 @@ class ShopbyServerOrderApiClient(ShopbyServerApiClient):
             )
 
             return self.handle_resp(resp, OrdersResponse)
+
+    async def get_order_detail(self, order_no: str) -> OrderDetailResponse:
+        """
+        주문 상세 조회
+
+        주문에 대한 상세를 조회하는 API입니다.
+
+        Args:
+            order_no: 주문 번호 (예: 202206151234567890)
+
+        Returns:
+            OrderDetailResponse: 주문 상세 정보
+        """
+        async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
+            # Version 1.0 헤더 추가
+            headers = {"version": "1.0"}
+
+            resp = await client.get(
+                f"/orders/{order_no}",
+                headers=headers,
+            )
+
+            return self.handle_resp(resp, OrderDetailResponse)

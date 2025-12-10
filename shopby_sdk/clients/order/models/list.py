@@ -1,227 +1,45 @@
-"""Order API 모델 정의"""
+"""GET /orders (주문 목록 조회) 응답 모델"""
 
-from typing import Any, Literal
+from typing import Any
 
 from pydantic import Field
 
 from shopby_sdk.base.dto import BaseDto
 from shopby_sdk.base.kst import KstDatetime
-
-
-# ------------------------------------
-#  Request용 Enum 타입 정의
-# ------------------------------------
-
-OrderRequestType = Literal[
-    "DEPOSIT_WAIT",
-    "PAY_DONE",
-    "PRODUCT_PREPARE",
-    "DELIVERY_PREPARE",
-    "DELIVERY_ING",
-    "DELIVERY_DONE",
-    "BUY_CONFIRM",
-    "CANCEL_DONE",
-    "RETURN_DONE",
-    "EXCHANGE_DONE",
-    "CANCEL_PROCESSING",
-    "RETURN_PROCESSING",
-    "EXCHANGE_WAITING",
-    "EXCHANGE_PROCESSING",
-]
-"""주문상태 타입"""
-
-SearchDateType = Literal[
-    "ORDER_START",
-    "PAY_DONE",
-    "PRODUCT_PREPARE",
-    "DELIVERY_PREPARE",
-    "DELIVERY_ING",
-    "DELIVERY_DONE",
-    "BUY_CONFIRM",
-    "STATUS_CHANGE",
-]
-"""조회 주문일시 유형"""
-
-SearchType = Literal["ALL", "ORDER_NO", "MALL_PRODUCT_NO"]
-"""검색 유형"""
-
-ShippingAreaType = Literal["PARTNER_SHIPPING_AREA", "MALL_SHIPPING_AREA"]
-"""배송구분"""
-
-PayType = Literal[
-    "CREDIT_CARD",
-    "ACCOUNT",
-    "MOBILE",
-    "REALTIME_ACCOUNT_TRANSFER",
-    "VIRTUAL_ACCOUNT",
-    "GIFT",
-    "ATM",
-    "PAYCO",
-    "ZERO_PAY",
-    "ACCUMULATION",
-    "PHONE_BILL",
-    "POINT",
-    "YPAY",
-    "KPAY",
-    "PAYPIN",
-    "INIPAY",
-    "PAYPAL",
-    "STRIPE",
-    "NAVER_PAY",
-    "KAKAO_PAY",
-    "NAVER_EASY_PAY",
-    "SAMSUNG_PAY",
-    "CHAI",
-    "TOSS_PAY",
-    "SK_PAY",
-    "APPLE_PAY",
-    "LPAY",
-    "ESCROW_REALTIME_ACCOUNT_TRANSFER",
-    "ESCROW_VIRTUAL_ACCOUNT",
-    "RENTAL",
-    "VERITRANS_CARD",
-    "TOASTCAM",
-    "UNION_PAY",
-    "ALIPAY",
-    "WECHAT_PAY",
-    "PINPAY",
-    "EXTERNAL_PAY",
-    "HMG_PAY",
-    "APP_CARD",
-    "PAY_PAY",
-    "E_CONTEXT",
-    "HAPPY_VOUCHER",
-    "ETC",
-]
-"""결제수단"""
-
-DeliveryCompanyType = Literal[
-    "CJ",
-    "POST",
-    "HANJIN",
-    "GTX",
-    "LOTTE",
-    "KGB",
-    "LOGEN",
-    "GSI",
-    "KGL",
-    "INTRAS",
-    "UPS",
-    "CHUNIL",
-    "KDEXP",
-    "HDEXP",
-    "ILYANG",
-    "POST_EMS",
-    "DAESIN",
-    "CVS",
-    "DHL",
-    "FEDEX",
-    "GSM",
-    "WARPEX",
-    "WIZWA",
-    "ACI",
-    "PANTOS",
-    "CJ_INTERNATIONAL",
-    "TNT",
-    "CU",
-    "KUNYOUNG",
-    "LOTTE_INTERNATIONAL",
-    "HONAM",
-    "HANIPS",
-    "IPARCEL",
-    "SLX",
-    "USPS",
-    "WONDERS",
-    "REGISTPOST",
-    "DHLDE",
-    "EZUSA",
-    "SWGEXP",
-    "DAEWOON",
-    "DODOFLEX",
-    "NH_LOGIS",
-    "UFO",
-    "TODAY_PICKUP",
-    "QEXPRESS",
-    "PINGPONG",
-    "CR_LOGITECH",
-    "TODAY",
-    "SELLUV",
-    "EXMATE",
-    "WINION_LOGIS",
-    "ETC",
-]
-"""택배사 타입"""
-
-OrderStatusType = Literal[
-    "DEPOSIT_WAIT",
-    "PAY_DONE",
-    "PRODUCT_PREPARE",
-    "DELIVERY_PREPARE",
-    "DELIVERY_ING",
-    "DELIVERY_DONE",
-    "BUY_CONFIRM",
-    "CANCEL_DONE",
-    "RETURN_DONE",
-    "EXCHANGE_DONE",
-    "PAY_WAIT",
-    "PAY_CANCEL",
-    "PAY_FAIL",
-    "DELETE",
-    "EXCHANGE_WAIT",
-    "REFUND_DONE",
-]
-"""주문 옵션 상태"""
-
-PlatformType = Literal["PC", "MOBILE_WEB", "MOBILE_APP"]
-"""플랫폼 타입"""
-
-
-# ------------------------------------
-#  Response 모델 정의
-# ------------------------------------
-
-
-class UserInput(BaseDto):
-    """구매자 입력형 옵션"""
-
-    input_label: str | None = Field(None, description="옵션 이름")
-    input_value: str | None = Field(None, description="옵션 값")
-
-
-class SetOption(BaseDto):
-    """세트 옵션"""
-
-    mall_option_no: int | None = Field(None, description="몰 옵션번호")
-    mall_product_no: int | None = Field(None, description="몰상품 번호")
-    product_name: str | None = Field(None, description="상품명")
-    option_name: str | None = Field(None, description="옵션명")
-    option_value: str | None = Field(None, description="옵션값")
-    option_price: float | None = Field(None, description="옵션가격")
-    count: int | None = Field(None, description="수량")
-    sku: str | None = Field(None, description="SKU")
-    stock_no: int | None = Field(None, description="재고번호")
-    product_management_cd: str | None = Field(None, description="상품관리코드")
-    option_management_cd: str | None = Field(None, description="옵션 관리 코드")
-    option_use_yn: str | None = Field(None, description="옵션 사용여부")
+from shopby_sdk.clients.order.models.base import (
+    BankInfo,
+    DeliveryCompanyType,
+    ExternalPayInfo,
+    OrderStatusType,
+    PaymentInfo,
+    PayType,
+    PlatformType,
+    SetOption,
+    UserInput,
+)
 
 
 class OrderProductOption(BaseDto):
     """주문 상품 옵션"""
 
     order_option_no: int | None = Field(None, description="주문옵션번호")
+    order_product_option_no: int | None = Field(None, description="주문상품옵션번호")
     mall_option_no: int | None = Field(None, description="몰 옵션번호")
     mall_additional_product_no: int | None = Field(None, description="추가상품번호")
     order_option_type: str | None = Field(None, description="옵션 타입 (NORMAL_OPTION, ADDITIONAL_OPTION)")
     order_status_type: OrderStatusType | None = Field(None, description="주문상태")
     order_cnt: int | None = Field(None, description="주문수량")
+    original_order_cnt: int | None = Field(None, description="원 주문수량")
     order_ymdt: KstDatetime | None = Field(None, description="주문일자")
     option_name: str | None = Field(None, description="옵션명")
     option_value: str | None = Field(None, description="옵션값")
     option_use_yn: str | None = Field(None, description="옵션 사용여부")
+    option_management_cd: str | None = Field(None, description="옵션관리코드")
     add_price: float | None = Field(None, description="옵션가격(추가금액)")
     sku: str | None = Field(None, description="SKU")
     stock_no: int | None = Field(None, description="재고번호")
     sale_price: float | None = Field(None, description="판매가")
+    adjusted_amt: float | None = Field(None, description="조정금액")
     immediate_discount_amt: float | None = Field(None, description="즉시할인 금액")
     additional_discount_amt: float | None = Field(None, description="추가할인 금액")
     product_coupon_discount_amt: float | None = Field(None, description="상품쿠폰 할인금액")
@@ -231,20 +49,52 @@ class OrderProductOption(BaseDto):
     buy_confirm_ymdt: KstDatetime | None = Field(None, description="구매확정일시")
     order_accept_ymdt: KstDatetime | None = Field(None, description="주문승인일시")
     status_change_ymdt: KstDatetime | None = Field(None, description="상태변경일시")
+    pay_ymdt: KstDatetime | None = Field(None, description="결제일시")
+    release_ready_ymdt: KstDatetime | None = Field(None, description="출고준비일시")
+    release_ymdt: KstDatetime | None = Field(None, description="출고일시")
+    register_ymdt: KstDatetime | None = Field(None, description="등록일시")
+    update_ymdt: KstDatetime | None = Field(None, description="수정일시")
     shipping_area_type: str | None = Field(None, description="배송구분")
-    hold_delivery_yn: bool | None = Field(None, description="배송보류 여부")
+    hold_delivery_yn: str | None = Field(None, description="배송보류 여부")
     delivery_combination_yn: str | None = Field(None, description="묶음배송 여부")
     returnable_yn: str | None = Field(None, description="반품 가능여부")
+    cancelable_yn: str | None = Field(None, description="취소 가능여부")
+    exchangeable_yn: str | None = Field(None, description="교환 가능여부")
+    refundable_yn: str | None = Field(None, description="환불 가능여부")
     category_no: int | None = Field(None, description="카테고리번호")
     brand_no: int | None = Field(None, description="브랜드번호")
     partner_no: int | None = Field(None, description="파트너번호")
+    partner_name: str | None = Field(None, description="파트너명")
+    delivery_partner_no: int | None = Field(None, description="배송파트너번호")
+    delivery_template_no: int | None = Field(None, description="배송템플릿번호")
+    release_warehouse_no: int | None = Field(None, description="출고창고번호")
     purchase_price: float | None = Field(None, description="매입가/공급가")
-    user_inputs: list[UserInput] = Field(default_factory=list, description="구매자 입력형 옵션")
-    set_options: list[SetOption] = Field(default_factory=list, description="세트옵션")
+    commission_rate: float | None = Field(None, description="수수료율")
+    product_type: str | None = Field(None, description="상품유형")
+    claim_no: int | None = Field(None, description="클레임번호")
+    claim_status_type: str | None = Field(None, description="클레임상태")
+    image_url: str | None = Field(None, description="이미지 URL")
+    hs_code: str | None = Field(None, description="HS코드")
+    user_input_text: str | None = Field(None, description="사용자입력텍스트")
+    extra_json: str | None = Field(None, description="추가정보JSON")
+    set_option_json: str | None = Field(None, description="세트옵션JSON")
+    extra_management_cd: str | None = Field(None, description="추가관리코드")
+    hold_yn: str | None = Field(None, description="보류여부")
+    exchange_yn: str | None = Field(None, description="교환여부")
+    delivery_international_yn: str | None = Field(None, description="해외배송여부")
+    free_gift_yn: str | None = Field(None, description="사은품여부")
+    origin_order_product_option_no: int | None = Field(None, description="원주문상품옵션번호")
+    first_order_option_no: int | None = Field(None, description="최초주문옵션번호")
     member_accumulation_rate: float | None = Field(None, description="회원 적립률")
+    mall_product_accumulation_rate: float | None = Field(None, description="상품 적립률")
     additional_discount_no: int | None = Field(None, description="추가할인번호")
     member_grade_no: int | None = Field(None, description="회원등급번호")
+    member_grade_name: str | None = Field(None, description="회원등급명")
     recurring_payment_no: int | None = Field(None, description="정기결제번호")
+    partner_charge_amt: float | None = Field(None, description="파트너부담금액")
+    user_inputs: list[UserInput] = Field(default_factory=list, description="구매자 입력형 옵션")
+    set_options: list[SetOption] = Field(default_factory=list, description="세트옵션")
+    member_group_infos: list[dict[str, Any]] = Field(default_factory=list, description="회원그룹정보")
 
 
 class OrderProduct(BaseDto):
@@ -259,7 +109,9 @@ class OrderProduct(BaseDto):
     image_url: str | None = Field(None, description="상품 이미지 URL")
     hs_code: str | None = Field(None, description="HS코드")
     first_product_coupon_discount_amt: float | None = Field(None, description="처음 쿠폰할인금액")
+    last_product_coupon_discount_amt: float | None = Field(None, description="최종 쿠폰할인금액")
     product_coupon_issue_no: int | None = Field(None, description="상품 쿠폰 발행 번호")
+    tax_type: str | None = Field(None, description="과세유형")
     order_product_options: list[OrderProductOption] = Field(default_factory=list, description="주문옵션")
 
 
@@ -300,65 +152,6 @@ class DeliveryGroup(BaseDto):
     encrypted_shipping_no: str | None = Field(None, description="암호화된 배송번호")
     delivery_combination_yn: str | None = Field(None, description="묶음배송 여부")
     order_products: list[OrderProduct] = Field(default_factory=list, description="주문 상품")
-
-
-class BankInfo(BaseDto):
-    """은행 정보"""
-
-    bank: str | None = Field(None, description="은행")
-    bank_code: str | None = Field(None, description="PG 은행코드")
-    bank_name: str | None = Field(None, description="은행명")
-    account: str | None = Field(None, description="계좌번호")
-    bank_amt: float | None = Field(None, description="입금해야할 금액")
-    deposit_amt: float | None = Field(None, description="실제 입금금액")
-    deposit_ymdt: str | None = Field(None, description="입금일시")
-    remitter_name: str | None = Field(None, description="입금자명")
-    depositor_name: str | None = Field(None, description="예금주명")
-    payment_expiration_ymdt: str | None = Field(None, description="입금 마감일")
-
-
-class CardInfo(BaseDto):
-    """카드 정보"""
-
-    card_company: str | None = Field(None, description="카드사")
-    card_code: str | None = Field(None, description="카드코드")
-    card_name: str | None = Field(None, description="카드명")
-    card_no: str | None = Field(None, description="카드번호")
-    card_approval_number: str | None = Field(None, description="승인번호")
-    approve_ymdt: str | None = Field(None, description="승인일시")
-    card_amt: float | None = Field(None, description="카드결제금액")
-    no_interest: bool | None = Field(None, description="무이자 여부")
-    installment_period: int | None = Field(None, description="할부개월")
-
-
-class PaymentInfo(BaseDto):
-    """결제 정보"""
-
-    pay_type: PayType | None = Field(None, description="결제수단")
-    card_info: CardInfo | None = Field(None, description="카드정보")
-    bank_info: BankInfo | None = Field(None, description="은행정보")
-    naver_pay_info: dict[str, Any] | None = Field(None, description="네이버페이 정보")
-    cash_auth_no: str | None = Field(None, description="현금영수증 승인번호")
-    cash_no: str | None = Field(None, description="현금영수증 번호")
-    trade_no: str | None = Field(None, description="거래번호")
-    escrow_yn: str | None = Field(None, description="에스크로 여부")
-    pay_amt: float | None = Field(None, description="결제금액")
-    seller_coupon_amt: float | None = Field(None, description="셀러쿠폰 금액")
-    pg_coupon_amt: float | None = Field(None, description="PG쿠폰 금액")
-    card_coupon_amt: float | None = Field(None, description="카드쿠폰 금액")
-    point_amt: float | None = Field(None, description="포인트 사용금액")
-    tax_type: str | None = Field(None, description="과세유형")
-    mobile_info: dict[str, Any] | None = Field(None, description="모바일 결제 정보")
-    rental_info: dict[str, Any] | None = Field(None, description="렌탈 정보")
-    complex_pay_info: dict[str, Any] | None = Field(None, description="복합결제 정보")
-    recurring_payment_date: str | None = Field(None, description="정기결제일")
-
-
-class ExternalPayInfo(BaseDto):
-    """외부 결제 정보"""
-
-    pay_type: str | None = Field(None, description="결제수단")
-    pay_amt: float | None = Field(None, description="결제금액")
 
 
 class OrderSheetInfo(BaseDto):

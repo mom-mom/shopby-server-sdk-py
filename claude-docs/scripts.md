@@ -233,6 +233,35 @@ uv run --env-file .env.local python scripts/get_orders.py [page_size]
 
 ---
 
+### 9. get_order_detail.py - 주문 상세 조회
+
+**용도**: 단건 주문 상세 정보 조회
+
+**실행**:
+```bash
+uv run --env-file .env.local python scripts/get_order_detail.py <order_no>
+```
+
+**사용 Client/Method**:
+- Client: `ShopbyServerOrderApiClient`
+- Method: `get_order_detail(order_no: str)`
+- Response Model: `OrderDetailResponse`
+
+**주요 응답 필드**:
+- `order_no` - 주문번호
+- `orderer` - 주문자 정보 (`Orderer`)
+  - `name`, `contact1`, `email`, `refund_account`
+- `first_balance` / `last_balance` - 결제 금액 정보 (`Balance`)
+  - `pay_amt`, `main_pay_amt`, `standard_amt`, `delivery_amt`, `total_discount_amt`
+- `shippings` - 배송 정보 목록 (`list[Shipping]`)
+  - `shipping_no`, `delivery_company_type`, `invoice_no`, `receiver`
+- `payments` - 결제 정보 목록 (`list[Payment]`)
+  - `no`, `balance`, `payment_info`
+- `claim_infos` - 클레임 정보 목록 (`list[ClaimInfo]`)
+  - `claim_no`, `claim_type`, `claim_status_type`, `claimed_options`
+
+---
+
 ## Client/Model Import 경로
 
 ```python
