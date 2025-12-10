@@ -157,9 +157,20 @@ uv run --env-file .env.local python scripts/patch_product.py <product_no> <new_p
 
 ---
 
+### 6. validate_all_products_v1.py - 전체 상품 V1 조회 검증
+
+**용도**: 전시중이고 판매가능한 모든 상품에 대해 V1 상세 조회 검증
+
+**실행**:
+```bash
+uv run --env-file .env.local python scripts/validate_all_products_v1.py
+```
+
+---
+
 ## Display API
 
-### 6. get_event_detail.py - 기획전 단건 조회
+### 7. get_event_detail.py - 기획전 단건 조회
 
 **용도**: 기획전 상세 정보 조회
 
@@ -184,6 +195,44 @@ uv run --env-file .env.local python scripts/get_event_detail.py <event_no>
 
 ---
 
+## Order API
+
+### 8. get_orders.py - 주문 조회하기 v1.1
+
+**용도**: 주문 리스트 조회
+
+**실행**:
+```bash
+uv run --env-file .env.local python scripts/get_orders.py [page_size]
+```
+
+**사용 Client/Method**:
+- Client: `ShopbyServerOrderApiClient`
+- Method: `get_orders(...)`
+- Response Model: `OrdersResponse`
+
+**주요 파라미터** (모두 선택):
+- `start_ymd` / `end_ymd` - 조회 기간 (날짜)
+- `start_ymdt` / `end_ymdt` - 조회 기간 (일시, ymd보다 우선)
+- `order_request_types` - 주문상태 리스트 (`list[OrderRequestType]`)
+- `search_date_type` - 조회 주문일시 유형 (`SearchDateType`)
+- `search_type` / `search_values` - 검색 유형 및 값
+- `pay_type` - 결제수단 (`PayType`)
+- `delivery_company_type` - 택배사 (`DeliveryCompanyType`)
+- `page_number` / `page_size` - 페이징
+
+**주요 응답 필드**:
+- `total_count` - 전체 주문 수
+- `contents` - 주문 목록 (`list[Order]`)
+  - `order_no` - 주문번호
+  - `order_ymdt` - 주문일시
+  - `orderer_name` - 주문자명
+  - `pay_type` - 결제수단
+  - `delivery_groups` - 배송그룹 목록 (`list[DeliveryGroup]`)
+    - `order_products` - 주문상품 목록 (`list[OrderProduct]`)
+
+---
+
 ## Client/Model Import 경로
 
 ```python
@@ -192,6 +241,9 @@ from shopby_sdk.clients.products import ShopbyServerProductsApiClient
 
 # Display Client
 from shopby_sdk.clients.display import ShopbyServerDisplayApiClient
+
+# Order Client
+from shopby_sdk.clients.order import ShopbyServerOrderApiClient
 
 # Response Models
 from shopby_sdk.clients.products.models import (

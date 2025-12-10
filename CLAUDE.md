@@ -62,6 +62,7 @@ This guide contains all implementation patterns, type mapping rules, parameter h
 **Reference implementations:**
 - `shopby_sdk/clients/products/` - Products API
 - `shopby_sdk/clients/display/` - Display API (기획전 등)
+- `shopby_sdk/clients/order/` - Order API (주문 등)
 - `shopby_sdk/clients/examples/` - 기본 예제
 
 **Scripts reference:** `claude-docs/scripts.md` - 테스트 스크립트 가이드

@@ -245,24 +245,79 @@ uv run --env-file .env.local python scripts/{script_name}.py <test_value>
   - 예: `oneOf`로 여러 타입이 혼재된 경우
 
 ### 파라미터 처리
-- **쉼표 구분 리스트**: OpenAPI에서 쉼표로 구분된 문자열을 받는 경우
-  - Python에서는 `list[int]` 또는 `list[str]`로 받기
-  - 내부에서 `",".join()` 처리
-  ```python
-  # Bad
-  async def method(self, product_nos: str):  # "1,2,3"
-      params = {"productNos": product_nos}
 
-  # Good
-  async def method(self, product_nos: list[int]):  # [1, 2, 3]
-      params = {"productNos": ",".join(str(no) for no in product_nos)}
-  ```
-- **Array 응답**: API가 배열을 직접 반환하는 경우
-  - Response 타입을 `list[Model]`로 정의
-  - 각 item을 `model_validate()`로 파싱
-  ```python
-  return [ItemModel.model_validate(item) for item in resp.json()]
-  ```
+#### ⭐ Request Enum 타입 정의 (중요!)
+
+OpenAPI에서 Enum으로 정의된 파라미터는 **models.py에 Literal 타입으로 정의**하여 타입 안정성 확보:
+
+```python
+# models.py - Enum 타입 정의
+OrderRequestType = Literal[
+    "DEPOSIT_WAIT",
+    "PAY_DONE",
+    "PRODUCT_PREPARE",
+    "DELIVERY_PREPARE",
+    # ... 모든 값 나열
+]
+"""주문상태 타입"""
+
+PayType = Literal[
+    "CREDIT_CARD",
+    "ACCOUNT",
+    "NAVER_PAY",
+    # ... 모든 값 나열
+]
+"""결제수단"""
+```
+
+```python
+# client.py - Enum 타입 import 및 사용
+from shopby_sdk.clients.order.models import OrderRequestType, PayType
+
+async def get_orders(
+    self,
+    order_request_types: list[OrderRequestType] | None = None,
+    pay_type: PayType | None = None,
+) -> OrdersResponse:
+    ...
+```
+
+**장점:**
+- IDE 자동완성 지원
+- 타입 검사로 오타 방지
+- API 스펙 변경 시 한 곳만 수정
+
+#### ⭐ Comma-Separated 파라미터 처리 (중요!)
+
+OpenAPI에서 쉼표로 구분된 문자열을 받는 경우, **Python에서는 `list[]` 타입으로 받고 내부에서 join 처리**:
+
+```python
+# Bad - 사용하기 불편, 오타 가능
+async def get_orders(self, order_request_types: str):  # "PAY_DONE,DELIVERY_ING"
+    params = {"orderRequestTypes": order_request_types}
+
+# Good - 타입 안정성 + 사용 편의성
+async def get_orders(
+    self,
+    order_request_types: list[OrderRequestType] | None = None,  # ["PAY_DONE", "DELIVERY_ING"]
+):
+    if order_request_types is not None:
+        params["orderRequestTypes"] = ",".join(order_request_types)
+```
+
+**숫자 리스트도 동일하게 처리:**
+```python
+async def method(self, product_nos: list[int] | None = None):  # [1, 2, 3]
+    if product_nos is not None:
+        params["productNos"] = ",".join(str(no) for no in product_nos)
+```
+
+#### Array 응답 처리
+
+API가 배열을 직접 반환하는 경우:
+```python
+return [ItemModel.model_validate(item) for item in resp.json()]
+```
 
 ## 참조
 
@@ -281,4 +336,4 @@ uv run --env-file .env.local python scripts/{script_name}.py <test_value>
 |--------|----------------|---------------|
 | products | `shopby_sdk/clients/products/` | `scripts/get_product_detail_v1.py` |
 | display | `shopby_sdk/clients/display/` | `scripts/get_event_detail.py` |
-| order | - | - |
+| order | `shopby_sdk/clients/order/` | `scripts/get_orders.py` |
