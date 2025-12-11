@@ -1,6 +1,6 @@
 """Order API 클라이언트"""
 
-from datetime import datetime
+from datetime import datetime, date
 
 import httpx
 
@@ -24,8 +24,8 @@ class ShopbyServerOrderApiClient(ShopbyServerApiClient):
     async def get_orders(
         self,
         # 기간 필터 (date)
-        start_ymd: datetime | None = None,
-        end_ymd: datetime | None = None,
+        start_ymd: date | None = None,
+        end_ymd: date | None = None,
         # 기간 필터 (datetime) - ymd보다 우선순위 높음
         start_ymdt: datetime | None = None,
         end_ymdt: datetime | None = None,
