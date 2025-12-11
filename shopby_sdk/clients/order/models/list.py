@@ -220,8 +220,8 @@ class Order(BaseDto):
     bank_info: BankInfo | None = Field(None, description="은행정보")
     payment_info: PaymentInfo | None = Field(None, description="결제정보")
     order_sheet_info: OrderSheetInfo | None = Field(None, description="주문서 정보")
-    first_external_pay_infos: list[ExternalPayInfo] = Field(default_factory=list, description="처음 외부결제 정보")
-    last_external_pay_infos: list[ExternalPayInfo] = Field(default_factory=list, description="최종 외부결제 정보")
+    first_external_pay_infos: list[ExternalPayInfo] | None = Field(None, description="처음 외부결제 정보")
+    last_external_pay_infos: list[ExternalPayInfo] | None = Field(None, description="최종 외부결제 정보")
     delivery_groups: list[DeliveryGroup] = Field(default_factory=list, description="배송그룹")
 
 
