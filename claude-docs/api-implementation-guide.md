@@ -329,6 +329,7 @@ return [ItemModel.model_validate(item) for item in resp.json()]
   - product: `shopby-docs/product-server-public.yml`
   - display: `shopby-docs/display-server-public.yml`
   - order: `shopby-docs/order-server-public.yml`
+  - member: `shopby-docs/member-server-public.yml`
 
 ## 완성된 구현 예제
 
@@ -337,3 +338,4 @@ return [ItemModel.model_validate(item) for item in resp.json()]
 | products | `shopby_sdk/clients/products/` | `scripts/get_product_detail_v1.py` |
 | display | `shopby_sdk/clients/display/` | `scripts/get_event_detail.py` |
 | order | `shopby_sdk/clients/order/` | `scripts/get_orders.py`, `scripts/get_order_detail.py` |
+| member | `shopby_sdk/clients/member/` | `scripts/get_members.py`, `scripts/get_member_groups.py`, `scripts/get_profile_groups.py` |

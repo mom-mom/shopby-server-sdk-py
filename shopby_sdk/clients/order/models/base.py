@@ -1,11 +1,10 @@
 """Order API 공통 타입 및 모델 정의"""
 
-from typing import Any, Literal
+from typing import Literal
 
 from pydantic import Field
 
 from shopby_sdk.base.dto import BaseDto
-from shopby_sdk.base.kst import KstDatetime
 
 
 # ============================================
