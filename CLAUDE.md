@@ -63,7 +63,8 @@ docs/
     ├── product-server-public.yml
     ├── display-server-public.yml
     ├── order-server-public.yml
-    └── member-server-public.yml
+    ├── member-server-public.yml
+    └── claim-server-public.yml
 ```
 
 ## Adding New APIs
