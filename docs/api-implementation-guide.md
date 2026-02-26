@@ -330,6 +330,7 @@ return [ItemModel.model_validate(item) for item in resp.json()]
   - display: `docs/api/display-server-public.yml`
   - order: `docs/api/order-server-public.yml`
   - member: `docs/api/member-server-public.yml`
+  - claim: `docs/api/claim-server-public.yml`
 
 ## 완성된 구현 예제
 
