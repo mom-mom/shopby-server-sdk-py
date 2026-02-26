@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Python SDK for Shopby Products API - generates type-safe API clients from OpenAPI specifications in `shopby-docs/product-server-public.yml`.
+Python SDK for Shopby Products API - generates type-safe API clients from OpenAPI specifications.
 
 ## Development Commands
 
@@ -53,9 +53,22 @@ shopby_sdk/
 - Auth: Bearer token + systemKey headers
 - All clients inherit from this and use httpx.AsyncClient
 
+## Docs
+
+```
+docs/
+├── api-implementation-guide.md      # ⚠️ API 구현 시 반드시 먼저 읽을 것
+├── scripts.md                       # 테스트 스크립트 실행 가이드
+└── api/                             # OpenAPI 스펙 (yml)
+    ├── product-server-public.yml
+    ├── display-server-public.yml
+    ├── order-server-public.yml
+    └── member-server-public.yml
+```
+
 ## Adding New APIs
 
-**⚠️ CRITICAL: MUST READ `claude-docs/api-implementation-guide.md` FIRST**
+**⚠️ CRITICAL: MUST READ `docs/api-implementation-guide.md` FIRST**
 
 This guide contains all implementation patterns, type mapping rules, parameter handling, and common pitfalls. Do not proceed without reading it.
 
@@ -65,4 +78,4 @@ This guide contains all implementation patterns, type mapping rules, parameter h
 - `shopby_sdk/clients/order/` - Order API (주문 등)
 - `shopby_sdk/clients/examples/` - 기본 예제
 
-**Scripts reference:** `claude-docs/scripts.md` - 테스트 스크립트 가이드
+**Scripts reference:** `docs/scripts.md` - 테스트 스크립트 실행 및 작성 가이드

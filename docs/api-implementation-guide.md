@@ -22,13 +22,13 @@ shopby_sdk/clients/{domain_name}/
 ### 1. API 스펙 찾기
 ```bash
 # API 이름으로 검색
-grep -n "summary: {API_이름}" shopby-docs/product-server-public.yml
+grep -n "summary: {API_이름}" docs/api/product-server-public.yml
 
 # endpoint 경로 찾기
-grep -n "/{path}" shopby-docs/product-server-public.yml
+grep -n "/{path}" docs/api/product-server-public.yml
 
 # schema 정의 찾기
-grep -n "{schema_name}:" shopby-docs/product-server-public.yml
+grep -n "{schema_name}:" docs/api/product-server-public.yml
 ```
 
 ### 2. models.py 작성
@@ -326,10 +326,10 @@ return [ItemModel.model_validate(item) for item in resp.json()]
 - **BaseDto**: `shopby_sdk/base/dto.py`
 - **KST 타입**: `shopby_sdk/base/kst.py`
 - **API 스펙**:
-  - product: `shopby-docs/product-server-public.yml`
-  - display: `shopby-docs/display-server-public.yml`
-  - order: `shopby-docs/order-server-public.yml`
-  - member: `shopby-docs/member-server-public.yml`
+  - product: `docs/api/product-server-public.yml`
+  - display: `docs/api/display-server-public.yml`
+  - order: `docs/api/order-server-public.yml`
+  - member: `docs/api/member-server-public.yml`
 
 ## 완성된 구현 예제
 

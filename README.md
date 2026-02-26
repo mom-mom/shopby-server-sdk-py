@@ -121,7 +121,7 @@ scripts/
 
 ## Adding New API Domains
 
-See `claude-docs/api-implementation-guide.md` for detailed instructions on adding new Shopby API domains.
+See `docs/api-implementation-guide.md` for detailed instructions on adding new Shopby API domains.
 
 ## License
 
