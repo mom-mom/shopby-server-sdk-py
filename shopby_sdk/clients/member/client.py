@@ -21,7 +21,7 @@ class ShopbyServerMemberApiClient(ShopbyServerApiClient):
     Shopby Member Server API 클라이언트
 
     쇼핑몰 회원(member) 관련 서버 API를 호출하는 클라이언트입니다.
-    API 스펙: shopby-docs/member-server-public.yml
+    API 스펙: docs/api/member-server-public.yml
     """
 
     # ------------------------------------

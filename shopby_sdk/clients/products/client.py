@@ -18,7 +18,7 @@ from shopby_sdk.clients.products.models import (
 )
 
 
-# shopby-docs/product-server-public.yml
+# docs/api/product-server-public.yml
 
 
 class ShopbyServerProductsApiClient(ShopbyServerApiClient):
