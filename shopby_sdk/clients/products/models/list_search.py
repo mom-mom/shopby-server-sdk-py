@@ -144,7 +144,7 @@ class ProductOptionDetail(BaseDto):
     sale_cnt: int = Field(..., description="판매 수")
     use_yn: str = Field(..., description="사용 여부")
     option_management_cd: str = Field(..., description="운영 코드")
-    extra_management_cd: str = Field(..., description="추가관리코드")
+    extra_management_cd: str | None = Field(None, description="추가관리코드")
     purchase_price: float = Field(..., description="공급가")
     commission_rate: float = Field(..., description="판매 수수료")
     sku: str = Field(..., description="재고 관리 단위")
@@ -153,7 +153,7 @@ class ProductOptionDetail(BaseDto):
     is_required_option: bool = Field(..., description="필수 옵션 여부")
     display_order: int = Field(..., description="정렬 순서")
     register_ymdt: KstDatetime = Field(..., description="등록 날짜")
-    update_ymdt: KstDatetime = Field(..., description="수정 날짜")
+    update_ymdt: KstDatetime | None = Field(None, description="수정 날짜")
     sale_status_type: str = Field(..., description="판매 상태")
     images: list[ListSearchOptionImage] = Field(default_factory=list, description="옵션 이미지 목록")
 
@@ -292,7 +292,7 @@ class ProductListItem(BaseDto):
     is_sold_out: bool = Field(..., description="품절 여부")
 
     # 적립금
-    accumulation_rate: float = Field(..., description="상품적립률")
+    accumulation_rate: float | None = Field(None, description="상품적립률")
 
     # 스티커
     stickers: list[Sticker] = Field(default_factory=list, description="스티커 정보")
@@ -315,7 +315,7 @@ class ProductListItem(BaseDto):
     update_date_time: KstDatetime | None = Field(None, description="최종수정일")
 
     # 기타
-    comparing_price_site_types: str | None = Field(None, description="가격비교정보등록 사이트")
+    comparing_price_site_types: list[str] | None = Field(None, description="가격비교정보등록 사이트")
 
 
 # Response type: array

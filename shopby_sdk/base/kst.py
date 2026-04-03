@@ -15,17 +15,21 @@ KST = ZoneInfo("Asia/Seoul")
 # ------------------------------------
 #  KST Datetime 타입
 # ------------------------------------
-def _validate_kst_datetime(value: Any) -> datetime:
+def _validate_kst_datetime(value: Any) -> datetime | None:
     """
     KST datetime으로 변환
 
     입력:
+      - None → None (Optional 필드 지원)
       - ISO 8601 문자열 ("2025-11-06T17:27:44.085197059", "2025-11-06T17:27:44")
       - "YYYY-MM-DD HH:MM:SS" 문자열 (공백 구분)
       - "YYYY-MM-DD" 문자열 (시간 없으면 00:00:00으로 처리)
       - naive datetime → KST로 간주
       - aware datetime → KST로 변환
     """
+    if value is None:
+        return None
+
     # 이미 datetime 객체
     if isinstance(value, datetime):
         if value.tzinfo is None:
@@ -101,14 +105,18 @@ Example:
 # ------------------------------------
 #  KST Date 타입
 # ------------------------------------
-def _validate_kst_date(value: Any) -> date:
+def _validate_kst_date(value: Any) -> date | None:
     """
     KST date로 변환
 
     입력:
+      - None → None (Optional 필드 지원)
       - "YYYY-MM-DD" 문자열
       - date 객체
     """
+    if value is None:
+        return None
+
     if isinstance(value, date) and not isinstance(value, datetime):
         return value
 
