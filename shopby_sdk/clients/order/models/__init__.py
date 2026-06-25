@@ -43,6 +43,78 @@ from shopby_sdk.clients.order.models.list import (
     OrderSheetInfo,
     OrdersResponse,
 )
+from shopby_sdk.clients.order.models.extra import (
+    # Enum types
+    CartSearchDateType,
+    DeliverySearchType,
+    PgType,
+    PreviousOrderSearchType,
+    RecurringPaymentSearchType,
+    ShippingAddressType,
+    TaskMessageDateType,
+    TaskMessageTargetType,
+    # 무통장 미입금 주문
+    AccountOrder,
+    AccountOrderConfirmRequest,
+    AccountOrderConfirmResult,
+    AccountOrderProduct,
+    # 앱카드
+    AppCardPaymentKey,
+    # 장바구니 / 위시리스트
+    CartItem,
+    CartResponse,
+    PurchaserInput,
+    WishItem,
+    WishResponse,
+    # 배송번호 기준 주문 조회
+    OrderDeliveriesResponse,
+    OrderDeliveryItem,
+    # 이전주문
+    PreviousOrderDeleteByOrderNosRequest,
+    PreviousOrderDeleteResult,
+    PreviousOrderItem,
+    PreviousOrderPayDetail,
+    PreviousOrderRegisterItem,
+    PreviousOrderRegisterResult,
+    PreviousOrdersResponse,
+    # 정기결제(배송)
+    RecurringPaymentItem,
+    RecurringPaymentsResponse,
+    # 배송지
+    ShippingAddressItem,
+    ShippingAddressesResponse,
+    # 쿠폰
+    CouponAvailableRequest,
+    CouponAvailableResponse,
+    CouponCalculateRequest,
+    CouponInfo,
+    CouponProductItem,
+    CouponProductResult,
+    CouponProductSelection,
+    # 주문 상태 변경 / 송장 / 발행결과
+    CashReceiptIssuanceItem,
+    ChangeStatusByShippingNoRequest,
+    ChangeStatusByShippingNoResponse,
+    ChangeStatusFailure,
+    ChangeStatusItem,
+    DeliveryInvoiceItem,
+    HoldDeliveryRequest,
+    OrderExtraDataItem,
+    ReserveToNormalRequest,
+    TaxInvoiceIssuanceItem,
+    UpdateInvoiceItem,
+    UpdateInvoiceResult,
+    # 업무 메시지
+    TaskMessageCreateRequest,
+    TaskMessageCreateResult,
+    TaskMessageDetailCreateRequest,
+    TaskMessageDetailCreateResult,
+    TaskMessageDetailUpdateRequest,
+    TaskMessageItem,
+    TaskMessagesResponse,
+    TaskMessageUpdateRequest,
+    UploadedFileInfo,
+)
 
 __all__ = [
     # Enum types
@@ -84,4 +156,74 @@ __all__ = [
     "Payment",
     "ClaimedOption",
     "ClaimInfo",
+    # --- 추가 엔드포인트 Enum types ---
+    "CartSearchDateType",
+    "DeliverySearchType",
+    "PgType",
+    "PreviousOrderSearchType",
+    "RecurringPaymentSearchType",
+    "ShippingAddressType",
+    "TaskMessageDateType",
+    "TaskMessageTargetType",
+    # --- 무통장 미입금 주문 ---
+    "AccountOrder",
+    "AccountOrderProduct",
+    "AccountOrderConfirmRequest",
+    "AccountOrderConfirmResult",
+    # --- 앱카드 ---
+    "AppCardPaymentKey",
+    # --- 장바구니 / 위시리스트 ---
+    "CartItem",
+    "CartResponse",
+    "PurchaserInput",
+    "WishItem",
+    "WishResponse",
+    # --- 배송번호 기준 주문 조회 ---
+    "OrderDeliveriesResponse",
+    "OrderDeliveryItem",
+    # --- 이전주문 ---
+    "PreviousOrderItem",
+    "PreviousOrderPayDetail",
+    "PreviousOrdersResponse",
+    "PreviousOrderRegisterItem",
+    "PreviousOrderRegisterResult",
+    "PreviousOrderDeleteResult",
+    "PreviousOrderDeleteByOrderNosRequest",
+    # --- 정기결제(배송) ---
+    "RecurringPaymentItem",
+    "RecurringPaymentsResponse",
+    # --- 배송지 ---
+    "ShippingAddressItem",
+    "ShippingAddressesResponse",
+    # --- 쿠폰 ---
+    "CouponProductItem",
+    "CouponProductSelection",
+    "CouponAvailableRequest",
+    "CouponCalculateRequest",
+    "CouponInfo",
+    "CouponProductResult",
+    "CouponAvailableResponse",
+    # --- 주문 상태 변경 / 송장 / 발행결과 ---
+    "ChangeStatusItem",
+    "ChangeStatusByShippingNoRequest",
+    "ChangeStatusFailure",
+    "ChangeStatusByShippingNoResponse",
+    "DeliveryInvoiceItem",
+    "HoldDeliveryRequest",
+    "ReserveToNormalRequest",
+    "OrderExtraDataItem",
+    "CashReceiptIssuanceItem",
+    "TaxInvoiceIssuanceItem",
+    "UpdateInvoiceItem",
+    "UpdateInvoiceResult",
+    # --- 업무 메시지 ---
+    "UploadedFileInfo",
+    "TaskMessageItem",
+    "TaskMessagesResponse",
+    "TaskMessageCreateRequest",
+    "TaskMessageCreateResult",
+    "TaskMessageUpdateRequest",
+    "TaskMessageDetailCreateRequest",
+    "TaskMessageDetailCreateResult",
+    "TaskMessageDetailUpdateRequest",
 ]
