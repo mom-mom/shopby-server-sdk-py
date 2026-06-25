@@ -73,7 +73,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/banners1422939799'
+                $ref: '#/components/schemas/banners2073301320'
               examples:
                 get-banners:
                   value: "[{\"bannerSectionNo\":1,\"label\":\"배너 라벨명\",\"code\":\"\
@@ -94,8 +94,8 @@ paths:
                     ,\"leftSpaceColor\":\"#FFFFFF\",\"rightSpaceColor\":\"#FFFFFF\"\
                     ,\"browerTargetType\":\"CURRENT\",\"mouseOverImageUrl\":\"http://image.toast.com/abcd/mouse_over.png\"\
                     ,\"mouseOverImageName\":\"mouse_over.png\",\"displayPeriodType\"\
-                    :\"REGULAR\",\"displayStartYmdt\":\"2025-11-12T05:57:53.32620832\"\
-                    ,\"displayEndYmdt\":\"2025-11-19T05:57:53.326243065\",\"displayOrder\"\
+                    :\"REGULAR\",\"displayStartYmdt\":\"2026-04-08T07:42:07.239738086\"\
+                    ,\"displayEndYmdt\":\"2026-04-15T07:42:07.239765291\",\"displayOrder\"\
                     :3,\"videoUrl\":\"http://ncp-video-url.com\",\"displayYn\":\"\
                     N\"}]}]}]"
     post:
@@ -142,7 +142,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/banners-2013013306'
+              $ref: '#/components/schemas/banners2120124801'
             examples:
               배너 섹션 등록:
                 value: "{\"groupNo\":1,\"bannerSectionName\":\"배너 섹션 이름\",\"memberGradeDisplayInfo\"\
@@ -159,7 +159,7 @@ paths:
                   #ffffff\",\"displayOrder\":1,\"landingUrlValue\":{\"landingUrlType\"\
                   :\"EVENT\",\"landingUrl\":\"1\",\"bannerOpenLocationType\":\"CURRENT\"\
                   },\"bannerDisplayPeriod\":{\"periodType\":\"PERIOD\",\"displayPeriod\"\
-                  :{\"startYmdt\":[2025,11,19,5,57,51,580303487],\"endYmdt\":[2026,2,19,5,57,51,580333865]}},\"\
+                  :{\"startYmdt\":[2026,4,15,7,42,3,724346875],\"endYmdt\":[2026,7,15,7,42,3,724373484]}},\"\
                   bannerImageUrl\":\"//shopby-images.cdn-nhncommerce.com/SERVICE/banner/35766407.jpg\"\
                   ,\"bannerImageName\":\"35766407.jpg\",\"bannerMouseOverImageUrl\"\
                   :\"//shopby-images.cdn-nhncommerce.com/SERVICE/banner/35766407.jpg\"\
@@ -174,7 +174,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/banners1116014589'
+                $ref: '#/components/schemas/inquiry-inquiryNo-reply1116014589'
               examples:
                 배너 섹션 등록:
                   value: "2"
@@ -573,13 +573,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/banners-simple-infos263830541'
+                $ref: '#/components/schemas/banners-simple-infos1198101778'
               examples:
                 헤드리스 배너 조회:
                   value: "{\"lastBannerNo\":1,\"contents\":[{\"bannerNo\":1,\"bannerName\"\
                     :\"배너 섹션\",\"bannerId\":\"ACS\",\"platformTypes\":[\"PC\",\"MOBILE_WEB\"\
-                    ,\"MOBILE_APP\"],\"registerDate\":\"2025-09-19\",\"updateDate\"\
-                    :\"2025-11-19\",\"bannerCode\":\"001\",\"bannerGroupNo\":10,\"\
+                    ,\"MOBILE_APP\"],\"registerDate\":\"2026-02-15\",\"updateDate\"\
+                    :\"2026-04-15\",\"bannerCode\":\"001\",\"bannerGroupNo\":10,\"\
                     bannerGroupName\":\"그룹1\"}]}"
   /banners/{bannerNo}:
     put:
@@ -632,7 +632,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/banners-bannerNo699195744'
+              $ref: '#/components/schemas/banners-bannerNo803285355'
             examples:
               배너 섹션 수정:
                 value: "{\"bannerSectionName\":\"배너 섹션 이름\",\"memberGradeDisplayInfo\"\
@@ -649,9 +649,8 @@ paths:
                   rightImageSpaceColor\":\"#ffffff\",\"displayOrder\":1,\"landingUrlValue\"\
                   :{\"landingUrlType\":\"EVENT\",\"landingUrl\":\"1\",\"bannerOpenLocationType\"\
                   :\"CURRENT\"},\"bannerDisplayPeriod\":{\"periodType\":\"PERIOD\"\
-                  ,\"displayPeriod\":{\"startYmdt\":[2025,11,19,5,57,52,790095214],\"\
-                  endYmdt\":[2026,2,19,5,57,52,790116972]}},\"bannerImageUrl\":\"\
-                  //shopby-images.cdn-nhncommerce.com/SERVICE/banner/35766407.jpg\"\
+                  ,\"displayPeriod\":{\"startYmdt\":[2026,4,15,7,42,6,40247813],\"\
+                  endYmdt\":[2026,7,15,7,42,6,40271986]}},\"bannerImageUrl\":\"//shopby-images.cdn-nhncommerce.com/SERVICE/banner/35766407.jpg\"\
                   ,\"bannerImageName\":\"35766407.jpg\",\"bannerMouseOverImageUrl\"\
                   :\"//shopby-images.cdn-nhncommerce.com/SERVICE/banner/35766407.jpg\"\
                   ,\"bannerMouseOverImageName\":\"35766407.jpg\",\"bannerName\":\"\
@@ -786,6 +785,69 @@ paths:
                     :\"코트\",\"depth5Icon\":\"icon.png\",\"depth5TopImageContent\"\
                     :\"depth5TopImageContent\",\"depth5DisplayOrder\":1,\"depth5DisplayYn\"\
                     :\"Y\",\"fullCategoryName\":\"상의>아우터>코트\",\"deleteYn\":\"N\"}]"
+    post:
+      tags:
+      - Category
+      summary: 전시 카테고리 등록하기
+      description: "## 부가설명 및 특이사항\n            \n전시 카테고리를 등록하는 API입니다\n\n* parentDisplayCategoryNo가\
+        \ 0이면 1depth(루트) 카테고리로 등록됩니다.\n\n* 전시카테고리는 최대 5depth까지 등록 가능합니다.\n\n* 부모 카\
+        테고리에 상품이 매핑되어 있으면 하위 카테고리를 추가할 수 없습니다.\n"
+      operationId: create-display-category
+      parameters:
+      - name: systemKey
+        in: header
+        description: "\n 시스템 키 (외부시스템 연동을 위한 server API 호출 키)\n - 발급경로: 워크스페이스> 셀러\
+          어드민> 신규 앱(App) 등록 시 수정페이지에서 확인가능 \n - 앱 기준으로 systemKey 발급됨\n"
+        required: true
+        schema:
+          type: string
+        example: test-system-key
+      - name: Authorization
+        in: header
+        description: "\n \n 인증토큰 (Bearer 전달받은 토큰)\n \n - 형식: Bearer + 발급받은 access_token\n\
+          \n - 발급경로: POST /auth/token 또는 POST /auth/token/long-lived 의 응답 값으로 내려온\
+          \ access_token\n"
+        required: false
+        schema:
+          type: string
+        example: Bearer ABCDERAdjflaskjdfosiaetlkfs
+      - name: mallKey
+        in: header
+        description: " 외부 API 연동키 (외부시스템연동 코드)\n \n ※ server API 호출하는 기존 방식으로, 향후\
+          \ fade out될 수 있습니다.<br>\n\n Authorization을 입력을 통한 serverAPI 호출방식 권장드립니다\
+          .<br>\n\n (Authorization 입력했을 경우, mallKey는 null로 보내시길 바랍니다.)<br>\n\n\n "
+        required: false
+        schema:
+          type: string
+        example: M21OMm8zU1JHUEU1NGFqUURvUklGQlc5NHViTTBaNlI
+      - name: Version
+        in: header
+        description: API 버전
+        required: true
+        schema:
+          type: string
+        example: "1.0"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/categories-display-categories1980376054'
+            examples:
+              create-display-category:
+                value: "{\"displayCategoryName\":\"신규카테고리\",\"parentDisplayCategoryNo\"\
+                  :100,\"displayOrder\":1,\"displayYn\":\"Y\",\"icon\":\"//image.toast.com/icon.png\"\
+                  ,\"topImageContent\":\"상단 이미지 내용\",\"displayCategoryManagementCode\"\
+                  :\"CATEGORY-001\"}"
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/categories-display-categories758995774'
+              examples:
+                create-display-category:
+                  value: "{\"displayCategoryNo\":12345}"
   /categories/display-categories/tree:
     get:
       tags:
@@ -849,6 +911,127 @@ paths:
                     :1,\"parentDisplayCategoryNo\":0,\"depth\":1,\"displayYn\":\"\
                     Y\",\"productCount\":26,\"children\":[],\"categoryUrl\":\"/display-categories/1\"\
                     ,\"displayCategoryManagementCode\":\"전시카테고리 관리코드\"}]"
+  /categories/display-categories/{displayCategoryNo}:
+    delete:
+      tags:
+      - Category
+      summary: 전시 카테고리 삭제하기
+      description: "## 부가설명 및 특이사항\n            \n전시 카테고리를 삭제하는 API입니다\n\n* 자식 카테고\
+        리가 있으면 삭제할 수 없습니다.\n\n* 상품이 매핑된 카테고리는 기본적으로 삭제할 수 없습니다.\n\n* force=true로 요\
+        청하면 상품 매핑을 해제하고 삭제합니다.\n\n* 글로벌 메인몰에서 삭제 시 서브몰의 대응 카테고리도 함께 삭제됩니다.\n"
+      operationId: delete-display-category
+      parameters:
+      - name: displayCategoryNo
+        in: path
+        description: 전시카테고리 번호
+        required: true
+        schema:
+          type: string
+        example: "12345"
+      - name: force
+        in: query
+        description: 상품 매핑 해제 후 강제 삭제 여부
+        required: false
+        schema:
+          type: boolean
+        example: "false"
+      - name: systemKey
+        in: header
+        description: "\n 시스템 키 (외부시스템 연동을 위한 server API 호출 키)\n - 발급경로: 워크스페이스> 셀러\
+          어드민> 신규 앱(App) 등록 시 수정페이지에서 확인가능 \n - 앱 기준으로 systemKey 발급됨\n"
+        required: true
+        schema:
+          type: string
+        example: test-system-key
+      - name: Authorization
+        in: header
+        description: "\n \n 인증토큰 (Bearer 전달받은 토큰)\n \n - 형식: Bearer + 발급받은 access_token\n\
+          \n - 발급경로: POST /auth/token 또는 POST /auth/token/long-lived 의 응답 값으로 내려온\
+          \ access_token\n"
+        required: false
+        schema:
+          type: string
+        example: Bearer ABCDERAdjflaskjdfosiaetlkfs
+      - name: mallKey
+        in: header
+        description: " 외부 API 연동키 (외부시스템연동 코드)\n \n ※ server API 호출하는 기존 방식으로, 향후\
+          \ fade out될 수 있습니다.<br>\n\n Authorization을 입력을 통한 serverAPI 호출방식 권장드립니다\
+          .<br>\n\n (Authorization 입력했을 경우, mallKey는 null로 보내시길 바랍니다.)<br>\n\n\n "
+        required: false
+        schema:
+          type: string
+        example: M21OMm8zU1JHUEU1NGFqUURvUklGQlc5NHViTTBaNlI
+      - name: Version
+        in: header
+        description: API 버전
+        required: true
+        schema:
+          type: string
+        example: "1.0"
+      responses:
+        "204":
+          description: "204"
+    patch:
+      tags:
+      - Category
+      summary: 전시 카테고리 수정하기
+      description: "## 부가설명 및 특이사항\n            \n전시 카테고리를 수정하는 API입니다\n\n* 요청에 포함\
+        된 필드만 수정됩니다 (부분 수정).\n\n* 문자열 필드에 빈 문자열(\"\")을 보내면 해당 값이 비워집니다.\n"
+      operationId: update-display-category
+      parameters:
+      - name: displayCategoryNo
+        in: path
+        description: 전시카테고리 번호
+        required: true
+        schema:
+          type: string
+        example: "12345"
+      - name: systemKey
+        in: header
+        description: "\n 시스템 키 (외부시스템 연동을 위한 server API 호출 키)\n - 발급경로: 워크스페이스> 셀러\
+          어드민> 신규 앱(App) 등록 시 수정페이지에서 확인가능 \n - 앱 기준으로 systemKey 발급됨\n"
+        required: true
+        schema:
+          type: string
+        example: test-system-key
+      - name: Authorization
+        in: header
+        description: "\n \n 인증토큰 (Bearer 전달받은 토큰)\n \n - 형식: Bearer + 발급받은 access_token\n\
+          \n - 발급경로: POST /auth/token 또는 POST /auth/token/long-lived 의 응답 값으로 내려온\
+          \ access_token\n"
+        required: false
+        schema:
+          type: string
+        example: Bearer ABCDERAdjflaskjdfosiaetlkfs
+      - name: mallKey
+        in: header
+        description: " 외부 API 연동키 (외부시스템연동 코드)\n \n ※ server API 호출하는 기존 방식으로, 향후\
+          \ fade out될 수 있습니다.<br>\n\n Authorization을 입력을 통한 serverAPI 호출방식 권장드립니다\
+          .<br>\n\n (Authorization 입력했을 경우, mallKey는 null로 보내시길 바랍니다.)<br>\n\n\n "
+        required: false
+        schema:
+          type: string
+        example: M21OMm8zU1JHUEU1NGFqUURvUklGQlc5NHViTTBaNlI
+      - name: Version
+        in: header
+        description: API 버전
+        required: true
+        schema:
+          type: string
+        example: "1.0"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/categories-display-categories-displayCategoryNo-377948581'
+            examples:
+              update-display-category:
+                value: "{\"displayCategoryName\":\"수정된카테고리\",\"displayYn\":\"N\",\"\
+                  icon\":\"//image.toast.com/new-icon.png\",\"topImageContent\":\"\
+                  수정된 상단 이미지\",\"displayCategoryManagementCode\":\"CATEGORY-002\"}"
+      responses:
+        "204":
+          description: "204"
   /events:
     get:
       tags:
@@ -874,14 +1057,14 @@ paths:
         required: false
         schema:
           type: string
-        example: 2025-08-19
+        example: 2026-01-15
       - name: datePeriod.endYmd
         in: query
         description: 조회 종료일
         required: false
         schema:
           type: string
-        example: 2025-11-19
+        example: 2026-04-15
       - name: searchType
         in: query
         description: 검색어 타입
@@ -977,9 +1160,9 @@ paths:
                     :1,\"mallNo\":5,\"mallName\":\"테스트몰\",\"eventType\":\"GENERAL\"\
                     ,\"eventName\":\"기획전 이름\",\"eventId\":\"\",\"eventUrl\":\"\",\"\
                     eventDisplayPeriod\":{\"periodType\":\"PERIOD\",\"displayPeriod\"\
-                    :{\"startYmdt\":\"2025-11-19T05:57:52.94788657\",\"endYmdt\":\"\
-                    2026-02-19T05:57:52.947910526\"}},\"couponYn\":\"N\",\"adminNo\"\
-                    :1,\"adminName\":\"어드민\",\"registerYmdt\":\"2025-11-19T05:57:52.947926072\"\
+                    :{\"startYmdt\":\"2026-04-15T07:42:02.599398452\",\"endYmdt\"\
+                    :\"2026-07-15T07:42:02.599426348\"}},\"couponYn\":\"N\",\"adminNo\"\
+                    :1,\"adminName\":\"어드민\",\"registerYmdt\":\"2026-04-15T07:42:02.599439134\"\
                     }],\"lastId\":\"\"}"
   /events/{eventNo}:
     get:
@@ -1049,9 +1232,9 @@ paths:
                     eventName\":\"이벤트이름\",\"eventId\":\"KO001\",\"eventUrlType\":\"\
                     EVENT_NUMBER\",\"eventUrl\":null,\"eventYn\":\"N\",\"eventDisplayPeriod\"\
                     :{\"periodType\":\"PERIOD\",\"displayPeriod\":{\"startYmdt\":\"\
-                    2025-11-19T05:57:49.182886305\",\"endYmdt\":\"2026-02-19T05:57:49.182918145\"\
+                    2026-04-15T07:41:57.907894981\",\"endYmdt\":\"2026-07-15T07:41:57.907926135\"\
                     }},\"mainPcImageUrl\":\"\",\"mainMobileImageUrl\":null,\"couponYn\"\
-                    :\"Y\",\"adminNo\":1,\"registerYmdt\":\"2025-11-19T05:57:49.251568855\"\
+                    :\"Y\",\"adminNo\":1,\"registerYmdt\":\"2026-04-15T07:41:57.912974111\"\
                     ,\"eventCommonCouponImage\":{\"guideImageUrl\":\"\",\"issuedCouponImageUrl\"\
                     :\"\",\"alreadyIssuedCouponImageUrl\":\"\",\"couponBeforeIssueImageUrl\"\
                     :\"\",\"couponSoldOutImageUrl\":\"\",\"couponDateExpiredImageUrl\"\
@@ -1177,7 +1360,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inquiry-1390155908'
+                $ref: '#/components/schemas/inquiry1172738976'
               examples:
                 get-inquiry:
                   value: "[{\"inquiryNo\":533,\"productNo\":200001234,\"partnerNo\"\
@@ -1186,8 +1369,8 @@ paths:
                     \",\"memberId\":\"memberId\",\"memberName\":\"memberName\",\"\
                     memberNo\":1111,\"nickName\":\"nickName\",\"productName\":\"TEST_PRODUCT\"\
                     ,\"brandName\":\"TEST_BRAND\",\"replied\":false,\"registerYmdt\"\
-                    :\"2025-11-19T05:57:57.079569723\",\"updateYmdt\":\"2025-11-19T05:57:57.079613136\"\
-                    ,\"displayStatusType\":\"DISPLAY\",\"replyYmdt\":\"2025-11-19T05:57:57.079620483\"\
+                    :\"2026-04-15T07:42:09.119006177\",\"updateYmdt\":\"2026-04-15T07:42:09.119028345\"\
+                    ,\"displayStatusType\":\"DISPLAY\",\"replyYmdt\":\"2026-04-15T07:42:09.119034786\"\
                     ,\"isSecret\":true}]"
   /inquiry/replies:
     get:
@@ -1256,8 +1439,8 @@ paths:
                 get-inquiry-replies:
                   value: "[{\"inquiryNo\":533,\"parentInquiryNo\":10234991,\"productNo\"\
                     :111000,\"content\":\"문의 주신 내용에 대한 안내 드립니다.\",\"registerName\"\
-                    :\"memberName\",\"registerNo\":1,\"registerYmdt\":\"2025-11-19T05:57:57.528397576\"\
-                    ,\"updateYmdt\":\"2025-11-19T05:57:57.52842843\"}]"
+                    :\"memberName\",\"registerNo\":1,\"registerYmdt\":\"2026-04-15T07:42:09.608895954\"\
+                    ,\"updateYmdt\":\"2026-04-15T07:42:09.608923244\"}]"
   /inquiry/{inquiryNo}/display-status:
     put:
       tags:
@@ -1376,7 +1559,7 @@ paths:
         content:
           text/plain;charset=UTF-8:
             schema:
-              $ref: '#/components/schemas/banners1116014589'
+              $ref: '#/components/schemas/inquiry-inquiryNo-reply1116014589'
             examples:
               post-inquiry-reply:
                 value: '"상품문의 답변내용 request body 에 String 으로 입력"'
@@ -1486,9 +1669,9 @@ paths:
                     :1,\"partnerName\":\"파트너사\",\"register\":{\"memberNo\":32465,\"\
                     memberName\":\"회원 1\",\"memberType\":\"MALL\",\"memberId\":\"\
                     member123\",\"memberStatus\":\"ACTIVE\",\"nickname\":\"닉네임\"},\"\
-                    orderNo\":\"10023123\",\"registerDateTime\":\"2025-11-19T05:57:56.719561903\"\
+                    orderNo\":\"10023123\",\"registerDateTime\":\"2026-04-15T07:42:11.428298769\"\
                     ,\"blindReportCnt\":0,\"deleteYn\":\"N\",\"attachYn\":\"N\",\"\
-                    updateDateTime\":\"2025-11-19T05:57:56.719601413\",\"orderProductOptionNo\"\
+                    updateDateTime\":\"2026-04-15T07:42:11.428351206\",\"orderProductOptionNo\"\
                     :1111,\"masterYn\":\"Y\",\"platformType\":\"PC\",\"extraJson\"\
                     :\"\",\"providerType\":\"PAYCO\",\"content\":\"구매 후기 내용입니다.\"\
                     ,\"brandName\":\"나이키\",\"fileUrls\":[\"http://files.url\"],\"\
@@ -1544,7 +1727,7 @@ paths:
             examples:
               search-reviews:
                 value: "{\"searchType\":\"REVIEW_NO\",\"keyword\":\"\",\"dateSearchType\"\
-                  :\"REGISTER\",\"startYmd\":[2025,8,19],\"endYmd\":[2025,11,19],\"\
+                  :\"REGISTER\",\"startYmd\":[2026,1,15],\"endYmd\":[2026,4,15],\"\
                   member\":null,\"hasDeleted\":false,\"hasTotalCount\":false,\"searchAfter\"\
                   :null,\"page\":1,\"size\":30}"
       responses:
@@ -1567,8 +1750,8 @@ paths:
                     구매 후기 내용입니다.\",\"hasAttached\":false,\"register\":{\"memberNo\"\
                     :32465,\"memberName\":\"회원 1\",\"memberType\":\"MALL\",\"memberId\"\
                     :\"member123\",\"memberStatus\":\"ACTIVE\",\"nickname\":\"닉네임\"\
-                    },\"registerDateTime\":\"2025-11-19T05:57:55.608377124\",\"updateDateTime\"\
-                    :\"2025-11-19T05:57:55.608415483\",\"extraJson\":\"\",\"providerType\"\
+                    },\"registerDateTime\":\"2026-04-15T07:42:10.98763559\",\"updateDateTime\"\
+                    :\"2026-04-15T07:42:10.987651834\",\"extraJson\":\"\",\"providerType\"\
                     :\"PAYCO\",\"isDeleted\":false}],\"lastId\":\"2022-01-01 00:00:00,8\"\
                     }"
   /reviews/best-review:
@@ -1679,12 +1862,12 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/reviews-external-site459229422'
+              $ref: '#/components/schemas/reviews-external-site-1338271587'
             examples:
               create-reviews-external-site:
                 value: "[{\"productNo\":12345,\"originSiteName\":\"사이트명\",\"originProductDetailUrl\"\
                   :\"https://www.shopby.com/product/110599467\",\"originRegisterYmdt\"\
-                  :\"2025-11-19 05:57:57\",\"rating\":1,\"content\":\"내용입니다.\",\"\
+                  :\"2026-04-15 07:42:11\",\"rating\":1,\"content\":\"내용입니다.\",\"\
                   imageUrls\":[\"http://image.url/main-image.jpg\"],\"useNaverReviewCnt\"\
                   :false}]"
       responses:
@@ -1693,7 +1876,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/reviews-external-site1735089852'
+                $ref: '#/components/schemas/reviews-external-site-1052897047'
               examples:
                 create-reviews-external-site:
                   value: "{\"totalCount\":1,\"successNos\":[1000],\"failures\":[{\"\
@@ -1813,7 +1996,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/reviews-product-reviews-1599411844'
+                $ref: '#/components/schemas/reviews-product-reviews-835404475'
               examples:
                 update-reviews:
                   value: "{\"totalCount\":1,\"successNos\":[1000],\"failures\":[{\"\
@@ -1854,14 +2037,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/reviews-product-reviews1582951388'
+              $ref: '#/components/schemas/reviews-product-reviews-1296538423'
             examples:
               create-reviews:
                 value: "[{\"productNo\":100000001,\"optionNo\":1,\"orderOptionNo\"\
                   :1,\"rate\":5,\"urls\":[\"//shopby-images.cdn-nhncommerce.com/20210529/104125.475133000/17.jpg\"\
                   ,\"//shopby-images.cdn-nhncommerce.com/20210529/104125.475133000/11.jpg\"\
                   ],\"content\":\"상품 후기 입니다.\",\"registerNo\":123,\"registerYmdt\"\
-                  :\"2025-11-19 05:57:54\",\"reviewExternalId\":\"123\",\"useNaverReviewCnt\"\
+                  :\"2026-04-15 07:42:10\",\"reviewExternalId\":\"123\",\"useNaverReviewCnt\"\
                   :false}]"
       responses:
         "200":
@@ -1869,7 +2052,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/reviews-product-reviews-1195122115'
+                $ref: '#/components/schemas/reviews-product-reviews628947065'
               examples:
                 create-reviews:
                   value: "{\"totalCount\":1,\"successNos\":[1000],\"failures\":[{\"\
@@ -1926,7 +2109,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/reviews-product-reviews-758150172'
+                $ref: '#/components/schemas/reviews-product-reviews-1765281674'
               examples:
                 delete-reviews:
                   value: "{\"totalCount\":1,\"successNos\":[1000],\"failures\":[{\"\
@@ -2062,360 +2245,47 @@ paths:
                     ,\"usable\":true}],\"lastId\":\"\"}"
 components:
   schemas:
-    banners-2013013306:
+    categories-display-categories758995774:
       type: object
       properties:
-        bannerSectionId:
-          type: string
-          description: 배너 섹션 ID
-          example: 배너 섹션 아이디
-        bannerAccounts:
+        displayCategoryNo:
+          type: number
+          description: 생성된 전시카테고리 번호
+          example: 12345
+      description: ""
+    reviews-product-reviews628947065:
+      type: object
+      properties:
+        failures:
           type: array
-          description: ""
+          description: 등록 실패
+          example: "[com.ncp.display.application.review.model.ReviewCreateError@1018090e]"
           items:
             type: object
             properties:
-              accountWidth:
-                type: number
-                description: 구좌 너비
-                example: 100
-              accountName:
+              message:
                 type: string
-                description: 배너구좌
-                example: 구좌1
-              displayYn:
-                type: string
-                description: 구좌 노출 여부
-                example: "Y"
-              displayOrder:
+                description: 등록 실패 사유
+                example: message
+              optionNo:
                 type: number
-                description: 구좌 노출 순서
-                example: 0
-              memberGradeDisplayInfo:
-                type: object
-                properties:
-                  check:
-                    type: string
-                    description: 회원등급 노출 선택
-                    example: NONE
-                  info:
-                    type: array
-                    description: 회원그룹 노출 정보
-                    example: "[]"
-                    items:
-                      oneOf:
-                      - type: object
-                      - type: boolean
-                      - type: string
-                      - type: number
-                description: ""
-              memberGroupDisplayInfo:
-                type: object
-                properties:
-                  check:
-                    type: string
-                    description: 회원그룹 노출 선택
-                    example: NONE
-                  info:
-                    type: array
-                    description: 회원그룹 노출 정보
-                    example: "[]"
-                    items:
-                      oneOf:
-                      - type: object
-                      - type: boolean
-                      - type: string
-                      - type: number
-                description: ""
-              accountDisplayType:
-                type: string
-                description: 구좌 노출 방식
-                example: SEQUENTIAL
-              banners:
-                type: array
-                description: ""
-                items:
-                  type: object
-                  properties:
-                    bannerDisplayPeriod:
-                      type: object
-                      properties:
-                        periodType:
-                          type: string
-                          description: 몰 번호
-                          example: PERIOD
-                        displayPeriod:
-                          type: object
-                          properties:
-                            startYmdt:
-                              type: array
-                              description: 시작일
-                              example: 2025-11-19T05:57:51.580303487
-                              items:
-                                oneOf:
-                                - type: object
-                                - type: boolean
-                                - type: string
-                                - type: number
-                            endYmdt:
-                              type: array
-                              description: 종료일
-                              example: 2026-02-19T05:57:51.580333865
-                              items:
-                                oneOf:
-                                - type: object
-                                - type: boolean
-                                - type: string
-                                - type: number
-                          description: ""
-                      description: ""
-                    bannerNameColor:
-                      type: string
-                      description: 배너명 컬러코드
-                      example: 배너 색상
-                    displayOrder:
-                      type: number
-                      description: 배너 노출 순서
-                      example: 1
-                    bannerName:
-                      type: string
-                      description: 배너명
-                      example: 배너명
-                    bannerImageName:
-                      type: string
-                      description: 이미지 원본 파일명
-                      example: 35766407.jpg
-                    rightImageSpaceColor:
-                      type: string
-                      description: 우측 여백 컬러코드
-                      example: '#ffffff'
-                    bannerMouseOverImageName:
-                      type: string
-                      description: 이미지 원본 파일명
-                      example: 35766407.jpg
-                    videoUrl:
-                      type: string
-                      description: 동영상 URL
-                      example: http://videoUrl.com
-                    displayYn:
-                      type: string
-                      description: 배너 노출 여부
-                      example: "Y"
-                    landingUrlValue:
-                      type: object
-                      properties:
-                        landingUrlType:
-                          type: string
-                          description: 랜딩 URL 타입
-                          example: EVENT
-                        landingUrl:
-                          type: string
-                          description: 랜딩 URL
-                          example: "1"
-                        bannerOpenLocationType:
-                          type: string
-                          description: 랜딩 URL 창 설정
-                          example: CURRENT
-                      description: ""
-                    bannerImageUrl:
-                      type: string
-                      description: 이미지 URL 주소
-                      example: //shopby-images.cdn-nhncommerce.com/SERVICE/banner/35766407.jpg
-                    bannerDescriptionColor:
-                      type: string
-                      description: 배너설명 컬러코드
-                      example: 배너 색상에 대한 설명을 적어주세요.
-                    leftImageSpaceColor:
-                      type: string
-                      description: 좌측 여백 컬러코드
-                      example: '#ffffff'
-                    bannerMouseOverImageUrl:
-                      type: string
-                      description: 이미지 URL 주소
-                      example: //shopby-images.cdn-nhncommerce.com/SERVICE/banner/35766407.jpg
-                    bannerDescription:
-                      type: string
-                      description: 배너설명
-                      example: 배너에 대한 설명을 적어주세요.
-                    extraInfo:
-                      type: string
-                      description: 추가 정보
-                      example: "null"
-              platformDisplay:
-                type: object
-                properties:
-                  displayMobileYn:
-                    type: string
-                    description: 모바일 노출 여부
-                    example: "Y"
-                  displayPcYn:
-                    type: string
-                    description: PC 노출 여부
-                    example: "Y"
-                  displayMobileWebYn:
-                    type: string
-                    description: 모바일 웹 노출 여부
-                    example: "Y"
-                description: ""
-              accountHeight:
-                type: number
-                description: 구좌 높이
-                example: 200
-        bannerSectionName:
-          type: string
-          description: 배너 섹션명
-          example: 배너 섹션 이름
-        memberGradeDisplayInfo:
-          type: object
-          properties:
-            check:
-              type: string
-              description: 회원등급 노출 선택
-              example: NONE
-            info:
-              type: array
-              description: 회원등급 노출 정보
-              example: "[]"
-              items:
-                oneOf:
-                - type: object
-                - type: boolean
-                - type: string
-                - type: number
-          description: ""
-        memberGroupDisplayInfo:
-          type: object
-          properties:
-            check:
-              type: string
-              description: 회원그룹 노출 선택
-              example: NONE
-            info:
-              type: array
-              description: 회원그룹 노출 정보
-              example: "[]"
-              items:
-                oneOf:
-                - type: object
-                - type: boolean
-                - type: string
-                - type: number
-          description: ""
-        platformDisplay:
-          type: object
-          properties:
-            displayMobileYn:
-              type: string
-              description: 모바일 노출 여부
-              example: "Y"
-            displayPcYn:
-              type: string
-              description: PC 노출 여부
-              example: "Y"
-            displayMobileWebYn:
-              type: string
-              description: 모바일 웹 노출 여부
-              example: "Y"
-          description: ""
-        groupNo:
+                description: 등록 실패 상품 옵션 번호
+                example: 100000
+        successNos:
+          type: array
+          description: 생성된 리뷰 번호
+          example: "[1000]"
+          items:
+            oneOf:
+            - type: object
+            - type: boolean
+            - type: string
+            - type: number
+        totalCount:
           type: number
-          description: 배너그룹 번호
+          description: 요청 개수
           example: 1
       description: ""
-    reviews-product-reviews756382224:
-      type: array
-      description: ""
-      items:
-        type: object
-        properties:
-          urls:
-            type: array
-            description: 첨부파일 url 리스트
-            example: "[//shopby-images.cdn-nhncommerce.com/20210529/104125.475133000/17.jpg,\
-              \ //shopby-images.cdn-nhncommerce.com/20210529/104125.475133000/11.jpg]"
-            items:
-              oneOf:
-              - type: object
-              - type: boolean
-              - type: string
-              - type: number
-          rate:
-            type: number
-            description: 상품평 평점
-            example: 5
-          reviewNo:
-            type: number
-            description: 리뷰 번호
-            example: 5
-          reviewExternalId:
-            type: string
-            description: 외부 리뷰 번호
-            example: "123"
-          content:
-            type: string
-            description: 상품평 내용
-            example: 상품 후기 입니다.
-          productNo:
-            type: number
-            description: 상품 번호
-            example: 5
-          registerNo:
-            type: number
-            description: 작성자 번호
-            example: 123
-    reviews-product-reviews1582951388:
-      type: array
-      description: ""
-      items:
-        type: object
-        properties:
-          useNaverReviewCnt:
-            type: boolean
-            description: "네이버 리뷰 카운팅 사용 여부 (default: false)"
-            example: false
-          urls:
-            type: array
-            description: 첨부파일 url 리스트
-            example: "[//shopby-images.cdn-nhncommerce.com/20210529/104125.475133000/17.jpg,\
-              \ //shopby-images.cdn-nhncommerce.com/20210529/104125.475133000/11.jpg]"
-            items:
-              oneOf:
-              - type: object
-              - type: boolean
-              - type: string
-              - type: number
-          rate:
-            type: number
-            description: 상품평 평점
-            example: 5
-          reviewExternalId:
-            type: string
-            description: 외부 리뷰 번호
-            example: "123"
-          optionNo:
-            type: number
-            description: 상품 옵션 번호
-            example: 1
-          orderOptionNo:
-            type: number
-            description: 주문 옵션 번호
-            example: 1
-          content:
-            type: string
-            description: 상품평 내용
-            example: 상품 후기 입니다.
-          productNo:
-            type: number
-            description: 상품 번호
-            example: 100000001
-          registerYmdt:
-            type: string
-            description: 등록 날짜
-            example: 2025-11-19 05:57:54
-          registerNo:
-            type: number
-            description: 작성자 번호
-            example: 123
     events-eventNo-907293138:
       type: object
       properties:
@@ -2726,262 +2596,144 @@ components:
           type: string
           description: PC 대표 이미지 (nullable)^|https://shopby-images.cdn-nhncommerce.com/SERVICE/20190527/c393484292d4130e99bdce6e2e5566c9(1).jpg
       description: ""
-    banners1422939799:
+    reviews-product-reviews756382224:
       type: array
       description: ""
       items:
         type: object
         properties:
-          platformDisplayPcYn:
-            type: string
-            description: "플랫폼별 노출 설정(PC), (예: Y, 아니요: N)"
-            example: "false"
-          code:
-            type: string
-            description: 배너 코드
-            example: "001"
-          platformDisplayMobileWebYn:
-            type: string
-            description: "플랫폼별 노출 설정(모바일웹), (예: Y, 아니요: N)"
-            example: "false"
-          memberGradeDisplayInfo:
-            type: object
-            properties:
-              check:
-                type: string
-                description: 회원등급(설정안함/부분설정/전체)
-                example: NONE
-              info:
-                type: array
-                description: 회원등급 노출 설정
-                example: ""
-                items:
-                  oneOf:
-                  - type: object
-                  - type: boolean
-                  - type: string
-                  - type: number
-            description: ""
-          accounts:
+          urls:
             type: array
-            description: ""
+            description: 첨부파일 url 리스트
+            example: "[//shopby-images.cdn-nhncommerce.com/20210529/104125.475133000/17.jpg,\
+              \ //shopby-images.cdn-nhncommerce.com/20210529/104125.475133000/11.jpg]"
             items:
-              type: object
-              properties:
-                platformDisplayPcYn:
-                  type: string
-                  description: "플랫폼별 노출 설정(PC), (예: Y, 아니요: N)"
-                  example: "false"
-                accountName:
-                  type: string
-                  description: 배너 구좌명
-                  example: 구좌명
-                platformDisplayMobileWebYn:
-                  type: string
-                  description: "플랫폼별 노출 설정(모바일웹), (예: Y, 아니요: N)"
-                  example: "false"
-                displayOrder:
-                  type: number
-                  description: 구좌 노출 순서
-                  example: 1
-                memberGroupDisplayInfo:
-                  type: object
-                  properties:
-                    check:
-                      type: string
-                      description: 회원그룹(설정안함/부분설정/전체)
-                      example: NONE
-                    info:
-                      type: array
-                      description: 회원그룹 노출 설정
-                      example: ""
-                      items:
-                        oneOf:
-                        - type: object
-                        - type: boolean
-                        - type: string
-                        - type: number
-                  description: ""
-                banners:
-                  type: array
-                  description: ""
-                  items:
-                    type: object
-                    properties:
-                      leftSpaceColor:
-                        type: string
-                        description: 배너 이미지 - 왼쪽 여백 색상
-                        example: '#FFFFFF'
-                      displayStartYmdt:
-                        type: string
-                        description: 배너 전시 시작일
-                        example: 2025-11-12 05:57:53
-                      imageName:
-                        type: string
-                        description: 배너 이미지명
-                        example: image.png
-                      nameColor:
-                        type: string
-                        description: 배너명 색상
-                        example: '#000000'
-                      landingUrlType:
-                        type: string
-                        description: 배너 랜딩 URl 타입
-                        example: IMAGE_MAP
-                        enum:
-                        - "GENERAL: 일반"
-                        - "IMAGE_MAP: 이미지맵"
-                        - "EVENT: 기획전"
-                      displayOrder:
-                        type: number
-                        description: 배너 전시 순서
-                        example: 3
-                      description:
-                        type: string
-                        description: 배너 설명
-                        example: 배너 이미지 설명
-                      descriptionColor:
-                        type: string
-                        description: 배너 설명 색상
-                        example: '#000000'
-                      displayPeriodType:
-                        type: string
-                        description: 배너 전시 기간 타입
-                        example: REGULAR
-                        enum:
-                        - "REGULAR: 상시"
-                        - "PERIOD: 기간설정"
-                      bannerNo:
-                        type: number
-                        description: 배너 번호
-                        example: 4123
-                      browerTargetType:
-                        type: string
-                        description: 배너 랜딩 페이지 브라우저 타겟
-                        example: CURRENT
-                        enum:
-                        - "CURRENT: 현재창"
-                        - "NEW: 새창"
-                        - "REF_URL: 새창"
-                      rightSpaceColor:
-                        type: string
-                        description: 배너 이미지 - 오른쪽 여백 색상
-                        example: '#FFFFFF'
-                      videoUrl:
-                        type: string
-                        description: 동영상 URL
-                        example: http://ncp-video-url.com
-                      displayYn:
-                        type: string
-                        description: 배너 노출 여부 (nullable)
-                        example: "N"
-                      mouseOverImageUrl:
-                        type: string
-                        description: 마우스 오버 이미지 URL
-                        example: http://image.toast.com/abcd/mouse_over.png
-                      imageUrl:
-                        type: string
-                        description: 배너 이미지 URL
-                        example: http://image.toast.com/abcd/image.png
-                      name:
-                        type: string
-                        description: 배너명
-                        example: '#000000'
-                      mouseOverImageName:
-                        type: string
-                        description: 마우스 오버 이미지명
-                        example: mouse_over.png
-                      landingUrl:
-                        type: string
-                        description: 배너 랜딩 URL
-                        example: http://newsection.com
-                      displayEndYmdt:
-                        type: string
-                        description: 배너 전시 종료일
-                        example: 2025-11-19 05:57:53
-                platformDisplayMobileYn:
-                  type: string
-                  description: "플랫폼별 노출 설정(모바일앱), (예: Y, 아니요: N)"
-                  example: "false"
-                displayType:
-                  type: string
-                  description: 구좌 노출 방식
-                  example: SEQUENTIAL
-                  enum:
-                  - "SEQUENTIAL: 순차"
-                  - "RANDOM: 랜덤"
-                displayYn:
-                  type: string
-                  description: 구좌 노출 여부
-                  example: "N"
-                accountNo:
-                  type: number
-                  description: 배너 구좌 번호
-                  example: 1
-                width:
-                  type: number
-                  description: 구좌 넓이
-                  example: 200
-                memberGradeDisplayInfo:
-                  type: object
-                  properties:
-                    check:
-                      type: string
-                      description: 회원등급(설정안함/부분설정/전체)
-                      example: NONE
-                    info:
-                      type: array
-                      description: 회원등급 노출 설정
-                      example: ""
-                      items:
-                        oneOf:
-                        - type: object
-                        - type: boolean
-                        - type: string
-                        - type: number
-                  description: ""
-                height:
-                  type: number
-                  description: 구좌 높이
-                  example: 300
-          id:
-            type: string
-            description: 배너 ID
-            example: "001"
-          label:
-            type: string
-            description: 배너 라벨명
-            example: 배너 라벨명
-          memberGroupDisplayInfo:
-            type: object
-            properties:
-              check:
-                type: string
-                description: 회원그룹(설정안함/부분설정/전체)
-                example: NONE
-              info:
-                type: array
-                description: 회원그룹 노출 설정
-                example: ""
-                items:
-                  oneOf:
-                  - type: object
-                  - type: boolean
-                  - type: string
-                  - type: number
-            description: ""
-          bannerSectionNo:
+              oneOf:
+              - type: object
+              - type: boolean
+              - type: string
+              - type: number
+          rate:
             type: number
-            description: 배너 섹션 번호
-            example: 1
-          groupNo:
+            description: 상품평 평점
+            example: 5
+          reviewNo:
             type: number
-            description: 배너 그룹 번호
-            example: 1
-          platformDisplayMobileYn:
+            description: 리뷰 번호
+            example: 5
+          reviewExternalId:
             type: string
-            description: "플랫폼별 노출 설정(모바일앱), (예: Y, 아니요: N)"
-            example: "false"
+            description: 외부 리뷰 번호
+            example: "123"
+          content:
+            type: string
+            description: 상품평 내용
+            example: 상품 후기 입니다.
+          productNo:
+            type: number
+            description: 상품 번호
+            example: 5
+          registerNo:
+            type: number
+            description: 작성자 번호
+            example: 123
+    inquiry1172738976:
+      type: array
+      description: ""
+      items:
+        type: object
+        properties:
+          brandName:
+            type: string
+            description: 브랜드명
+            example: TEST_BRAND
+          orderNo:
+            type: string
+            description: 주문번호
+            example: "123456789"
+          replied:
+            type: boolean
+            description: 답변 여부
+            example: false
+          partnerName:
+            type: string
+            description: 파트너 명
+            example: 파트너명
+          replyYmdt:
+            type: string
+            description: 답변 날짜
+            example: 2026-04-15T07:42:09.119034786
+          nickName:
+            type: string
+            description: 닉네임
+            example: nickName
+          memberName:
+            type: string
+            description: 등록 사용자 이름
+            example: memberName
+          type:
+            type: string
+            description: 문의 유형
+            example: PRODUCT
+            enum:
+            - "PRODUCT: 상품"
+            - "DELIVERY: 배송"
+            - "CANCEL: 취소"
+            - "RETURN: 반품"
+            - "EXCHANGE: 교환"
+            - "REFUND: 환불"
+            - "OTHER: 기타"
+          title:
+            type: string
+            description: 상품문의 제목(선택)
+            example: INQUIRY TITLE
+          productName:
+            type: string
+            description: 상품명
+            example: TEST_PRODUCT
+          content:
+            type: string
+            description: 상품문의 내용
+            example: 상품문의 내용
+          memberNo:
+            type: number
+            description: 등록 상요자 번호
+            example: 1111
+          partnerNo:
+            type: number
+            description: 파트너 번호
+            example: 111
+          isSecret:
+            type: boolean
+            description: 비밀글 여부
+            example: true
+          updateYmdt:
+            type: string
+            description: 최종 수정일
+            example: YYYY-MM-DD HH:mm:ss
+          displayStatusType:
+            type: string
+            description: 전시 상태
+            example: DISPLAY
+            enum:
+            - "DISPLAY: 전시중"
+            - "BLIND: 전시안함"
+          productNo:
+            type: number
+            description: 상품번호
+            example: 200001234
+          registerYmdt:
+            type: string
+            description: 최초 등록일
+            example: YYYY-MM-DD HH:mm:ss
+          memberId:
+            type: string
+            description: 등록 사용자 아이디
+            example: memberId
+          inquiryNo:
+            type: number
+            description: 상품문의 번호
+            example: 533
     reviews-best-review1374636712:
       type: object
       properties:
@@ -3003,7 +2755,7 @@ components:
             - type: string
             - type: number
       description: ""
-    banners-bannerNo699195744:
+    banners-bannerNo803285355:
       type: object
       properties:
         bannerSectionId:
@@ -3095,7 +2847,7 @@ components:
                             startYmdt:
                               type: array
                               description: 시작일
-                              example: 2025-11-19T05:57:52.790095214
+                              example: 2026-04-15T07:42:06.040247813
                               items:
                                 oneOf:
                                 - type: object
@@ -3105,7 +2857,7 @@ components:
                             endYmdt:
                               type: array
                               description: 종료일
-                              example: 2026-02-19T05:57:52.790116972
+                              example: 2026-07-15T07:42:06.040271986
                               items:
                                 oneOf:
                                 - type: object
@@ -3506,46 +3258,13 @@ components:
             type: number
             description: 배너 번호
             example: 1
-    reviews-product-reviews-1599411844:
-      type: object
-      properties:
-        failures:
-          type: array
-          description: 수정 실패
-          example: "[com.ncp.display.application.review.model.ReviewUpdateError@44423240]"
-          items:
-            type: object
-            properties:
-              reviewNo:
-                type: number
-                description: 수정 실패 리뷰 번호
-                example: 100000
-              message:
-                type: string
-                description: 수정 실패 사유
-                example: message
-        successNos:
-          type: array
-          description: 수정된 리뷰 번호
-          example: "[1000]"
-          items:
-            oneOf:
-            - type: object
-            - type: boolean
-            - type: string
-            - type: number
-        totalCount:
-          type: number
-          description: 요청 개수
-          example: 1
-      description: ""
-    reviews-external-site1735089852:
+    reviews-external-site-1052897047:
       type: object
       properties:
         failures:
           type: array
           description: 등록 실패
-          example: "[com.ncp.display.application.review.model.ExternalSiteReviewCreateError@3b4004cd]"
+          example: "[com.ncp.display.application.review.model.ExternalSiteReviewCreateError@26e0fbc9]"
           items:
             type: object
             properties:
@@ -3735,6 +3454,262 @@ components:
             type: number
             description: 3depth 카테고리 전시순서
             example: 1
+    banners2073301320:
+      type: array
+      description: ""
+      items:
+        type: object
+        properties:
+          platformDisplayPcYn:
+            type: string
+            description: "플랫폼별 노출 설정(PC), (예: Y, 아니요: N)"
+            example: "false"
+          code:
+            type: string
+            description: 배너 코드
+            example: "001"
+          platformDisplayMobileWebYn:
+            type: string
+            description: "플랫폼별 노출 설정(모바일웹), (예: Y, 아니요: N)"
+            example: "false"
+          memberGradeDisplayInfo:
+            type: object
+            properties:
+              check:
+                type: string
+                description: 회원등급(설정안함/부분설정/전체)
+                example: NONE
+              info:
+                type: array
+                description: 회원등급 노출 설정
+                example: ""
+                items:
+                  oneOf:
+                  - type: object
+                  - type: boolean
+                  - type: string
+                  - type: number
+            description: ""
+          accounts:
+            type: array
+            description: ""
+            items:
+              type: object
+              properties:
+                platformDisplayPcYn:
+                  type: string
+                  description: "플랫폼별 노출 설정(PC), (예: Y, 아니요: N)"
+                  example: "false"
+                accountName:
+                  type: string
+                  description: 배너 구좌명
+                  example: 구좌명
+                platformDisplayMobileWebYn:
+                  type: string
+                  description: "플랫폼별 노출 설정(모바일웹), (예: Y, 아니요: N)"
+                  example: "false"
+                displayOrder:
+                  type: number
+                  description: 구좌 노출 순서
+                  example: 1
+                memberGroupDisplayInfo:
+                  type: object
+                  properties:
+                    check:
+                      type: string
+                      description: 회원그룹(설정안함/부분설정/전체)
+                      example: NONE
+                    info:
+                      type: array
+                      description: 회원그룹 노출 설정
+                      example: ""
+                      items:
+                        oneOf:
+                        - type: object
+                        - type: boolean
+                        - type: string
+                        - type: number
+                  description: ""
+                banners:
+                  type: array
+                  description: ""
+                  items:
+                    type: object
+                    properties:
+                      leftSpaceColor:
+                        type: string
+                        description: 배너 이미지 - 왼쪽 여백 색상
+                        example: '#FFFFFF'
+                      displayStartYmdt:
+                        type: string
+                        description: 배너 전시 시작일
+                        example: 2026-04-08 07:42:07
+                      imageName:
+                        type: string
+                        description: 배너 이미지명
+                        example: image.png
+                      nameColor:
+                        type: string
+                        description: 배너명 색상
+                        example: '#000000'
+                      landingUrlType:
+                        type: string
+                        description: 배너 랜딩 URl 타입
+                        example: IMAGE_MAP
+                        enum:
+                        - "GENERAL: 일반"
+                        - "IMAGE_MAP: 이미지맵"
+                        - "EVENT: 기획전"
+                      displayOrder:
+                        type: number
+                        description: 배너 전시 순서
+                        example: 3
+                      description:
+                        type: string
+                        description: 배너 설명
+                        example: 배너 이미지 설명
+                      descriptionColor:
+                        type: string
+                        description: 배너 설명 색상
+                        example: '#000000'
+                      displayPeriodType:
+                        type: string
+                        description: 배너 전시 기간 타입
+                        example: REGULAR
+                        enum:
+                        - "REGULAR: 상시"
+                        - "PERIOD: 기간설정"
+                      bannerNo:
+                        type: number
+                        description: 배너 번호
+                        example: 4123
+                      browerTargetType:
+                        type: string
+                        description: 배너 랜딩 페이지 브라우저 타겟
+                        example: CURRENT
+                        enum:
+                        - "CURRENT: 현재창"
+                        - "NEW: 새창"
+                        - "REF_URL: 새창"
+                      rightSpaceColor:
+                        type: string
+                        description: 배너 이미지 - 오른쪽 여백 색상
+                        example: '#FFFFFF'
+                      videoUrl:
+                        type: string
+                        description: 동영상 URL
+                        example: http://ncp-video-url.com
+                      displayYn:
+                        type: string
+                        description: 배너 노출 여부 (nullable)
+                        example: "N"
+                      mouseOverImageUrl:
+                        type: string
+                        description: 마우스 오버 이미지 URL
+                        example: http://image.toast.com/abcd/mouse_over.png
+                      imageUrl:
+                        type: string
+                        description: 배너 이미지 URL
+                        example: http://image.toast.com/abcd/image.png
+                      name:
+                        type: string
+                        description: 배너명
+                        example: '#000000'
+                      mouseOverImageName:
+                        type: string
+                        description: 마우스 오버 이미지명
+                        example: mouse_over.png
+                      landingUrl:
+                        type: string
+                        description: 배너 랜딩 URL
+                        example: http://newsection.com
+                      displayEndYmdt:
+                        type: string
+                        description: 배너 전시 종료일
+                        example: 2026-04-15 07:42:07
+                platformDisplayMobileYn:
+                  type: string
+                  description: "플랫폼별 노출 설정(모바일앱), (예: Y, 아니요: N)"
+                  example: "false"
+                displayType:
+                  type: string
+                  description: 구좌 노출 방식
+                  example: SEQUENTIAL
+                  enum:
+                  - "SEQUENTIAL: 순차"
+                  - "RANDOM: 랜덤"
+                displayYn:
+                  type: string
+                  description: 구좌 노출 여부
+                  example: "N"
+                accountNo:
+                  type: number
+                  description: 배너 구좌 번호
+                  example: 1
+                width:
+                  type: number
+                  description: 구좌 넓이
+                  example: 200
+                memberGradeDisplayInfo:
+                  type: object
+                  properties:
+                    check:
+                      type: string
+                      description: 회원등급(설정안함/부분설정/전체)
+                      example: NONE
+                    info:
+                      type: array
+                      description: 회원등급 노출 설정
+                      example: ""
+                      items:
+                        oneOf:
+                        - type: object
+                        - type: boolean
+                        - type: string
+                        - type: number
+                  description: ""
+                height:
+                  type: number
+                  description: 구좌 높이
+                  example: 300
+          id:
+            type: string
+            description: 배너 ID
+            example: "001"
+          label:
+            type: string
+            description: 배너 라벨명
+            example: 배너 라벨명
+          memberGroupDisplayInfo:
+            type: object
+            properties:
+              check:
+                type: string
+                description: 회원그룹(설정안함/부분설정/전체)
+                example: NONE
+              info:
+                type: array
+                description: 회원그룹 노출 설정
+                example: ""
+                items:
+                  oneOf:
+                  - type: object
+                  - type: boolean
+                  - type: string
+                  - type: number
+            description: ""
+          bannerSectionNo:
+            type: number
+            description: 배너 섹션 번호
+            example: 1
+          groupNo:
+            type: number
+            description: 배너 그룹 번호
+            example: 1
+          platformDisplayMobileYn:
+            type: string
+            description: "플랫폼별 노출 설정(모바일앱), (예: Y, 아니요: N)"
+            example: "false"
     stickers-1355996430:
       type: object
       properties:
@@ -3769,103 +3744,266 @@ components:
           description: 전체 스티커 수
           example: 100
       description: ""
-    inquiry-1390155908:
-      type: array
+    banners2120124801:
+      type: object
+      properties:
+        bannerSectionId:
+          type: string
+          description: 배너 섹션 ID
+          example: 배너 섹션 아이디
+        bannerAccounts:
+          type: array
+          description: ""
+          items:
+            type: object
+            properties:
+              accountWidth:
+                type: number
+                description: 구좌 너비
+                example: 100
+              accountName:
+                type: string
+                description: 배너구좌
+                example: 구좌1
+              displayYn:
+                type: string
+                description: 구좌 노출 여부
+                example: "Y"
+              displayOrder:
+                type: number
+                description: 구좌 노출 순서
+                example: 0
+              memberGradeDisplayInfo:
+                type: object
+                properties:
+                  check:
+                    type: string
+                    description: 회원등급 노출 선택
+                    example: NONE
+                  info:
+                    type: array
+                    description: 회원그룹 노출 정보
+                    example: "[]"
+                    items:
+                      oneOf:
+                      - type: object
+                      - type: boolean
+                      - type: string
+                      - type: number
+                description: ""
+              memberGroupDisplayInfo:
+                type: object
+                properties:
+                  check:
+                    type: string
+                    description: 회원그룹 노출 선택
+                    example: NONE
+                  info:
+                    type: array
+                    description: 회원그룹 노출 정보
+                    example: "[]"
+                    items:
+                      oneOf:
+                      - type: object
+                      - type: boolean
+                      - type: string
+                      - type: number
+                description: ""
+              accountDisplayType:
+                type: string
+                description: 구좌 노출 방식
+                example: SEQUENTIAL
+              banners:
+                type: array
+                description: ""
+                items:
+                  type: object
+                  properties:
+                    bannerDisplayPeriod:
+                      type: object
+                      properties:
+                        periodType:
+                          type: string
+                          description: 몰 번호
+                          example: PERIOD
+                        displayPeriod:
+                          type: object
+                          properties:
+                            startYmdt:
+                              type: array
+                              description: 시작일
+                              example: 2026-04-15T07:42:03.724346875
+                              items:
+                                oneOf:
+                                - type: object
+                                - type: boolean
+                                - type: string
+                                - type: number
+                            endYmdt:
+                              type: array
+                              description: 종료일
+                              example: 2026-07-15T07:42:03.724373484
+                              items:
+                                oneOf:
+                                - type: object
+                                - type: boolean
+                                - type: string
+                                - type: number
+                          description: ""
+                      description: ""
+                    bannerNameColor:
+                      type: string
+                      description: 배너명 컬러코드
+                      example: 배너 색상
+                    displayOrder:
+                      type: number
+                      description: 배너 노출 순서
+                      example: 1
+                    bannerName:
+                      type: string
+                      description: 배너명
+                      example: 배너명
+                    bannerImageName:
+                      type: string
+                      description: 이미지 원본 파일명
+                      example: 35766407.jpg
+                    rightImageSpaceColor:
+                      type: string
+                      description: 우측 여백 컬러코드
+                      example: '#ffffff'
+                    bannerMouseOverImageName:
+                      type: string
+                      description: 이미지 원본 파일명
+                      example: 35766407.jpg
+                    videoUrl:
+                      type: string
+                      description: 동영상 URL
+                      example: http://videoUrl.com
+                    displayYn:
+                      type: string
+                      description: 배너 노출 여부
+                      example: "Y"
+                    landingUrlValue:
+                      type: object
+                      properties:
+                        landingUrlType:
+                          type: string
+                          description: 랜딩 URL 타입
+                          example: EVENT
+                        landingUrl:
+                          type: string
+                          description: 랜딩 URL
+                          example: "1"
+                        bannerOpenLocationType:
+                          type: string
+                          description: 랜딩 URL 창 설정
+                          example: CURRENT
+                      description: ""
+                    bannerImageUrl:
+                      type: string
+                      description: 이미지 URL 주소
+                      example: //shopby-images.cdn-nhncommerce.com/SERVICE/banner/35766407.jpg
+                    bannerDescriptionColor:
+                      type: string
+                      description: 배너설명 컬러코드
+                      example: 배너 색상에 대한 설명을 적어주세요.
+                    leftImageSpaceColor:
+                      type: string
+                      description: 좌측 여백 컬러코드
+                      example: '#ffffff'
+                    bannerMouseOverImageUrl:
+                      type: string
+                      description: 이미지 URL 주소
+                      example: //shopby-images.cdn-nhncommerce.com/SERVICE/banner/35766407.jpg
+                    bannerDescription:
+                      type: string
+                      description: 배너설명
+                      example: 배너에 대한 설명을 적어주세요.
+                    extraInfo:
+                      type: string
+                      description: 추가 정보
+                      example: "null"
+              platformDisplay:
+                type: object
+                properties:
+                  displayMobileYn:
+                    type: string
+                    description: 모바일 노출 여부
+                    example: "Y"
+                  displayPcYn:
+                    type: string
+                    description: PC 노출 여부
+                    example: "Y"
+                  displayMobileWebYn:
+                    type: string
+                    description: 모바일 웹 노출 여부
+                    example: "Y"
+                description: ""
+              accountHeight:
+                type: number
+                description: 구좌 높이
+                example: 200
+        bannerSectionName:
+          type: string
+          description: 배너 섹션명
+          example: 배너 섹션 이름
+        memberGradeDisplayInfo:
+          type: object
+          properties:
+            check:
+              type: string
+              description: 회원등급 노출 선택
+              example: NONE
+            info:
+              type: array
+              description: 회원등급 노출 정보
+              example: "[]"
+              items:
+                oneOf:
+                - type: object
+                - type: boolean
+                - type: string
+                - type: number
+          description: ""
+        memberGroupDisplayInfo:
+          type: object
+          properties:
+            check:
+              type: string
+              description: 회원그룹 노출 선택
+              example: NONE
+            info:
+              type: array
+              description: 회원그룹 노출 정보
+              example: "[]"
+              items:
+                oneOf:
+                - type: object
+                - type: boolean
+                - type: string
+                - type: number
+          description: ""
+        platformDisplay:
+          type: object
+          properties:
+            displayMobileYn:
+              type: string
+              description: 모바일 노출 여부
+              example: "Y"
+            displayPcYn:
+              type: string
+              description: PC 노출 여부
+              example: "Y"
+            displayMobileWebYn:
+              type: string
+              description: 모바일 웹 노출 여부
+              example: "Y"
+          description: ""
+        groupNo:
+          type: number
+          description: 배너그룹 번호
+          example: 1
       description: ""
-      items:
-        type: object
-        properties:
-          brandName:
-            type: string
-            description: 브랜드명
-            example: TEST_BRAND
-          orderNo:
-            type: string
-            description: 주문번호
-            example: "123456789"
-          replied:
-            type: boolean
-            description: 답변 여부
-            example: false
-          partnerName:
-            type: string
-            description: 파트너 명
-            example: 파트너명
-          replyYmdt:
-            type: string
-            description: 답변 날짜
-            example: 2025-11-19T05:57:57.079620483
-          nickName:
-            type: string
-            description: 닉네임
-            example: nickName
-          memberName:
-            type: string
-            description: 등록 사용자 이름
-            example: memberName
-          type:
-            type: string
-            description: 문의 유형
-            example: PRODUCT
-            enum:
-            - "PRODUCT: 상품"
-            - "DELIVERY: 배송"
-            - "CANCEL: 취소"
-            - "RETURN: 반품"
-            - "EXCHANGE: 교환"
-            - "REFUND: 환불"
-            - "OTHER: 기타"
-          title:
-            type: string
-            description: 상품문의 제목(선택)
-            example: INQUIRY TITLE
-          productName:
-            type: string
-            description: 상품명
-            example: TEST_PRODUCT
-          content:
-            type: string
-            description: 상품문의 내용
-            example: 상품문의 내용
-          memberNo:
-            type: number
-            description: 등록 상요자 번호
-            example: 1111
-          partnerNo:
-            type: number
-            description: 파트너 번호
-            example: 111
-          isSecret:
-            type: boolean
-            description: 비밀글 여부
-            example: true
-          updateYmdt:
-            type: string
-            description: 최종 수정일
-            example: YYYY-MM-DD HH:mm:ss
-          displayStatusType:
-            type: string
-            description: 전시 상태
-            example: DISPLAY
-            enum:
-            - "DISPLAY: 전시중"
-            - "BLIND: 전시안함"
-          productNo:
-            type: number
-            description: 상품번호
-            example: 200001234
-          registerYmdt:
-            type: string
-            description: 최초 등록일
-            example: YYYY-MM-DD HH:mm:ss
-          memberId:
-            type: string
-            description: 등록 사용자 아이디
-            example: memberId
-          inquiryNo:
-            type: number
-            description: 상품문의 번호
-            example: 533
     categories-1596124036:
       type: array
       description: ""
@@ -3948,6 +4086,77 @@ components:
             type: string
             description: 4depth 카테고리 명
             example: 니트
+    categories-display-categories-displayCategoryNo-377948581:
+      type: object
+      properties:
+        displayCategoryManagementCode:
+          type: string
+          description: "관리코드 (최대 45자, 몰 내 유니크) (nullable)"
+          example: CATEGORY-002
+        displayYn:
+          type: string
+          description: 전시 여부 (nullable)
+          example: "N"
+          enum:
+          - "Y: 예"
+          - "N: 아니요"
+        topImageContent:
+          type: string
+          description: 상단 이미지 내용 (nullable)
+          example: 수정된 상단 이미지
+        displayCategoryName:
+          type: string
+          description: 전시카테고리 명 (최대 50자) (nullable)
+          example: 수정된카테고리
+        icon:
+          type: string
+          description: 아이콘 URL (최대 500자) (nullable)
+          example: //image.toast.com/new-icon.png
+      description: ""
+    reviews-external-site-1338271587:
+      type: array
+      description: ""
+      items:
+        type: object
+        properties:
+          useNaverReviewCnt:
+            type: boolean
+            description: "네이버 리뷰 카운팅 사용 여부 (default: false)"
+            example: false
+          originRegisterYmdt:
+            type: string
+            description: 외부 사이트에서 작성된 리뷰 날짜
+            example: 2026-04-15 07:42:11
+          imageUrls:
+            type: array
+            description: 상품평 첨부파일
+            example: "[http://image.url/main-image.jpg]"
+            items:
+              oneOf:
+              - type: object
+              - type: boolean
+              - type: string
+              - type: number
+          rating:
+            type: number
+            description: 평점
+            example: 1
+          originSiteName:
+            type: string
+            description: 외부 사이트 명
+            example: 사이트명
+          originProductDetailUrl:
+            type: string
+            description: 외부 상품 상세 url
+            example: https://www.shopby.com/product/110599467
+          content:
+            type: string
+            description: 상품평 내용
+            example: 내용입니다.
+          productNo:
+            type: number
+            description: 상품 번호
+            example: 12345
     events1968241914:
       type: object
       properties:
@@ -4074,13 +4283,88 @@ components:
             type: number
             description: 답변 문의 번호
             example: 533
-    reviews-product-reviews-758150172:
+    reviews-status1927414927:
+      type: object
+      properties:
+        reviewNos:
+          type: array
+          description: "상품평 번호 리스트 (배열 : [1,2,3])"
+          example: "[1, 2, 3]"
+          items:
+            oneOf:
+            - type: object
+            - type: boolean
+            - type: string
+            - type: number
+        displayStatusType:
+          type: string
+          description: 전시 상태
+          example: DISPLAY
+          enum:
+          - "DISPLAY: 전시중"
+          - "BLIND: 전시안함"
+          - "DELETE: 삭제"
+      description: ""
+    reviews-product-reviews-1296538423:
+      type: array
+      description: ""
+      items:
+        type: object
+        properties:
+          useNaverReviewCnt:
+            type: boolean
+            description: "네이버 리뷰 카운팅 사용 여부 (default: false)"
+            example: false
+          urls:
+            type: array
+            description: 첨부파일 url 리스트
+            example: "[//shopby-images.cdn-nhncommerce.com/20210529/104125.475133000/17.jpg,\
+              \ //shopby-images.cdn-nhncommerce.com/20210529/104125.475133000/11.jpg]"
+            items:
+              oneOf:
+              - type: object
+              - type: boolean
+              - type: string
+              - type: number
+          rate:
+            type: number
+            description: 상품평 평점
+            example: 5
+          reviewExternalId:
+            type: string
+            description: 외부 리뷰 번호
+            example: "123"
+          optionNo:
+            type: number
+            description: 상품 옵션 번호
+            example: 1
+          orderOptionNo:
+            type: number
+            description: 주문 옵션 번호
+            example: 1
+          content:
+            type: string
+            description: 상품평 내용
+            example: 상품 후기 입니다.
+          productNo:
+            type: number
+            description: 상품 번호
+            example: 100000001
+          registerYmdt:
+            type: string
+            description: 등록 날짜
+            example: 2026-04-15 07:42:10
+          registerNo:
+            type: number
+            description: 작성자 번호
+            example: 123
+    reviews-product-reviews-1765281674:
       type: object
       properties:
         failures:
           type: array
           description: 삭제 실패
-          example: "[com.ncp.display.application.review.model.ReviewUpdateError@7f8c7c3b]"
+          example: "[com.ncp.display.application.review.model.ReviewUpdateError@283d515e]"
           items:
             type: object
             properties:
@@ -4107,72 +4391,39 @@ components:
           description: 요청 개수
           example: 1
       description: ""
-    reviews-status1927414927:
+    reviews-product-reviews-835404475:
       type: object
       properties:
-        reviewNos:
+        failures:
           type: array
-          description: "상품평 번호 리스트 (배열 : [1,2,3])"
-          example: "[1, 2, 3]"
+          description: 수정 실패
+          example: "[com.ncp.display.application.review.model.ReviewUpdateError@3700d4c1]"
+          items:
+            type: object
+            properties:
+              reviewNo:
+                type: number
+                description: 수정 실패 리뷰 번호
+                example: 100000
+              message:
+                type: string
+                description: 수정 실패 사유
+                example: message
+        successNos:
+          type: array
+          description: 수정된 리뷰 번호
+          example: "[1000]"
           items:
             oneOf:
             - type: object
             - type: boolean
             - type: string
             - type: number
-        displayStatusType:
-          type: string
-          description: 전시 상태
-          example: DISPLAY
-          enum:
-          - "DISPLAY: 전시중"
-          - "BLIND: 전시안함"
-          - "DELETE: 삭제"
+        totalCount:
+          type: number
+          description: 요청 개수
+          example: 1
       description: ""
-    reviews-external-site459229422:
-      type: array
-      description: ""
-      items:
-        type: object
-        properties:
-          useNaverReviewCnt:
-            type: boolean
-            description: "네이버 리뷰 카운팅 사용 여부 (default: false)"
-            example: false
-          originRegisterYmdt:
-            type: string
-            description: 외부 사이트에서 작성된 리뷰 날짜
-            example: 2025-11-19 05:57:57
-          imageUrls:
-            type: array
-            description: 상품평 첨부파일
-            example: "[http://image.url/main-image.jpg]"
-            items:
-              oneOf:
-              - type: object
-              - type: boolean
-              - type: string
-              - type: number
-          rating:
-            type: number
-            description: 평점
-            example: 1
-          originSiteName:
-            type: string
-            description: 외부 사이트 명
-            example: 사이트명
-          originProductDetailUrl:
-            type: string
-            description: 외부 상품 상세 url
-            example: https://www.shopby.com/product/110599467
-          content:
-            type: string
-            description: 상품평 내용
-            example: 내용입니다.
-          productNo:
-            type: number
-            description: 상품 번호
-            example: 12345
     inquiry-inquiryNo-display-status-1294323154:
       type: object
       properties:
@@ -4187,59 +4438,6 @@ components:
           enum:
           - "DISPLAY: 전시중"
           - "BLIND: 전시안함"
-      description: ""
-    banners-simple-infos263830541:
-      type: object
-      properties:
-        contents:
-          type: array
-          description: ""
-          items:
-            type: object
-            properties:
-              updateDate:
-                type: string
-                description: 수정일
-                example: 2025-11-19T05:57:53.228395526
-              bannerGroupNo:
-                type: number
-                description: 배너 그룹 번호
-                example: 1
-              bannerCode:
-                type: string
-                description: 배너 코드
-                example: "001"
-              bannerId:
-                type: string
-                description: 배너 섹션 ID
-                example: AC001
-              bannerName:
-                type: string
-                description: 배너 섹션 이름
-                example: 이벤트
-              bannerGroupName:
-                type: string
-                description: 배너 그룹 명
-                example: 그룹명
-              registerDate:
-                type: string
-                description: 등록일
-                example: 2025-11-19T05:57:53.228462035
-              platformTypes:
-                type: array
-                description: "플랫폼 타입 (PC: PC, 모바일 웹: MOBILE_WEB, 모바일 앱: MOBILE_APP,\
-                  \ 반응형: RESPONSIVE, 공용 배너: COMMON, 전체: ALL)"
-                example: "[PC]"
-                items:
-                  oneOf:
-                  - type: object
-                  - type: boolean
-                  - type: string
-                  - type: number
-              bannerNo:
-                type: number
-                description: 배너 섹션 번호
-                example: 10
       description: ""
     reviews-991924649:
       type: object
@@ -4297,7 +4495,7 @@ components:
           description: "검색하고자하는 번호 (여러건의 경우','로 연결하여 입력) (nullable)"
           example: "100000,200000"
       description: ""
-    banners1116014589:
+    inquiry-inquiryNo-reply1116014589:
       type: object
       description: ""
     categories-display-categories-tree-1227132063:
@@ -4367,6 +4565,59 @@ components:
             type: number
             description: 몰 번호
             example: 1
+    banners-simple-infos1198101778:
+      type: object
+      properties:
+        contents:
+          type: array
+          description: ""
+          items:
+            type: object
+            properties:
+              updateDate:
+                type: string
+                description: 수정일
+                example: 2026-04-15T07:42:07.084732440
+              bannerGroupNo:
+                type: number
+                description: 배너 그룹 번호
+                example: 1
+              bannerCode:
+                type: string
+                description: 배너 코드
+                example: "001"
+              bannerId:
+                type: string
+                description: 배너 섹션 ID
+                example: AC001
+              bannerName:
+                type: string
+                description: 배너 섹션 이름
+                example: 이벤트
+              bannerGroupName:
+                type: string
+                description: 배너 그룹 명
+                example: 그룹명
+              registerDate:
+                type: string
+                description: 등록일
+                example: 2026-04-15T07:42:07.084780062
+              platformTypes:
+                type: array
+                description: "플랫폼 타입 (PC: PC, 모바일 웹: MOBILE_WEB, 모바일 앱: MOBILE_APP,\
+                  \ 반응형: RESPONSIVE, 공용 배너: COMMON, 전체: ALL)"
+                example: "[PC]"
+                items:
+                  oneOf:
+                  - type: object
+                  - type: boolean
+                  - type: string
+                  - type: number
+              bannerNo:
+                type: number
+                description: 배너 섹션 번호
+                example: 10
+      description: ""
     reviews473435012:
       type: object
       properties:
@@ -4565,38 +4816,40 @@ components:
           description: 전체 상품평 수
           example: 100
       description: ""
-    reviews-product-reviews-1195122115:
+    categories-display-categories1980376054:
       type: object
       properties:
-        failures:
-          type: array
-          description: 등록 실패
-          example: "[com.ncp.display.application.review.model.ReviewCreateError@31f656e6]"
-          items:
-            type: object
-            properties:
-              message:
-                type: string
-                description: 등록 실패 사유
-                example: message
-              optionNo:
-                type: number
-                description: 등록 실패 상품 옵션 번호
-                example: 100000
-        successNos:
-          type: array
-          description: 생성된 리뷰 번호
-          example: "[1000]"
-          items:
-            oneOf:
-            - type: object
-            - type: boolean
-            - type: string
-            - type: number
-        totalCount:
+        displayCategoryManagementCode:
+          type: string
+          description: "관리코드 (최대 45자, 몰 내 유니크) (nullable)"
+          example: CATEGORY-001
+        displayYn:
+          type: string
+          description: 전시 여부
+          example: "Y"
+          enum:
+          - "Y: 예"
+          - "N: 아니요"
+        topImageContent:
+          type: string
+          description: 상단 이미지 내용 (nullable)
+          example: 상단 이미지 내용
+        displayCategoryName:
+          type: string
+          description: 전시카테고리 명 (최대 50자)
+          example: 신규카테고리
+        icon:
+          type: string
+          description: 아이콘 URL (최대 500자) (nullable)
+          example: //image.toast.com/icon.png
+        displayOrder:
           type: number
-          description: 요청 개수
+          description: 전시 순서 (1 이상)
           example: 1
+        parentDisplayCategoryNo:
+          type: number
+          description: 부모 전시카테고리 번호 (0이면 루트)
+          example: 100
       description: ""
     reviews-best-review2140100592:
       type: object

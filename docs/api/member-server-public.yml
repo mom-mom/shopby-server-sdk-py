@@ -287,7 +287,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/configurations-member-open-id-providerType-1983782954'
+                $ref: '#/components/schemas/configurations-member-open-id-providerType2005268368'
               examples:
                 get-openid-config-by-provider:
                   value: "{\"clientId\":\"\",\"clientSecret\":null,\"scopes\":null,\"\
@@ -395,7 +395,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/configurations-member-open-id-providerType1233437893'
+              $ref: '#/components/schemas/configurations-member-open-id-providerType-1864141721'
             examples:
               patch-openid-config-by-provider:
                 value: "{\"clientId\":\"123\",\"clientSecret\":\"456\",\"scopes\"\
@@ -755,11 +755,19 @@ paths:
       tags:
       - Member
       summary: 회원 목록 조회하기 V1.2
-      description: "\n## 부가설명 및 특이사항\n 회원 목록을 조회합니다.\n - searchType 기본설정값은 `USER_ID`\
-        \ 입니다.\n - 가입일자, 수정일자 둘 중 하나는 반드시 입력해야 합니다.\n - 마지막 로그인일자 기간 검색 시, 회원 가입일자\
-        \ 기간을 필수로 입력해야 하고 각각 1년 이내 범위만 검색이 가능합니다.\n## V1.2\n - header의 Version을 1.2로\
-        \ 해주세요\n - includesCount 값을 false 로 하면 조회 속도가 향상됩니다.\n - keySet search 방식\
-        \ 지원 : searchAfter 필수 (최초 조회 시 생략 가능. response의 lastId 값 사용.)          "
+      description: |2-
+
+        ## 부가설명 및 특이사항
+         회원 목록을 조회합니다.
+         - searchType 기본설정값은 `USER_ID` 입니다.
+         - 가입일자, 수정일자 둘 중 하나는 반드시 입력해야 합니다.
+         - 마지막 로그인일자 기간 검색 시, 회원 가입일자 기간을 필수로 입력해야 하고 각각 1년 이내 범위만 검색이 가능합니다.
+        ## V1.2
+         - header의 Version을 1.2로 해주세요
+         - includesCount 값을 false 로 하면 조회 속도가 향상됩니다.
+         - keySet search 방식 지원 : searchAfter 필수 (최초 조회 시 생략 가능. response의 lastId 값 사용.)
+
+         > **⚠️ Deprecated**: 이 API는 V1.3으로 대체되었으며, 더 이상 업데이트되지 않습니다. V1.3 사용을 권장합니다.
       operationId: get-members-v-1-2
       parameters:
       - name: includesCount
@@ -814,6 +822,18 @@ paths:
       - name: endLastLoginDate
         in: query
         description: 마지막로그인일자 검색 종료일 (yyyy-MM-dd) (nullable)
+        required: false
+        schema:
+          type: string
+      - name: startGradeUpdateDate
+        in: query
+        description: 등급변경일자 검색 시작일 (yyyy-MM-dd) (nullable)
+        required: false
+        schema:
+          type: string
+      - name: endGradeUpdateDate
+        in: query
+        description: 등급변경일자 검색 종료일 (yyyy-MM-dd) (nullable)
         required: false
         schema:
           type: string
@@ -929,7 +949,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/members-1662571364'
+                $ref: '#/components/schemas/members331746680'
               examples:
                 get-members-v-1-2:
                   value: "{\"totalCount\":5,\"lastId\":\"5\",\"contents\":[{\"memberNo\"\
@@ -942,73 +962,267 @@ paths:
                     :\"\",\"jibunDetailAddress\":\"\",\"zipCode\":\"\",\"city\":\"\
                     \",\"state\":\"\",\"memberStatus\":\"ACTIVE\",\"providerType\"\
                     :\"KAKAO\",\"memberProvider\":\"KAKAO\",\"openIdProviders\":[],\"\
-                    birthday\":\"19660904\",\"sex\":\"M\",\"joinYmdt\":\"2025-12-16\
-                    \ 09:59:24\",\"lastLoginYmdt\":\"2025-12-16 09:59:24\",\"lastUpdateYmdt\"\
-                    :\"2025-12-16 09:59:24\",\"loginCount\":10,\"memberType\":\"MALL\"\
+                    birthday\":\"19660904\",\"sex\":\"M\",\"joinYmdt\":\"2026-06-16\
+                    \ 15:19:40\",\"lastLoginYmdt\":\"2026-06-16 15:19:40\",\"lastUpdateYmdt\"\
+                    :\"2026-06-16 15:19:40\",\"loginCount\":10,\"memberType\":\"MALL\"\
                     ,\"linked\":false,\"linkYmdt\":null,\"isPushNotificationAgreed\"\
                     :false,\"isSmsAgreed\":false,\"isDirectMailAgreed\":false,\"representativeMemberNo\"\
-                    :null,\"memberStatusName\":\"가입완료\",\"providerTypeLabel\":\"카카\
-                    오\",\"linkedYn\":\"N\"},{\"memberNo\":2,\"memberName\":\"백종원2\"\
-                    ,\"firstName\":\"종원2\",\"lastName\":\"백\",\"nickname\":\"nickname2\"\
-                    ,\"memberGradeName\":\"테스트 등급\",\"memberGroupName\":\"테스트 그룹\"\
-                    ,\"memberGroupCount\":1,\"memberId\":\"tester2\",\"mobileCountryCode\"\
-                    :null,\"mobileNo\":\"01012341234\",\"phoneNo\":\"\",\"email\"\
-                    :\"tu2@nhn.com\",\"countryCode\":\"KR\",\"address\":\"\",\"detailAddress\"\
-                    :\"\",\"jibunAddress\":\"\",\"jibunDetailAddress\":\"\",\"zipCode\"\
-                    :\"\",\"city\":\"\",\"state\":\"\",\"memberStatus\":\"ACTIVE\"\
-                    ,\"providerType\":\"KAKAO\",\"memberProvider\":\"KAKAO\",\"openIdProviders\"\
-                    :[],\"birthday\":\"19660904\",\"sex\":\"M\",\"joinYmdt\":\"2025-12-16\
-                    \ 09:59:24\",\"lastLoginYmdt\":\"2025-12-16 09:59:24\",\"lastUpdateYmdt\"\
-                    :\"2025-12-16 09:59:24\",\"loginCount\":10,\"memberType\":\"MALL\"\
+                    :null,\"ci\":\"test-ci-1\",\"providerTypeLabel\":\"카카오\",\"memberStatusName\"\
+                    :\"가입완료\",\"linkedYn\":\"N\"},{\"memberNo\":2,\"memberName\":\"\
+                    백종원2\",\"firstName\":\"종원2\",\"lastName\":\"백\",\"nickname\":\"\
+                    nickname2\",\"memberGradeName\":\"테스트 등급\",\"memberGroupName\"\
+                    :\"테스트 그룹\",\"memberGroupCount\":1,\"memberId\":\"tester2\",\"\
+                    mobileCountryCode\":null,\"mobileNo\":\"01012341234\",\"phoneNo\"\
+                    :\"\",\"email\":\"tu2@nhn.com\",\"countryCode\":\"KR\",\"address\"\
+                    :\"\",\"detailAddress\":\"\",\"jibunAddress\":\"\",\"jibunDetailAddress\"\
+                    :\"\",\"zipCode\":\"\",\"city\":\"\",\"state\":\"\",\"memberStatus\"\
+                    :\"ACTIVE\",\"providerType\":\"KAKAO\",\"memberProvider\":\"KAKAO\"\
+                    ,\"openIdProviders\":[],\"birthday\":\"19660904\",\"sex\":\"M\"\
+                    ,\"joinYmdt\":\"2026-06-16 15:19:40\",\"lastLoginYmdt\":\"2026-06-16\
+                    \ 15:19:40\",\"lastUpdateYmdt\":\"2026-06-16 15:19:40\",\"loginCount\"\
+                    :10,\"memberType\":\"MALL\",\"linked\":false,\"linkYmdt\":null,\"\
+                    isPushNotificationAgreed\":false,\"isSmsAgreed\":false,\"isDirectMailAgreed\"\
+                    :false,\"representativeMemberNo\":null,\"ci\":\"test-ci-2\",\"\
+                    providerTypeLabel\":\"카카오\",\"memberStatusName\":\"가입완료\",\"linkedYn\"\
+                    :\"N\"},{\"memberNo\":3,\"memberName\":\"백종원3\",\"firstName\"\
+                    :\"종원3\",\"lastName\":\"백\",\"nickname\":\"nickname3\",\"memberGradeName\"\
+                    :\"테스트 등급\",\"memberGroupName\":\"테스트 그룹\",\"memberGroupCount\"\
+                    :1,\"memberId\":\"tester3\",\"mobileCountryCode\":null,\"mobileNo\"\
+                    :\"01012341234\",\"phoneNo\":\"\",\"email\":\"tu3@nhn.com\",\"\
+                    countryCode\":\"KR\",\"address\":\"\",\"detailAddress\":\"\",\"\
+                    jibunAddress\":\"\",\"jibunDetailAddress\":\"\",\"zipCode\":\"\
+                    \",\"city\":\"\",\"state\":\"\",\"memberStatus\":\"ACTIVE\",\"\
+                    providerType\":\"KAKAO\",\"memberProvider\":\"KAKAO\",\"openIdProviders\"\
+                    :[],\"birthday\":\"19660904\",\"sex\":\"M\",\"joinYmdt\":\"2026-06-16\
+                    \ 15:19:40\",\"lastLoginYmdt\":\"2026-06-16 15:19:40\",\"lastUpdateYmdt\"\
+                    :\"2026-06-16 15:19:40\",\"loginCount\":10,\"memberType\":\"MALL\"\
                     ,\"linked\":false,\"linkYmdt\":null,\"isPushNotificationAgreed\"\
                     :false,\"isSmsAgreed\":false,\"isDirectMailAgreed\":false,\"representativeMemberNo\"\
-                    :null,\"memberStatusName\":\"가입완료\",\"providerTypeLabel\":\"카카\
-                    오\",\"linkedYn\":\"N\"},{\"memberNo\":3,\"memberName\":\"백종원3\"\
-                    ,\"firstName\":\"종원3\",\"lastName\":\"백\",\"nickname\":\"nickname3\"\
-                    ,\"memberGradeName\":\"테스트 등급\",\"memberGroupName\":\"테스트 그룹\"\
-                    ,\"memberGroupCount\":1,\"memberId\":\"tester3\",\"mobileCountryCode\"\
-                    :null,\"mobileNo\":\"01012341234\",\"phoneNo\":\"\",\"email\"\
-                    :\"tu3@nhn.com\",\"countryCode\":\"KR\",\"address\":\"\",\"detailAddress\"\
-                    :\"\",\"jibunAddress\":\"\",\"jibunDetailAddress\":\"\",\"zipCode\"\
-                    :\"\",\"city\":\"\",\"state\":\"\",\"memberStatus\":\"ACTIVE\"\
-                    ,\"providerType\":\"KAKAO\",\"memberProvider\":\"KAKAO\",\"openIdProviders\"\
-                    :[],\"birthday\":\"19660904\",\"sex\":\"M\",\"joinYmdt\":\"2025-12-16\
-                    \ 09:59:24\",\"lastLoginYmdt\":\"2025-12-16 09:59:24\",\"lastUpdateYmdt\"\
-                    :\"2025-12-16 09:59:24\",\"loginCount\":10,\"memberType\":\"MALL\"\
+                    :null,\"ci\":\"test-ci-3\",\"providerTypeLabel\":\"카카오\",\"memberStatusName\"\
+                    :\"가입완료\",\"linkedYn\":\"N\"},{\"memberNo\":4,\"memberName\":\"\
+                    백종원4\",\"firstName\":\"종원4\",\"lastName\":\"백\",\"nickname\":\"\
+                    nickname4\",\"memberGradeName\":\"테스트 등급\",\"memberGroupName\"\
+                    :\"테스트 그룹\",\"memberGroupCount\":1,\"memberId\":\"tester4\",\"\
+                    mobileCountryCode\":null,\"mobileNo\":\"01012341234\",\"phoneNo\"\
+                    :\"\",\"email\":\"tu4@nhn.com\",\"countryCode\":\"KR\",\"address\"\
+                    :\"\",\"detailAddress\":\"\",\"jibunAddress\":\"\",\"jibunDetailAddress\"\
+                    :\"\",\"zipCode\":\"\",\"city\":\"\",\"state\":\"\",\"memberStatus\"\
+                    :\"ACTIVE\",\"providerType\":\"KAKAO\",\"memberProvider\":\"KAKAO\"\
+                    ,\"openIdProviders\":[],\"birthday\":\"19660904\",\"sex\":\"M\"\
+                    ,\"joinYmdt\":\"2026-06-16 15:19:40\",\"lastLoginYmdt\":\"2026-06-16\
+                    \ 15:19:40\",\"lastUpdateYmdt\":\"2026-06-16 15:19:40\",\"loginCount\"\
+                    :10,\"memberType\":\"MALL\",\"linked\":false,\"linkYmdt\":null,\"\
+                    isPushNotificationAgreed\":false,\"isSmsAgreed\":false,\"isDirectMailAgreed\"\
+                    :false,\"representativeMemberNo\":null,\"ci\":\"test-ci-4\",\"\
+                    providerTypeLabel\":\"카카오\",\"memberStatusName\":\"가입완료\",\"linkedYn\"\
+                    :\"N\"},{\"memberNo\":5,\"memberName\":\"백종원5\",\"firstName\"\
+                    :\"종원5\",\"lastName\":\"백\",\"nickname\":\"nickname5\",\"memberGradeName\"\
+                    :\"테스트 등급\",\"memberGroupName\":\"테스트 그룹\",\"memberGroupCount\"\
+                    :1,\"memberId\":\"tester5\",\"mobileCountryCode\":null,\"mobileNo\"\
+                    :\"01012341234\",\"phoneNo\":\"\",\"email\":\"tu5@nhn.com\",\"\
+                    countryCode\":\"KR\",\"address\":\"\",\"detailAddress\":\"\",\"\
+                    jibunAddress\":\"\",\"jibunDetailAddress\":\"\",\"zipCode\":\"\
+                    \",\"city\":\"\",\"state\":\"\",\"memberStatus\":\"ACTIVE\",\"\
+                    providerType\":\"KAKAO\",\"memberProvider\":\"KAKAO\",\"openIdProviders\"\
+                    :[],\"birthday\":\"19660904\",\"sex\":\"M\",\"joinYmdt\":\"2026-06-16\
+                    \ 15:19:40\",\"lastLoginYmdt\":\"2026-06-16 15:19:40\",\"lastUpdateYmdt\"\
+                    :\"2026-06-16 15:19:40\",\"loginCount\":10,\"memberType\":\"MALL\"\
                     ,\"linked\":false,\"linkYmdt\":null,\"isPushNotificationAgreed\"\
                     :false,\"isSmsAgreed\":false,\"isDirectMailAgreed\":false,\"representativeMemberNo\"\
-                    :null,\"memberStatusName\":\"가입완료\",\"providerTypeLabel\":\"카카\
-                    오\",\"linkedYn\":\"N\"},{\"memberNo\":4,\"memberName\":\"백종원4\"\
-                    ,\"firstName\":\"종원4\",\"lastName\":\"백\",\"nickname\":\"nickname4\"\
-                    ,\"memberGradeName\":\"테스트 등급\",\"memberGroupName\":\"테스트 그룹\"\
-                    ,\"memberGroupCount\":1,\"memberId\":\"tester4\",\"mobileCountryCode\"\
-                    :null,\"mobileNo\":\"01012341234\",\"phoneNo\":\"\",\"email\"\
-                    :\"tu4@nhn.com\",\"countryCode\":\"KR\",\"address\":\"\",\"detailAddress\"\
-                    :\"\",\"jibunAddress\":\"\",\"jibunDetailAddress\":\"\",\"zipCode\"\
-                    :\"\",\"city\":\"\",\"state\":\"\",\"memberStatus\":\"ACTIVE\"\
-                    ,\"providerType\":\"KAKAO\",\"memberProvider\":\"KAKAO\",\"openIdProviders\"\
-                    :[],\"birthday\":\"19660904\",\"sex\":\"M\",\"joinYmdt\":\"2025-12-16\
-                    \ 09:59:24\",\"lastLoginYmdt\":\"2025-12-16 09:59:24\",\"lastUpdateYmdt\"\
-                    :\"2025-12-16 09:59:24\",\"loginCount\":10,\"memberType\":\"MALL\"\
+                    :null,\"ci\":\"test-ci-5\",\"providerTypeLabel\":\"카카오\",\"memberStatusName\"\
+                    :\"가입완료\",\"linkedYn\":\"N\"}]}"
+      deprecated: true
+    post:
+      tags:
+      - Member
+      summary: 회원 목록 조회하기 V1.3
+      description: |2-
+
+        ## 부가설명 및 특이사항
+         회원 목록을 조회합니다. (Elasticsearch 기반 검색)
+
+         ### V1.2와의 차이점
+         - **POST 방식으로 변경**되었습니다. 검색 조건을 JSON request body로 전달합니다.
+         - **날짜 형식이 LocalDateTime(yyyy-MM-dd HH:mm:ss)으로 변경**되었습니다. (V1.2는 LocalDate(yyyy-MM-dd))
+         - **status 파라미터가 필수**입니다. WAITING, ACTIVE, PAUSED, PENDING 중 하나를 반드시 입력해야 합니다.
+           - V1.2에서는 status가 선택값이었지만, V1.3에서는 필수입니다.
+           - DORMANT(휴면) 상태는 검색 대상에 포함되지 않습니다.
+         - **keywords를 배열(JSON Array)로 전달**합니다. 최대 1000개까지 지원합니다. (V1.2는 쉼표 구분 문자열, 최대 100개)
+
+         ### 검색 조건
+         - searchType은 선택값이며, 미입력 시 키워드 검색 조건이 제외됩니다.
+         - 날짜 기간 조건은 모두 선택값입니다. 기간 조건 없이도 검색이 가능합니다.
+
+         ### 날짜 범위 검색
+         - 시작일시만 입력한 경우, 해당 시점 **이후** 전체를 검색합니다.
+         - 종료일시만 입력한 경우, 해당 시점 **이전** 전체를 검색합니다.
+         - 둘 다 입력하면 해당 구간을 검색합니다.
+         - 둘 다 생략하면 해당 날짜 조건은 검색에서 제외됩니다.
+
+         ### 페이징
+         - **keySet 방식만 지원**합니다. searchAfter 파라미터를 사용합니다.
+         - 최초 조회 시 searchAfter를 생략하면 첫 페이지가 조회됩니다.
+         - 이후 페이지 조회 시 응답의 lastId 값을 searchAfter에 넣어 요청합니다.
+         - **pageSize는 최대 500**입니다. 500을 초과하는 값을 입력해도 500으로 제한됩니다.
+         - includesCount 값을 false로 하면 조회 속도가 향상됩니다.
+         - **페이징 종료 판단**: 응답의 lastId가 null이면 더 이상 데이터가 없습니다.
+
+         ### header 설정
+         - header의 Version을 `1.3`으로 설정해주세요.
+      operationId: post-members-v-1-3
+      parameters:
+      - name: systemKey
+        in: header
+        description: |2-
+
+           시스템 키 (외부시스템 연동을 위한 server API 호출 키)
+           - 발급경로: 워크스페이스> 셀러어드민> 신규 앱(App) 등록 시 수정페이지에서 확인가능
+           - 앱 기준으로 systemKey 발급됨
+          ^|test-system-key
+        required: true
+        schema:
+          type: string
+        example: test-system-key
+      - name: Authorization
+        in: header
+        description: |2-
+
+
+           인증토큰 (Bearer 발급받은 엑세스 토큰)
+
+           - 형식: Bearer {access_token} (중간에 띄어쓰기 필수입니다.)
+
+           - 발급경로: POST /auth/token 또는 POST /auth/token/long-lived 의 응답 값으로 내려온 access_token
+          ^|Bearer authorizationToken
+        required: false
+        schema:
+          type: string
+        example: Bearer authorizationToken
+      - name: mallKey
+        in: header
+        description: |2-
+           외부 API 연동키 (외부시스템연동 코드)
+
+           ※ server API 호출하는 기존 방식으로, 향후 fade out될 수 있습니다.<br>
+           Authorization을 입력을 통한 serverAPI 호출방식 권장드립니다.<br>
+           (Authorization 입력했을 경우, mallKey는 null로 보내시길 바랍니다.)<br>
+
+          ^|각 어드민에서 복사된 값
+        required: false
+        schema:
+          type: string
+        example: test-mall-key
+      - name: Version
+        in: header
+        description: API 버전^|1.3
+        required: true
+        schema:
+          type: string
+        example: "1.3"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/members1704146366'
+            examples:
+              post-members-v-1-3:
+                value: "{\"searchType\":\"USER_ID\",\"keywords\":[\"tester1\",\"tester2\"\
+                  ,\"tester3\",\"tester5\"],\"startSignUpDateTime\":\"2019-11-01 00:00:00\"\
+                  ,\"endSignUpDateTime\":\"2020-11-01 23:59:59\",\"startUpdateDateTime\"\
+                  :\"2019-11-01 00:00:00\",\"endUpdateDateTime\":\"2020-11-01 23:59:59\"\
+                  ,\"startLastLoginDateTime\":null,\"endLastLoginDateTime\":null,\"\
+                  startGradeUpdateDateTime\":null,\"endGradeUpdateDateTime\":null,\"\
+                  status\":\"ACTIVE\",\"type\":null,\"blacklisted\":false,\"emailAgreed\"\
+                  :true,\"smsAgreed\":true,\"gradeNo\":null,\"groupNo\":null,\"searchAfter\"\
+                  :\"12345678\",\"includesCount\":false,\"pageSize\":10}"
+      responses:
+        "200":
+          description: "200"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/members331746680'
+              examples:
+                post-members-v-1-3:
+                  value: "{\"totalCount\":5,\"lastId\":\"5\",\"contents\":[{\"memberNo\"\
+                    :1,\"memberName\":\"홍길동1\",\"firstName\":\"길동1\",\"lastName\"\
+                    :\"홍\",\"nickname\":\"nickname1\",\"memberGradeName\":\"테스트 등급\
+                    \",\"memberGroupName\":\"테스트 그룹\",\"memberGroupCount\":1,\"memberId\"\
+                    :\"tester1\",\"mobileCountryCode\":null,\"mobileNo\":\"01012341234\"\
+                    ,\"phoneNo\":\"\",\"email\":\"tu1@nhn.com\",\"countryCode\":\"\
+                    KR\",\"address\":\"\",\"detailAddress\":\"\",\"jibunAddress\"\
+                    :\"\",\"jibunDetailAddress\":\"\",\"zipCode\":\"\",\"city\":\"\
+                    \",\"state\":\"\",\"memberStatus\":\"ACTIVE\",\"providerType\"\
+                    :\"KAKAO\",\"memberProvider\":\"KAKAO\",\"openIdProviders\":[],\"\
+                    birthday\":\"19660904\",\"sex\":\"M\",\"joinYmdt\":\"2026-06-16\
+                    \ 15:19:41\",\"lastLoginYmdt\":\"2026-06-16 15:19:41\",\"lastUpdateYmdt\"\
+                    :\"2026-06-16 15:19:41\",\"loginCount\":10,\"memberType\":\"MALL\"\
                     ,\"linked\":false,\"linkYmdt\":null,\"isPushNotificationAgreed\"\
                     :false,\"isSmsAgreed\":false,\"isDirectMailAgreed\":false,\"representativeMemberNo\"\
-                    :null,\"memberStatusName\":\"가입완료\",\"providerTypeLabel\":\"카카\
-                    오\",\"linkedYn\":\"N\"},{\"memberNo\":5,\"memberName\":\"백종원5\"\
-                    ,\"firstName\":\"종원5\",\"lastName\":\"백\",\"nickname\":\"nickname5\"\
-                    ,\"memberGradeName\":\"테스트 등급\",\"memberGroupName\":\"테스트 그룹\"\
-                    ,\"memberGroupCount\":1,\"memberId\":\"tester5\",\"mobileCountryCode\"\
-                    :null,\"mobileNo\":\"01012341234\",\"phoneNo\":\"\",\"email\"\
-                    :\"tu5@nhn.com\",\"countryCode\":\"KR\",\"address\":\"\",\"detailAddress\"\
-                    :\"\",\"jibunAddress\":\"\",\"jibunDetailAddress\":\"\",\"zipCode\"\
-                    :\"\",\"city\":\"\",\"state\":\"\",\"memberStatus\":\"ACTIVE\"\
-                    ,\"providerType\":\"KAKAO\",\"memberProvider\":\"KAKAO\",\"openIdProviders\"\
-                    :[],\"birthday\":\"19660904\",\"sex\":\"M\",\"joinYmdt\":\"2025-12-16\
-                    \ 09:59:24\",\"lastLoginYmdt\":\"2025-12-16 09:59:24\",\"lastUpdateYmdt\"\
-                    :\"2025-12-16 09:59:24\",\"loginCount\":10,\"memberType\":\"MALL\"\
+                    :null,\"ci\":\"test-ci-1\",\"providerTypeLabel\":\"카카오\",\"memberStatusName\"\
+                    :\"가입완료\",\"linkedYn\":\"N\"},{\"memberNo\":2,\"memberName\":\"\
+                    홍길동2\",\"firstName\":\"길동2\",\"lastName\":\"홍\",\"nickname\":\"\
+                    nickname2\",\"memberGradeName\":\"테스트 등급\",\"memberGroupName\"\
+                    :\"테스트 그룹\",\"memberGroupCount\":1,\"memberId\":\"tester2\",\"\
+                    mobileCountryCode\":null,\"mobileNo\":\"01012341234\",\"phoneNo\"\
+                    :\"\",\"email\":\"tu2@nhn.com\",\"countryCode\":\"KR\",\"address\"\
+                    :\"\",\"detailAddress\":\"\",\"jibunAddress\":\"\",\"jibunDetailAddress\"\
+                    :\"\",\"zipCode\":\"\",\"city\":\"\",\"state\":\"\",\"memberStatus\"\
+                    :\"ACTIVE\",\"providerType\":\"KAKAO\",\"memberProvider\":\"KAKAO\"\
+                    ,\"openIdProviders\":[],\"birthday\":\"19660904\",\"sex\":\"M\"\
+                    ,\"joinYmdt\":\"2026-06-16 15:19:41\",\"lastLoginYmdt\":\"2026-06-16\
+                    \ 15:19:41\",\"lastUpdateYmdt\":\"2026-06-16 15:19:41\",\"loginCount\"\
+                    :10,\"memberType\":\"MALL\",\"linked\":false,\"linkYmdt\":null,\"\
+                    isPushNotificationAgreed\":false,\"isSmsAgreed\":false,\"isDirectMailAgreed\"\
+                    :false,\"representativeMemberNo\":null,\"ci\":\"test-ci-2\",\"\
+                    providerTypeLabel\":\"카카오\",\"memberStatusName\":\"가입완료\",\"linkedYn\"\
+                    :\"N\"},{\"memberNo\":3,\"memberName\":\"홍길동3\",\"firstName\"\
+                    :\"길동3\",\"lastName\":\"홍\",\"nickname\":\"nickname3\",\"memberGradeName\"\
+                    :\"테스트 등급\",\"memberGroupName\":\"테스트 그룹\",\"memberGroupCount\"\
+                    :1,\"memberId\":\"tester3\",\"mobileCountryCode\":null,\"mobileNo\"\
+                    :\"01012341234\",\"phoneNo\":\"\",\"email\":\"tu3@nhn.com\",\"\
+                    countryCode\":\"KR\",\"address\":\"\",\"detailAddress\":\"\",\"\
+                    jibunAddress\":\"\",\"jibunDetailAddress\":\"\",\"zipCode\":\"\
+                    \",\"city\":\"\",\"state\":\"\",\"memberStatus\":\"ACTIVE\",\"\
+                    providerType\":\"KAKAO\",\"memberProvider\":\"KAKAO\",\"openIdProviders\"\
+                    :[],\"birthday\":\"19660904\",\"sex\":\"M\",\"joinYmdt\":\"2026-06-16\
+                    \ 15:19:41\",\"lastLoginYmdt\":\"2026-06-16 15:19:41\",\"lastUpdateYmdt\"\
+                    :\"2026-06-16 15:19:41\",\"loginCount\":10,\"memberType\":\"MALL\"\
                     ,\"linked\":false,\"linkYmdt\":null,\"isPushNotificationAgreed\"\
                     :false,\"isSmsAgreed\":false,\"isDirectMailAgreed\":false,\"representativeMemberNo\"\
-                    :null,\"memberStatusName\":\"가입완료\",\"providerTypeLabel\":\"카카\
-                    오\",\"linkedYn\":\"N\"}]}"
+                    :null,\"ci\":\"test-ci-3\",\"providerTypeLabel\":\"카카오\",\"memberStatusName\"\
+                    :\"가입완료\",\"linkedYn\":\"N\"},{\"memberNo\":4,\"memberName\":\"\
+                    홍길동4\",\"firstName\":\"길동4\",\"lastName\":\"홍\",\"nickname\":\"\
+                    nickname4\",\"memberGradeName\":\"테스트 등급\",\"memberGroupName\"\
+                    :\"테스트 그룹\",\"memberGroupCount\":1,\"memberId\":\"tester4\",\"\
+                    mobileCountryCode\":null,\"mobileNo\":\"01012341234\",\"phoneNo\"\
+                    :\"\",\"email\":\"tu4@nhn.com\",\"countryCode\":\"KR\",\"address\"\
+                    :\"\",\"detailAddress\":\"\",\"jibunAddress\":\"\",\"jibunDetailAddress\"\
+                    :\"\",\"zipCode\":\"\",\"city\":\"\",\"state\":\"\",\"memberStatus\"\
+                    :\"ACTIVE\",\"providerType\":\"KAKAO\",\"memberProvider\":\"KAKAO\"\
+                    ,\"openIdProviders\":[],\"birthday\":\"19660904\",\"sex\":\"M\"\
+                    ,\"joinYmdt\":\"2026-06-16 15:19:41\",\"lastLoginYmdt\":\"2026-06-16\
+                    \ 15:19:41\",\"lastUpdateYmdt\":\"2026-06-16 15:19:41\",\"loginCount\"\
+                    :10,\"memberType\":\"MALL\",\"linked\":false,\"linkYmdt\":null,\"\
+                    isPushNotificationAgreed\":false,\"isSmsAgreed\":false,\"isDirectMailAgreed\"\
+                    :false,\"representativeMemberNo\":null,\"ci\":\"test-ci-4\",\"\
+                    providerTypeLabel\":\"카카오\",\"memberStatusName\":\"가입완료\",\"linkedYn\"\
+                    :\"N\"},{\"memberNo\":5,\"memberName\":\"홍길동5\",\"firstName\"\
+                    :\"길동5\",\"lastName\":\"홍\",\"nickname\":\"nickname5\",\"memberGradeName\"\
+                    :\"테스트 등급\",\"memberGroupName\":\"테스트 그룹\",\"memberGroupCount\"\
+                    :1,\"memberId\":\"tester5\",\"mobileCountryCode\":null,\"mobileNo\"\
+                    :\"01012341234\",\"phoneNo\":\"\",\"email\":\"tu5@nhn.com\",\"\
+                    countryCode\":\"KR\",\"address\":\"\",\"detailAddress\":\"\",\"\
+                    jibunAddress\":\"\",\"jibunDetailAddress\":\"\",\"zipCode\":\"\
+                    \",\"city\":\"\",\"state\":\"\",\"memberStatus\":\"ACTIVE\",\"\
+                    providerType\":\"KAKAO\",\"memberProvider\":\"KAKAO\",\"openIdProviders\"\
+                    :[],\"birthday\":\"19660904\",\"sex\":\"M\",\"joinYmdt\":\"2026-06-16\
+                    \ 15:19:41\",\"lastLoginYmdt\":\"2026-06-16 15:19:41\",\"lastUpdateYmdt\"\
+                    :\"2026-06-16 15:19:41\",\"loginCount\":10,\"memberType\":\"MALL\"\
+                    ,\"linked\":false,\"linkYmdt\":null,\"isPushNotificationAgreed\"\
+                    :false,\"isSmsAgreed\":false,\"isDirectMailAgreed\":false,\"representativeMemberNo\"\
+                    :null,\"ci\":\"test-ci-5\",\"providerTypeLabel\":\"카카오\",\"memberStatusName\"\
+                    :\"가입완료\",\"linkedYn\":\"N\"}]}"
   /members/expelled-members:
     get:
       tags:
@@ -1025,7 +1239,7 @@ paths:
       parameters:
       - name: targetDate
         in: query
-        description: 회원 탈퇴일시^|2025-12-16
+        description: 회원 탈퇴일시^|2026-06-16
         required: true
         schema:
           type: string
@@ -1081,7 +1295,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/members-expelled-members951942479'
+                $ref: '#/components/schemas/members-expelled-members2118687990'
               examples:
                 get-members-expelled-members-v-1-1:
                   value: "[{\"memberNo\":1000000,\"memberId\":\"test\",\"memberType\"\
@@ -1399,7 +1613,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/profile-642727973'
+                $ref: '#/components/schemas/profile-1050061699'
               examples:
                 get-profile:
                   value: "{\"memberNo\":12345,\"memberName\":\"홍길동\",\"memberGradeNo\"\
@@ -1421,9 +1635,9 @@ paths:
                     :null,\"businessName\":null,\"registrationNo\":null,\"extraInfo\"\
                     :[{\"extraInfoNo\":1,\"extraInfoOptionNos\":[10,11,12],\"extraInfoOptionTextContent\"\
                     :\"내용\"}],\"agreedTerms\":[{\"termsNo\":2,\"termsType\":\"TRANSFER_AGREE\"\
-                    ,\"isAgree\":true,\"agreementYmdt\":\"2025-12-16 09:59:27\"}],\"\
+                    ,\"isAgree\":true,\"agreementYmdt\":\"2026-06-16 15:19:43\"}],\"\
                     customAgreedTerms\":[{\"customTermsNo\":20,\"isAgree\":true,\"\
-                    agreementYmdt\":\"2025-12-16 09:59:27\"}]}"
+                    agreementYmdt\":\"2026-06-16 15:19:43\"}]}"
     put:
       tags:
       - Profile
@@ -1472,7 +1686,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/profile1934915172'
+              $ref: '#/components/schemas/profile-2036449977'
             examples:
               put-profile:
                 value: "{\"memberId\":\"test@test.com\",\"memberNo\":12345,\"memberName\"\
@@ -1486,10 +1700,11 @@ paths:
                   :false,\"smsAgreed\":false,\"directMailAgreed\":false,\"businessName\"\
                   :\"회사명\",\"registrationNo\":\"1234567890\",\"refundBank\":\"ANONYMOUS\"\
                   ,\"refundBankAccount\":\"\",\"refundBankDepositorName\":\"\",\"\
-                  certificated\":true,\"joinTermsAgreements\":[\"USE\"],\"customTermsNos\"\
-                  :[1],\"additionalInfo\":\"{ \\\"companyCode\\\" : \\\"TEST\\\" }\"\
-                  ,\"extraInfo\":[{\"extraInfoNo\":1,\"extraInfoOptionNos\":[10,11,12],\"\
-                  extraInfoOptionTextContent\":null}]}"
+                  certificated\":true,\"blacklisted\":false,\"joinTermsAgreements\"\
+                  :[\"USE\"],\"customTermsNos\":[1],\"additionalInfo\":\"{ \\\"companyCode\\\
+                  \" : \\\"TEST\\\" }\",\"extraInfo\":[{\"extraInfoNo\":1,\"extraInfoOptionNos\"\
+                  :[10,11,12],\"extraInfoOptionTextContent\":null}],\"isAdultCertified\"\
+                  :true}"
       responses:
         "200":
           description: "200"
@@ -1676,7 +1891,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/profile-bulk1699245403'
+              $ref: '#/components/schemas/profile-bulk-1153989928'
             examples:
               put-profile-bulk:
                 value: "[{\"memberId\":\"test@test.com\",\"memberNo\":1,\"memberName\"\
@@ -1690,25 +1905,26 @@ paths:
                   :false,\"smsAgreed\":false,\"directMailAgreed\":false,\"businessName\"\
                   :\"회사명\",\"registrationNo\":\"1234567890\",\"refundBank\":\"ANONYMOUS\"\
                   ,\"refundBankAccount\":\"\",\"refundBankDepositorName\":\"\",\"\
-                  certificated\":true,\"joinTermsAgreements\":[\"USE\"],\"customTermsNos\"\
-                  :[],\"additionalInfo\":\"{ \\\"companyCode\\\" : \\\"TEST\\\" }\"\
-                  ,\"extraInfo\":[{\"extraInfoNo\":1,\"extraInfoOptionNos\":[10,11,12],\"\
-                  extraInfoOptionTextContent\":null}]},{\"memberId\":\"test2@test.com\"\
-                  ,\"memberNo\":12346,\"memberName\":\"테스트1\",\"firstName\":null,\"\
-                  lastName\":null,\"mobileCountryCode\":null,\"mobileNo\":\"01000000000\"\
-                  ,\"telephoneNo\":\"021234567\",\"ci\":\"test-ci\",\"birthday\":\"\
-                  19820408\",\"sex\":\"M\",\"email\":\"abc12345@abc.com\",\"zipCd\"\
-                  :\"123456\",\"address\":\"서울특별시 여의도\",\"detailAddress\":\"상세주소입니\
-                  다\",\"jibunAddress\":\"서울특별시 여의도\",\"jibunDetailAddress\":\"여의대방\
-                  로 24다길 9\",\"city\":\"\",\"state\":\"\",\"countryCode\":null,\"\
-                  nickname\":\"닉네임2\",\"pushNotificationAgreed\":false,\"smsAgreed\"\
-                  :false,\"directMailAgreed\":false,\"businessName\":\"회사명\",\"registrationNo\"\
-                  :\"1234567890\",\"refundBank\":\"ANONYMOUS\",\"refundBankAccount\"\
-                  :\"\",\"refundBankDepositorName\":\"\",\"certificated\":true,\"\
-                  joinTermsAgreements\":[\"USE\"],\"customTermsNos\":[],\"additionalInfo\"\
-                  :\"{ \\\"companyCode\\\" : \\\"TEST2\\\" }\",\"extraInfo\":[{\"\
-                  extraInfoNo\":2,\"extraInfoOptionNos\":[],\"extraInfoOptionTextContent\"\
-                  :\"추가항목 텍스트 답변\"}]}]"
+                  certificated\":true,\"blacklisted\":false,\"joinTermsAgreements\"\
+                  :[\"USE\"],\"customTermsNos\":[],\"additionalInfo\":\"{ \\\"companyCode\\\
+                  \" : \\\"TEST\\\" }\",\"extraInfo\":[{\"extraInfoNo\":1,\"extraInfoOptionNos\"\
+                  :[10,11,12],\"extraInfoOptionTextContent\":null}],\"isAdultCertified\"\
+                  :true},{\"memberId\":\"test2@test.com\",\"memberNo\":12346,\"memberName\"\
+                  :\"테스트1\",\"firstName\":null,\"lastName\":null,\"mobileCountryCode\"\
+                  :null,\"mobileNo\":\"01000000000\",\"telephoneNo\":\"021234567\"\
+                  ,\"ci\":\"test-ci\",\"birthday\":\"19820408\",\"sex\":\"M\",\"email\"\
+                  :\"abc12345@abc.com\",\"zipCd\":\"123456\",\"address\":\"서울특별시 여\
+                  의도\",\"detailAddress\":\"상세주소입니다\",\"jibunAddress\":\"서울특별시 여의도\"\
+                  ,\"jibunDetailAddress\":\"여의대방로 24다길 9\",\"city\":\"\",\"state\"\
+                  :\"\",\"countryCode\":null,\"nickname\":\"닉네임2\",\"pushNotificationAgreed\"\
+                  :false,\"smsAgreed\":false,\"directMailAgreed\":false,\"businessName\"\
+                  :\"회사명\",\"registrationNo\":\"1234567890\",\"refundBank\":\"ANONYMOUS\"\
+                  ,\"refundBankAccount\":\"\",\"refundBankDepositorName\":\"\",\"\
+                  certificated\":true,\"blacklisted\":false,\"joinTermsAgreements\"\
+                  :[\"USE\"],\"customTermsNos\":[],\"additionalInfo\":\"{ \\\"companyCode\\\
+                  \" : \\\"TEST2\\\" }\",\"extraInfo\":[{\"extraInfoNo\":2,\"extraInfoOptionNos\"\
+                  :[],\"extraInfoOptionTextContent\":\"추가항목 텍스트 답변\"}],\"isAdultCertified\"\
+                  :false}]"
       responses:
         "200":
           description: "200"
@@ -1807,13 +2023,13 @@ paths:
           format: int32
       - name: startDormantDate
         in: query
-        description: 휴면전환일시 검색 시작일^|2025-12-16
+        description: 휴면전환일시 검색 시작일^|2026-06-16
         required: true
         schema:
           type: string
       - name: endDormantDate
         in: query
-        description: 휴면전환일시 검색 종료일^|2025-12-16
+        description: 휴면전환일시 검색 종료일^|2026-06-16
         required: true
         schema:
           type: string
@@ -1857,7 +2073,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/profile-dormant-393729279'
+                $ref: '#/components/schemas/profile-dormant-71216701'
               examples:
                 get-profile-dormant-v-1-1:
                   value: "{\"content\":[{\"memberNo\":1000000,\"memberId\":\"test@************\"\
@@ -1870,7 +2086,7 @@ paths:
                     \ 00:00:00\"}}],\"pageable\":{\"pageSize\":10,\"sort\":{\"sorted\"\
                     :false,\"unsorted\":true,\"empty\":true},\"pageNumber\":1,\"offset\"\
                     :0,\"paged\":true,\"unpaged\":false},\"totalPages\":1,\"totalElements\"\
-                    :2,\"last\":true,\"numberOfElements\":2,\"first\":false,\"size\"\
+                    :2,\"last\":true,\"first\":false,\"numberOfElements\":2,\"size\"\
                     :10,\"number\":1,\"sort\":{\"sorted\":false,\"unsorted\":true,\"\
                     empty\":true},\"empty\":false}"
     put:
@@ -2384,44 +2600,6 @@ paths:
           description: "204"
 components:
   schemas:
-    configurations-member-open-id-providerType1233437893:
-      required:
-      - clientId
-      type: object
-      properties:
-        clientId:
-          type: string
-          description: 간편로그인 client id^|123
-        clientSecret:
-          type: string
-          description: 간편로그인 clientSecret - 마스킹^|456
-          nullable: true
-        scopes:
-          type: array
-          description: "간편로그인 scopes^|[id, name]"
-          nullable: true
-          items:
-            oneOf:
-            - type: object
-            - type: boolean
-            - type: string
-            - type: number
-        appleConfig:
-          type: object
-          properties:
-            encKey:
-              type: string
-              description: 애플인 경우 config 의 시크릿 - 마스킹 안함^|key
-              nullable: true
-            teamId:
-              type: string
-              description: 애플인 경우 config 의 teamId^|test-teamId
-              nullable: true
-            keyId:
-              type: string
-              description: 애플인 경우 config 의 keyId^|test-keyId
-              nullable: true
-          description: 애플인 경우 config^|com.ncp.member.presentation.request.OpenIdConfigClientRequest$AppleLoginConfigRequest@4fd5c6d1
     configurations-member-common-join-config18446488:
       required:
       - address
@@ -2504,6 +2682,79 @@ components:
             - type: boolean
             - type: string
             - type: number
+    profile-dormant-71216701:
+      required:
+      - content
+      - totalElements
+      - totalPages
+      type: object
+      properties:
+        totalPages:
+          type: number
+          description: 전체 페이지 수
+        content:
+          type: array
+          description: 조회 결과
+          items:
+            required:
+            - dormantYmdt
+            - memberId
+            - memberName
+            - memberNo
+            type: object
+            properties:
+              dormantYmdt:
+                type: string
+                description: 휴면전환일시^|2026-06-16 15:19
+              memberNo:
+                type: number
+                description: 회원 번호^|1000000
+              member:
+                required:
+                - joinYmdt
+                - memberNo
+                - memberType
+                type: object
+                properties:
+                  memberNo:
+                    type: number
+                    description: 회원 번호^|1000000
+                  joinYmdt:
+                    type: string
+                    description: 가입일시^|2026-06-16 15:19
+                  memberType:
+                    type: string
+                    description: 회원 유형^|MALL
+                    enum:
+                    - "MALL: 일반 회원"
+                    - "SYNC_ID: 연동형 회원"
+                    - "OPEN_ID: 간편로그인 회원"
+                  providerType:
+                    type: string
+                    description: 연동 유형 (nullable)
+                    nullable: true
+                    enum:
+                    - "PAYCO: 페이코"
+                    - "NAVER: 네이버"
+                    - "KAKAO: 카카오"
+                    - "KAKAO_SYNC: 카카오싱크"
+                    - "FACEBOOK: 페이스북"
+                    - "LINE: 라인"
+                    - "APPLE: 애플"
+                    - "GOOGLE: 구글"
+                    - "APP_CARD: 앱카드"
+                    - "IAMSCHOOL: 아이엠스쿨"
+                    - "UNIONE: 유니원"
+                    - "NCPSTORE: NCP스토어"
+              memberName:
+                type: string
+                description: 이름^|샵바이
+              memberId:
+                type: string
+                description: 아이디^|test@************
+        totalElements:
+          type: number
+          description: 전체 조회건수
     profile-groups-64494364:
       required:
       - memberNo
@@ -2512,6 +2763,44 @@ components:
         memberNo:
           type: number
           description: 회원 번호^|111
+    configurations-member-open-id-providerType-1864141721:
+      required:
+      - clientId
+      type: object
+      properties:
+        clientId:
+          type: string
+          description: 간편로그인 client id^|123
+        clientSecret:
+          type: string
+          description: 간편로그인 clientSecret - 마스킹^|456
+          nullable: true
+        scopes:
+          type: array
+          description: "간편로그인 scopes^|[id, name]"
+          nullable: true
+          items:
+            oneOf:
+            - type: object
+            - type: boolean
+            - type: string
+            - type: number
+        appleConfig:
+          type: object
+          properties:
+            encKey:
+              type: string
+              description: 애플인 경우 config 의 시크릿 - 마스킹 안함^|key
+              nullable: true
+            teamId:
+              type: string
+              description: 애플인 경우 config 의 teamId^|test-teamId
+              nullable: true
+            keyId:
+              type: string
+              description: 애플인 경우 config 의 keyId^|test-keyId
+              nullable: true
+          description: 애플인 경우 config^|com.ncp.member.presentation.request.OpenIdConfigClientRequest$AppleLoginConfigRequest@690f7902
     members-external1437284076:
       required:
       - id
@@ -2626,79 +2915,6 @@ components:
             - type: boolean
             - type: string
             - type: number
-    profile-dormant-393729279:
-      required:
-      - content
-      - totalElements
-      - totalPages
-      type: object
-      properties:
-        totalPages:
-          type: number
-          description: 전체 페이지 수
-        content:
-          type: array
-          description: 조회 결과
-          items:
-            required:
-            - dormantYmdt
-            - memberId
-            - memberName
-            - memberNo
-            type: object
-            properties:
-              dormantYmdt:
-                type: string
-                description: 휴면전환일시^|2025-12-16 09:59
-              memberNo:
-                type: number
-                description: 회원 번호^|1000000
-              member:
-                required:
-                - joinYmdt
-                - memberNo
-                - memberType
-                type: object
-                properties:
-                  memberNo:
-                    type: number
-                    description: 회원 번호^|1000000
-                  joinYmdt:
-                    type: string
-                    description: 가입일시^|2025-12-16 09:59
-                  memberType:
-                    type: string
-                    description: 회원 유형^|MALL
-                    enum:
-                    - "MALL: 일반 회원"
-                    - "SYNC_ID: 연동형 회원"
-                    - "OPEN_ID: 간편로그인 회원"
-                  providerType:
-                    type: string
-                    description: 연동 유형 (nullable)
-                    nullable: true
-                    enum:
-                    - "PAYCO: 페이코"
-                    - "NAVER: 네이버"
-                    - "KAKAO: 카카오"
-                    - "KAKAO_SYNC: 카카오싱크"
-                    - "FACEBOOK: 페이스북"
-                    - "LINE: 라인"
-                    - "APPLE: 애플"
-                    - "GOOGLE: 구글"
-                    - "APP_CARD: 앱카드"
-                    - "IAMSCHOOL: 아이엠스쿨"
-                    - "UNIONE: 유니원"
-                    - "NCPSTORE: NCP스토어"
-              memberName:
-                type: string
-                description: 이름^|샵바이
-              memberId:
-                type: string
-                description: 아이디^|test@************
-        totalElements:
-          type: number
-          description: 전체 조회건수
     profile-grades1340609570:
       required:
       - memberNos
@@ -2724,191 +2940,6 @@ components:
           type: string
           description: 앱카드 store id (nullable)
           nullable: true
-    profile-bulk1699245403:
-      type: array
-      items:
-        type: object
-        properties:
-          birthday:
-            type: string
-            description: 생일 yyyyMMdd (nullable)
-            nullable: true
-          lastName:
-            type: string
-            description: 성 (nullable)
-            nullable: true
-          city:
-            type: string
-            description: "(국내, 해외 겸용) 도시 (nullable)"
-            nullable: true
-          businessName:
-            type: string
-            description: 회사명 (nullable)
-            nullable: true
-          memberName:
-            type: string
-            description: 회원 성명 (nullable)
-            nullable: true
-          zipCd:
-            type: string
-            description: 우편번호 (nullable)
-            nullable: true
-          pushNotificationAgreed:
-            type: boolean
-            description: 푸시 알림 동의 여부 (nullable)
-            nullable: true
-          countryCode:
-            type: string
-            description: 거주 국가 (nullable)
-            nullable: true
-          directMailAgreed:
-            type: boolean
-            description: 이메일 알림 동의 여부 (nullable)
-            nullable: true
-          additionalInfo:
-            type: string
-            description: 추가 정보 (JSON) (nullable)
-            nullable: true
-          nickname:
-            type: string
-            description: 닉네임 (nullable)
-            nullable: true
-          customTermsNos:
-            type: array
-            description: 추가 선택 동의 항목 (nullable)
-            nullable: true
-            items:
-              oneOf:
-              - type: object
-              - type: boolean
-              - type: string
-              - type: number
-          state:
-            type: string
-            description: "(국내, 해외 겸용) 국내: 군/구, 해외: 주 (nullable)"
-            nullable: true
-          email:
-            type: string
-            description: 이메일 주소 (nullable)
-            nullable: true
-          jibunDetailAddress:
-            type: string
-            description: 도로명 주소 상세 (지번 주소) (nullable)
-            nullable: true
-          memberId:
-            type: string
-            description: 회원 아이디 (nullable)
-            nullable: true
-          address:
-            type: string
-            description: 도로명 주소 (nullable)
-            nullable: true
-          mobileCountryCode:
-            type: string
-            description: 국제전화번호 코드 (nullable)
-            nullable: true
-          certificated:
-            type: boolean
-            description: 인증확인 여부 (nullable)
-            nullable: true
-          ci:
-            type: string
-            description: CI (nullable)
-            nullable: true
-          smsAgreed:
-            type: boolean
-            description: SMS 알림 동의 여부 (nullable)
-            nullable: true
-          sex:
-            type: string
-            description: 성별 (F:여성/M:남성) (nullable)
-            nullable: true
-          jibunAddress:
-            type: string
-            description: 도로명 주소 (지번 주소) (nullable)
-            nullable: true
-          mobileNo:
-            type: string
-            description: 휴대전화번호 (nullable)
-            nullable: true
-          refundBank:
-            type: string
-            description: 환불 계좌 은행 (nullable)
-            nullable: true
-          firstName:
-            type: string
-            description: 이름 (nullable)
-            nullable: true
-          memberNo:
-            type: number
-            description: 회원 번호 (nullable)
-            nullable: true
-          refundBankDepositorName:
-            type: string
-            description: 환불 계좌 예금주명 (nullable)
-            nullable: true
-          telephoneNo:
-            type: string
-            description: 일반전화번호 (nullable)
-            nullable: true
-          registrationNo:
-            type: string
-            description: 사업자 등록 번호 (nullable)
-            nullable: true
-          joinTermsAgreements:
-            type: string
-            description: 선택동의항목
-            nullable: true
-            enum:
-            - "쇼핑몰/회사 소개: MALL_INTRODUCTION"
-            - "이용약관: USE"
-            - "전자금융거래 이용약관: E_COMMERCE"
-            - "개인정보처리방침: PI_PROCESS"
-            - "회원가입시 개인정보 수집/이용(필수): PI_COLLECTION_AND_USE_REQUIRED"
-            - "회원가입시 개인정보 수집/이용(선택): PI_COLLECTION_AND_USE_OPTIONAL"
-            - "개인정보 처리/위탁: PI_PROCESS_CONSIGNMENT"
-            - "개인정보 제3자 제공: PI_THIRD_PARTY_PROVISION"
-            - "비회원 게시글/문의글 작성 시 개인정보 수집/이용: PI_COLLECTION_AND_USE_FOR_GUEST_ON_ARTICLE"
-            - "이용 안내: ACCESS_GUIDE"
-            - "탈퇴 안내: WITHDRAWAL_GUIDE"
-            - "개인정보 판매자 제공: PI_SELLER_PROVISION"
-            - "회원 주문 시 개인정보 수집/이용: PI_COLLECTION_AND_USE_ON_ORDER"
-            - "주문정보 동의: ORDER_INFO_AGREE"
-            - "통관정보 수집/이용: CLEARANCE_INFO_COLLECTION_AND_USE"
-            - "개인정보 국외이전 동의: TRANSFER_AGREE"
-          detailAddress:
-            type: string
-            description: 도로명 주소 상세 (nullable)
-            nullable: true
-          refundBankAccount:
-            type: string
-            description: 환불 계좌 번호 (nullable)
-            nullable: true
-          extraInfo:
-            type: array
-            description: 추가 항목 정보
-            items:
-              required:
-              - extraInfoNo
-              - extraInfoOptionNos
-              type: object
-              properties:
-                extraInfoOptionNos:
-                  type: array
-                  description: "추가항목 옵션 번호 목록^|[]"
-                  items:
-                    oneOf:
-                    - type: object
-                    - type: boolean
-                    - type: string
-                    - type: number
-                extraInfoOptionTextContent:
-                  type: string
-                  description: 추가항목 옵션 텍스트 답변 내용^|추가항목 텍스트 답변
-                  nullable: true
-                extraInfoNo:
-                  type: number
-                  description: 추가항목 번호^|2
     member-groups-groupNo-1944155955:
       required:
       - description
@@ -2939,6 +2970,290 @@ components:
               type: boolean
               description: 적립금 혜택 사용 여부^|false
           description: 적립금 혜택 정보
+    profile-1050061699:
+      required:
+      - adultCertificated
+      - agreedTerms
+      - blacklisted
+      - customAgreedTerms
+      - directMailAgreed
+      - extraInfo
+      - joinYmdt
+      - lastLoginIp
+      - loginCount
+      - memberGradeName
+      - memberGradeNo
+      - memberGroupNames
+      - memberGroups
+      - memberId
+      - memberNo
+      - memberStatus
+      - memberType
+      - principalCertificated
+      - pushNotificationAgreed
+      - smsAgreed
+      type: object
+      properties:
+        birthday:
+          type: string
+          description: 생년월일 (nullable)
+          nullable: true
+        gender:
+          type: string
+          description: 성별 (nullable)
+          nullable: true
+        businessName:
+          type: string
+          description: 사업자 회원 회사명 (nullable)
+          nullable: true
+        memberStatus:
+          type: string
+          description: "회원 상태 (대기: WAITING, 가입완료: ACTIVE, 휴면: FREEZE or DORMANT, 이\
+            용정지: PAUSED)^|ACTIVE"
+        memberName:
+          type: string
+          description: 회원이름 (nullable)
+          nullable: true
+        representativeMemberNo:
+          type: number
+          description: 대표몰 회원번호 (nullable)
+          nullable: true
+        pushNotificationAgreed:
+          type: boolean
+          description: 푸시 알림 동의 여부^|true
+        providerType:
+          type: string
+          description: 마지막 연동 SNS (nullable)
+          nullable: true
+        principalCertificated:
+          type: boolean
+          description: 본인인증 여부(true|false)^|true
+        lastLoginIp:
+          type: string
+          description: 마지막 접속 IP^|127.0.0.1
+        directMailAgreeYmdt:
+          type: string
+          description: 광고 우편물(DM) 수신 동의 시각 (nullable)
+          nullable: true
+        directMailAgreed:
+          type: boolean
+          description: 광고 우편물(DM) 수신 동의 여부^|true
+        additionalInfo:
+          type: string
+          description: 추가 정보 (nullable)
+          nullable: true
+        nickname:
+          type: string
+          description: 닉네임 (nullable)
+          nullable: true
+        joinYmdt:
+          type: string
+          description: 가입 일시^|2021-01-01 00:00
+        memberGroups:
+          type: array
+          description: 회원 그룹 목록
+          items:
+            required:
+            - memberGroupDescription
+            - memberGroupName
+            - memberGroupNo
+            type: object
+            properties:
+              memberGroupName:
+                type: string
+                description: 회원 그룹 이름^|그룹 1
+              memberGroupDescription:
+                type: string
+                description: 회원 그룹 설명^|그룹 설명
+              memberGroupNo:
+                type: number
+                description: 회원 그룹 번호^|1
+        email:
+          type: string
+          description: 이메일 (nullable)
+          nullable: true
+        memberId:
+          type: string
+          description: 아이디^|test
+        agreedTerms:
+          type: array
+          description: "기본 동의 항목 목록^|[AgreedTerms(termsNo=2, termsType=TRANSFER_AGREE,\
+            \ isAgree=true, agreementYmdt=2026-06-16T15:19:43.414246567)]"
+          items:
+            required:
+            - agreementYmdt
+            - isAgree
+            - termsNo
+            - termsType
+            type: object
+            properties:
+              isAgree:
+                type: boolean
+                description: 기본 동의 항목 동의 여부^|true
+              agreementYmdt:
+                type: string
+                description: 기본 동의 항목 동의 시각^|2026-06-16T15:19:43.414246567
+              termsType:
+                type: string
+                description: "동의 타입 (MALL_INTRODUCTION, USE, E_COMMERCE, PI_PROCESS,\
+                  \ PI_COLLECTION_AND_USE_REQUIRED, PI_COLLECTION_AND_USE_OPTIONAL,\
+                  \ PI_PROCESS_CONSIGNMENT, PI_THIRD_PARTY_PROVISION, PI_COLLECTION_AND_USE_FOR_GUEST_ON_ARTICLE,\
+                  \ ACCESS_GUIDE, WITHDRAWAL_GUIDE, PI_SELLER_PROVISION, PI_COLLECTION_AND_USE_ON_ORDER,\
+                  \ ORDER_INFO_AGREE, CLEARANCE_INFO_COLLECTION_AND_USE, TRANSFER_AGREE,\
+                  \ PI_RESTOCK_NOTICE, PI_14_AGE)^|TRANSFER_AGREE"
+              termsNo:
+                type: number
+                description: 기본 동의 항목 번호^|2
+        lastLoginYmdt:
+          type: string
+          description: 최근 접속 시간 (nullable)
+          nullable: true
+        adultCertificated:
+          type: boolean
+          description: 성인 인증 여부^|true
+        mobileCountryCode:
+          type: string
+          description: 국제전화번호 코드 (nullable)
+          nullable: true
+        ci:
+          type: string
+          description: CI (nullable)
+          nullable: true
+        adultCertificatedYmdt:
+          type: string
+          description: 성인 인증 일시 (nullable)
+          nullable: true
+        smsAgreed:
+          type: boolean
+          description: 단문메시지서비스(SMS) 동의 여부^|true
+        joinTypeName:
+          type: string
+          description: 가입 경로 (nullable)
+          nullable: true
+        smsAgreeYmdt:
+          type: string
+          description: 단문메시지서비스(SMS) 동의 시각 (nullable)
+          nullable: true
+        customAgreedTerms:
+          type: array
+          description: "추가 동의 항목 목록^|[CustomAgreedTerms(customTermsNo=20, isAgree=true,\
+            \ agreementYmdt=2026-06-16T15:19:43.414228738)]"
+          items:
+            required:
+            - agreementYmdt
+            - customTermsNo
+            - isAgree
+            type: object
+            properties:
+              isAgree:
+                type: boolean
+                description: 추가 동의 항목 동의 여부^|true
+              agreementYmdt:
+                type: string
+                description: 추가 동의 항목 동의 시각^|2026-06-16T15:19:43.414228738
+              customTermsNo:
+                type: number
+                description: 추가 동의 항목 번호^|20
+        mobileNo:
+          type: string
+          description: 휴대폰번호 (nullable)
+          nullable: true
+        loginCount:
+          type: number
+          description: 로그인 횟수^|10
+        memberNo:
+          type: number
+          description: 회원번호^|12345
+        blacklisted:
+          type: boolean
+          description: 블랙리스트 여부^|false
+        memberGradeName:
+          type: string
+          description: 회원 등급 이름^|테스트 등급
+        memberGradeNo:
+          type: number
+          description: 회원 등급 번호^|1
+        registrationNo:
+          type: string
+          description: 사업자 회원 사업자등록번호 (nullable)
+          nullable: true
+        oauthIdNo:
+          type: string
+          description: 외부 서비스 고유 식별값 (nullable)
+          nullable: true
+        pushNotificationAgreeYmdt:
+          type: string
+          description: 푸시 알림 동의 시각 (nullable)
+          nullable: true
+        memberType:
+          type: string
+          description: 회원 구분^|MALL
+        extraInfo:
+          type: array
+          description: 회원 추가항목 정보
+          items:
+            required:
+            - extraInfoNo
+            - extraInfoOptionNos
+            type: object
+            properties:
+              extraInfoOptionNos:
+                type: array
+                description: "추가항목 옵션 번호 목록^|[10, 11, 12]"
+                items:
+                  oneOf:
+                  - type: object
+                  - type: boolean
+                  - type: string
+                  - type: number
+              extraInfoOptionTextContent:
+                type: string
+                description: 추가항목 옵션 텍스트 답변 내용^|내용
+                nullable: true
+              extraInfoNo:
+                type: number
+                description: 추가항목 번호^|1
+        memberGroupNames:
+          type: string
+          description: 회원 그룹 이름^|그룹 1
+    configurations-member-open-id-providerType2005268368:
+      required:
+      - clientId
+      type: object
+      properties:
+        clientId:
+          type: string
+          description: 간편로그인 client id^|123
+        clientSecret:
+          type: string
+          description: 간편로그인 clientSecret - 마스킹^|456
+          nullable: true
+        scopes:
+          type: array
+          description: "간편로그인 scopes^|[id, name]"
+          nullable: true
+          items:
+            oneOf:
+            - type: object
+            - type: boolean
+            - type: string
+            - type: number
+        appleConfig:
+          type: object
+          properties:
+            encKey:
+              type: string
+              description: 애플인 경우 config 의 시크릿 - 마스킹^|key
+              nullable: true
+            teamId:
+              type: string
+              description: 애플인 경우 config 의 teamId^|test-teamId
+              nullable: true
+            keyId:
+              type: string
+              description: 애플인 경우 config 의 keyId^|test-keyId
+              nullable: true
+          description: 애플인 경우 config^|com.ncp.member.presentation.response.OpenIdConfigClientResponse$AppleLoginConfigResponse@6c7eb038
     member-groups-969948294:
       type: array
       items:
@@ -2990,44 +3305,6 @@ components:
           type: string
           description: 회원 아이디 (nullable)
           nullable: true
-    configurations-member-open-id-providerType-1983782954:
-      required:
-      - clientId
-      type: object
-      properties:
-        clientId:
-          type: string
-          description: 간편로그인 client id^|123
-        clientSecret:
-          type: string
-          description: 간편로그인 clientSecret - 마스킹^|456
-          nullable: true
-        scopes:
-          type: array
-          description: "간편로그인 scopes^|[id, name]"
-          nullable: true
-          items:
-            oneOf:
-            - type: object
-            - type: boolean
-            - type: string
-            - type: number
-        appleConfig:
-          type: object
-          properties:
-            encKey:
-              type: string
-              description: 애플인 경우 config 의 시크릿 - 마스킹^|key
-              nullable: true
-            teamId:
-              type: string
-              description: 애플인 경우 config 의 teamId^|test-teamId
-              nullable: true
-            keyId:
-              type: string
-              description: 애플인 경우 config 의 keyId^|test-keyId
-              nullable: true
-          description: 애플인 경우 config^|com.ncp.member.presentation.response.OpenIdConfigClientResponse$AppleLoginConfigResponse@4c8594af
     configurations-member-open-id-pending-provider-1763264321:
       required:
       - action
@@ -3041,6 +3318,197 @@ components:
           type: string
           description: "간편회원 프로바이더^|PAYCO, NAVER, KAKAO, KAKAO_SYNC, FACEBOOK, LINE,\
             \ APPLE, GOOGLE, APP_CARD"
+    profile-2036449977:
+      type: object
+      properties:
+        birthday:
+          type: string
+          description: 생일 yyyyMMdd (nullable)
+          nullable: true
+        lastName:
+          type: string
+          description: 성 (nullable)
+          nullable: true
+        city:
+          type: string
+          description: "(국내, 해외 겸용) 도시 (nullable)"
+          nullable: true
+        businessName:
+          type: string
+          description: 회사명 (nullable)
+          nullable: true
+        memberName:
+          type: string
+          description: 회원 성명 (nullable)
+          nullable: true
+        zipCd:
+          type: string
+          description: 우편번호 (nullable)
+          nullable: true
+        pushNotificationAgreed:
+          type: boolean
+          description: 푸시 알림 동의 여부 (nullable)
+          nullable: true
+        isAdultCertified:
+          type: boolean
+          description: "성인인증 여부 (true: 인증, false: 미인증) (nullable)"
+          nullable: true
+        countryCode:
+          type: string
+          description: 거주 국가 (nullable)
+          nullable: true
+        directMailAgreed:
+          type: boolean
+          description: 이메일 알림 동의 여부 (nullable)
+          nullable: true
+        additionalInfo:
+          type: string
+          description: 추가 정보 (JSON) (nullable)
+          nullable: true
+        nickname:
+          type: string
+          description: 닉네임 (nullable)
+          nullable: true
+        customTermsNos:
+          type: array
+          description: 추가 선택 동의 항목 (nullable)
+          nullable: true
+          items:
+            oneOf:
+            - type: object
+            - type: boolean
+            - type: string
+            - type: number
+        state:
+          type: string
+          description: "(국내, 해외 겸용) 국내: 군/구, 해외: 주 (nullable)"
+          nullable: true
+        email:
+          type: string
+          description: 이메일 주소 (nullable)
+          nullable: true
+        jibunDetailAddress:
+          type: string
+          description: 도로명 주소 상세 (지번 주소) (nullable)
+          nullable: true
+        memberId:
+          type: string
+          description: 회원 아이디 (nullable)
+          nullable: true
+        address:
+          type: string
+          description: 도로명 주소 (nullable)
+          nullable: true
+        mobileCountryCode:
+          type: string
+          description: 국제전화번호 코드 (nullable)
+          nullable: true
+        certificated:
+          type: boolean
+          description: 인증확인 여부 (nullable)
+          nullable: true
+        ci:
+          type: string
+          description: CI (nullable)
+          nullable: true
+        smsAgreed:
+          type: boolean
+          description: SMS 알림 동의 여부 (nullable)
+          nullable: true
+        sex:
+          type: string
+          description: 성별 (F:여성/M:남성) (nullable)
+          nullable: true
+        jibunAddress:
+          type: string
+          description: 도로명 주소 (지번 주소) (nullable)
+          nullable: true
+        mobileNo:
+          type: string
+          description: 휴대전화번호 (nullable)
+          nullable: true
+        refundBank:
+          type: string
+          description: 환불 계좌 은행 (nullable)
+          nullable: true
+        firstName:
+          type: string
+          description: 이름 (nullable)
+          nullable: true
+        memberNo:
+          type: number
+          description: 회원 번호 (nullable)
+          nullable: true
+        blacklisted:
+          type: boolean
+          description: "[개발중] 블랙리스트 등록 여부 (nullable)"
+          nullable: true
+        refundBankDepositorName:
+          type: string
+          description: 환불 계좌 예금주명 (nullable)
+          nullable: true
+        telephoneNo:
+          type: string
+          description: 일반전화번호 (nullable)
+          nullable: true
+        registrationNo:
+          type: string
+          description: 사업자 등록 번호 (nullable)
+          nullable: true
+        joinTermsAgreements:
+          type: string
+          description: 선택동의항목
+          nullable: true
+          enum:
+          - "쇼핑몰/회사 소개: MALL_INTRODUCTION"
+          - "이용약관: USE"
+          - "전자금융거래 이용약관: E_COMMERCE"
+          - "개인정보처리방침: PI_PROCESS"
+          - "회원가입시 개인정보 수집/이용(필수): PI_COLLECTION_AND_USE_REQUIRED"
+          - "회원가입시 개인정보 수집/이용(선택): PI_COLLECTION_AND_USE_OPTIONAL"
+          - "개인정보 처리/위탁: PI_PROCESS_CONSIGNMENT"
+          - "개인정보 제3자 제공: PI_THIRD_PARTY_PROVISION"
+          - "비회원 게시글/문의글 작성 시 개인정보 수집/이용: PI_COLLECTION_AND_USE_FOR_GUEST_ON_ARTICLE"
+          - "이용 안내: ACCESS_GUIDE"
+          - "탈퇴 안내: WITHDRAWAL_GUIDE"
+          - "개인정보 판매자 제공: PI_SELLER_PROVISION"
+          - "회원 주문 시 개인정보 수집/이용: PI_COLLECTION_AND_USE_ON_ORDER"
+          - "주문정보 동의: ORDER_INFO_AGREE"
+          - "통관정보 수집/이용: CLEARANCE_INFO_COLLECTION_AND_USE"
+          - "개인정보 국외이전 동의: TRANSFER_AGREE"
+        detailAddress:
+          type: string
+          description: 도로명 주소 상세 (nullable)
+          nullable: true
+        refundBankAccount:
+          type: string
+          description: 환불 계좌 번호 (nullable)
+          nullable: true
+        extraInfo:
+          type: array
+          description: 추가 항목 정보
+          items:
+            required:
+            - extraInfoNo
+            - extraInfoOptionNos
+            type: object
+            properties:
+              extraInfoOptionNos:
+                type: array
+                description: "추가항목 옵션 번호 목록^|[10, 11, 12]"
+                items:
+                  oneOf:
+                  - type: object
+                  - type: boolean
+                  - type: string
+                  - type: number
+              extraInfoOptionTextContent:
+                type: string
+                description: 추가항목 옵션 텍스트 답변 내용^|null
+                nullable: true
+              extraInfoNo:
+                type: number
+                description: 추가항목 번호^|1
     profile-dormant-release486549215:
       type: object
     profile-grades508071144:
@@ -3156,252 +3624,6 @@ components:
           type: string
           description: 변경시킬 회원 상태 (nullable)
           nullable: true
-    profile-642727973:
-      required:
-      - adultCertificated
-      - agreedTerms
-      - blacklisted
-      - customAgreedTerms
-      - directMailAgreed
-      - extraInfo
-      - joinYmdt
-      - lastLoginIp
-      - loginCount
-      - memberGradeName
-      - memberGradeNo
-      - memberGroupNames
-      - memberGroups
-      - memberId
-      - memberNo
-      - memberStatus
-      - memberType
-      - principalCertificated
-      - pushNotificationAgreed
-      - smsAgreed
-      type: object
-      properties:
-        birthday:
-          type: string
-          description: 생년월일 (nullable)
-          nullable: true
-        gender:
-          type: string
-          description: 성별 (nullable)
-          nullable: true
-        businessName:
-          type: string
-          description: 사업자 회원 회사명 (nullable)
-          nullable: true
-        memberStatus:
-          type: string
-          description: "회원 상태 (대기: WAITING, 가입완료: ACTIVE, 휴면: FREEZE or DORMANT, 이\
-            용정지: PAUSED)^|ACTIVE"
-        memberName:
-          type: string
-          description: 회원이름 (nullable)
-          nullable: true
-        representativeMemberNo:
-          type: number
-          description: 대표몰 회원번호 (nullable)
-          nullable: true
-        pushNotificationAgreed:
-          type: boolean
-          description: 푸시 알림 동의 여부^|true
-        providerType:
-          type: string
-          description: 마지막 연동 SNS (nullable)
-          nullable: true
-        principalCertificated:
-          type: boolean
-          description: 본인인증 여부(true|false)^|true
-        lastLoginIp:
-          type: string
-          description: 마지막 접속 IP^|127.0.0.1
-        directMailAgreeYmdt:
-          type: string
-          description: 광고 우편물(DM) 수신 동의 시각 (nullable)
-          nullable: true
-        directMailAgreed:
-          type: boolean
-          description: 광고 우편물(DM) 수신 동의 여부^|true
-        additionalInfo:
-          type: string
-          description: 추가 정보 (nullable)
-          nullable: true
-        nickname:
-          type: string
-          description: 닉네임 (nullable)
-          nullable: true
-        joinYmdt:
-          type: string
-          description: 가입 일시^|2021-01-01 00:00
-        memberGroups:
-          type: array
-          description: 회원 그룹 목록
-          items:
-            required:
-            - memberGroupDescription
-            - memberGroupName
-            - memberGroupNo
-            type: object
-            properties:
-              memberGroupName:
-                type: string
-                description: 회원 그룹 이름^|그룹 1
-              memberGroupDescription:
-                type: string
-                description: 회원 그룹 설명^|그룹 설명
-              memberGroupNo:
-                type: number
-                description: 회원 그룹 번호^|1
-        email:
-          type: string
-          description: 이메일 (nullable)
-          nullable: true
-        memberId:
-          type: string
-          description: 아이디^|test
-        agreedTerms:
-          type: array
-          description: "기본 동의 항목 목록^|[AgreedTerms(termsNo=2, termsType=TRANSFER_AGREE,\
-            \ isAgree=true, agreementYmdt=2025-12-16T09:59:27.301458700)]"
-          items:
-            required:
-            - agreementYmdt
-            - isAgree
-            - termsNo
-            - termsType
-            type: object
-            properties:
-              isAgree:
-                type: boolean
-                description: 기본 동의 항목 동의 여부^|true
-              agreementYmdt:
-                type: string
-                description: 기본 동의 항목 동의 시각^|2025-12-16T09:59:27.301458700
-              termsType:
-                type: string
-                description: "동의 타입 (MALL_INTRODUCTION, USE, E_COMMERCE, PI_PROCESS,\
-                  \ PI_COLLECTION_AND_USE_REQUIRED, PI_COLLECTION_AND_USE_OPTIONAL,\
-                  \ PI_PROCESS_CONSIGNMENT, PI_THIRD_PARTY_PROVISION, PI_COLLECTION_AND_USE_FOR_GUEST_ON_ARTICLE,\
-                  \ ACCESS_GUIDE, WITHDRAWAL_GUIDE, PI_SELLER_PROVISION, PI_COLLECTION_AND_USE_ON_ORDER,\
-                  \ ORDER_INFO_AGREE, CLEARANCE_INFO_COLLECTION_AND_USE, TRANSFER_AGREE,\
-                  \ PI_RESTOCK_NOTICE, PI_14_AGE)^|TRANSFER_AGREE"
-              termsNo:
-                type: number
-                description: 기본 동의 항목 번호^|2
-        lastLoginYmdt:
-          type: string
-          description: 최근 접속 시간 (nullable)
-          nullable: true
-        adultCertificated:
-          type: boolean
-          description: 성인 인증 여부^|true
-        mobileCountryCode:
-          type: string
-          description: 국제전화번호 코드 (nullable)
-          nullable: true
-        ci:
-          type: string
-          description: CI (nullable)
-          nullable: true
-        adultCertificatedYmdt:
-          type: string
-          description: 성인 인증 일시 (nullable)
-          nullable: true
-        smsAgreed:
-          type: boolean
-          description: 단문메시지서비스(SMS) 동의 여부^|true
-        joinTypeName:
-          type: string
-          description: 가입 경로 (nullable)
-          nullable: true
-        smsAgreeYmdt:
-          type: string
-          description: 단문메시지서비스(SMS) 동의 시각 (nullable)
-          nullable: true
-        customAgreedTerms:
-          type: array
-          description: "추가 동의 항목 목록^|[CustomAgreedTerms(customTermsNo=20, isAgree=true,\
-            \ agreementYmdt=2025-12-16T09:59:27.301434691)]"
-          items:
-            required:
-            - agreementYmdt
-            - customTermsNo
-            - isAgree
-            type: object
-            properties:
-              isAgree:
-                type: boolean
-                description: 추가 동의 항목 동의 여부^|true
-              agreementYmdt:
-                type: string
-                description: 추가 동의 항목 동의 시각^|2025-12-16T09:59:27.301434691
-              customTermsNo:
-                type: number
-                description: 추가 동의 항목 번호^|20
-        mobileNo:
-          type: string
-          description: 휴대폰번호 (nullable)
-          nullable: true
-        loginCount:
-          type: number
-          description: 로그인 횟수^|10
-        memberNo:
-          type: number
-          description: 회원번호^|12345
-        blacklisted:
-          type: boolean
-          description: 블랙리스트 여부^|false
-        memberGradeName:
-          type: string
-          description: 회원 등급 이름^|테스트 등급
-        memberGradeNo:
-          type: number
-          description: 회원 등급 번호^|1
-        registrationNo:
-          type: string
-          description: 사업자 회원 사업자등록번호 (nullable)
-          nullable: true
-        oauthIdNo:
-          type: string
-          description: 외부 서비스 고유 식별값 (nullable)
-          nullable: true
-        pushNotificationAgreeYmdt:
-          type: string
-          description: 푸시 알림 동의 시각 (nullable)
-          nullable: true
-        memberType:
-          type: string
-          description: 회원 구분^|MALL
-        extraInfo:
-          type: array
-          description: 회원 추가항목 정보
-          items:
-            required:
-            - extraInfoNo
-            - extraInfoOptionNos
-            type: object
-            properties:
-              extraInfoOptionNos:
-                type: array
-                description: "추가항목 옵션 번호 목록^|[10, 11, 12]"
-                items:
-                  oneOf:
-                  - type: object
-                  - type: boolean
-                  - type: string
-                  - type: number
-              extraInfoOptionTextContent:
-                type: string
-                description: 추가항목 옵션 텍스트 답변 내용^|내용
-                nullable: true
-              extraInfoNo:
-                type: number
-                description: 추가항목 번호^|1
-        memberGroupNames:
-          type: string
-          description: 회원 그룹 이름^|그룹 1
     profile-blocked-release452550290:
       required:
       - memberNo
@@ -3467,56 +3689,23 @@ components:
               status:
                 type: string
                 description: 사용 상태^|USED
-    profile1934915172:
+    members1704146366:
+      required:
+      - status
       type: object
       properties:
-        birthday:
-          type: string
-          description: 생일 yyyyMMdd (nullable)
-          nullable: true
-        lastName:
-          type: string
-          description: 성 (nullable)
-          nullable: true
-        city:
-          type: string
-          description: "(국내, 해외 겸용) 도시 (nullable)"
-          nullable: true
-        businessName:
-          type: string
-          description: 회사명 (nullable)
-          nullable: true
-        memberName:
-          type: string
-          description: 회원 성명 (nullable)
-          nullable: true
-        zipCd:
-          type: string
-          description: 우편번호 (nullable)
-          nullable: true
-        pushNotificationAgreed:
+        emailAgreed:
           type: boolean
-          description: 푸시 알림 동의 여부 (nullable)
+          description: 이메일 수신 동의 여부 (nullable)
           nullable: true
-        countryCode:
+        startUpdateDateTime:
           type: string
-          description: 거주 국가 (nullable)
+          description: 수정일시 검색 시작 (yyyy-MM-dd HH:mm:ss) (nullable)
           nullable: true
-        directMailAgreed:
-          type: boolean
-          description: 이메일 알림 동의 여부 (nullable)
-          nullable: true
-        additionalInfo:
-          type: string
-          description: 추가 정보 (JSON) (nullable)
-          nullable: true
-        nickname:
-          type: string
-          description: 닉네임 (nullable)
-          nullable: true
-        customTermsNos:
+        keywords:
           type: array
-          description: 추가 선택 동의 항목 (nullable)
+          description: 검색어 배열 (최대 1000개). searchType에 맞는 값을 배열로 전달합니다. 미입력 시 키워드 검색
+            조건이 제외됩니다. (nullable)
           nullable: true
           items:
             oneOf:
@@ -3524,210 +3713,270 @@ components:
             - type: boolean
             - type: string
             - type: number
-        state:
+        searchType:
           type: string
-          description: "(국내, 해외 겸용) 국내: 군/구, 해외: 주 (nullable)"
-          nullable: true
-        email:
-          type: string
-          description: 이메일 주소 (nullable)
-          nullable: true
-        jibunDetailAddress:
-          type: string
-          description: 도로명 주소 상세 (지번 주소) (nullable)
-          nullable: true
-        memberId:
-          type: string
-          description: 회원 아이디 (nullable)
-          nullable: true
-        address:
-          type: string
-          description: 도로명 주소 (nullable)
-          nullable: true
-        mobileCountryCode:
-          type: string
-          description: 국제전화번호 코드 (nullable)
-          nullable: true
-        certificated:
-          type: boolean
-          description: 인증확인 여부 (nullable)
-          nullable: true
-        ci:
-          type: string
-          description: CI (nullable)
+          description: "검색 유형. 미입력 시 키워드 검색 조건이 제외됩니다. (MEMBER_NO: 회원번호, USER_ID:\
+            \ 회원아이디, EMAIL: 이메일, MOBILE: 휴대전화번호, NAME: 이름, NICKNAME: 닉네임) (nullable)"
           nullable: true
         smsAgreed:
           type: boolean
-          description: SMS 알림 동의 여부 (nullable)
+          description: SMS 수신 동의 여부 (nullable)
           nullable: true
-        sex:
-          type: string
-          description: 성별 (F:여성/M:남성) (nullable)
-          nullable: true
-        jibunAddress:
-          type: string
-          description: 도로명 주소 (지번 주소) (nullable)
-          nullable: true
-        mobileNo:
-          type: string
-          description: 휴대전화번호 (nullable)
-          nullable: true
-        refundBank:
-          type: string
-          description: 환불 계좌 은행 (nullable)
-          nullable: true
-        firstName:
-          type: string
-          description: 이름 (nullable)
-          nullable: true
-        memberNo:
+        gradeNo:
           type: number
-          description: 회원 번호 (nullable)
+          description: 등급 번호 (nullable)
           nullable: true
-        refundBankDepositorName:
+        pageSize:
+          type: number
+          description: "페이지 사이즈 (기본 10, 최대 500). ES 조회 결과를 RDB IN절로 조회하므로 최대 500으로\
+            \ 제한됩니다. (nullable)"
+          nullable: true
+        type:
           type: string
-          description: 환불 계좌 예금주명 (nullable)
+          description: "회원타입 (MALL, SYNC_ID, OPEN_ID) (nullable)"
           nullable: true
-        telephoneNo:
+        endLastLoginDateTime:
           type: string
-          description: 일반전화번호 (nullable)
+          description: 마지막 로그인일시 검색 종료 (yyyy-MM-dd HH:mm:ss) (nullable)
           nullable: true
-        registrationNo:
+        blacklisted:
+          type: boolean
+          description: 블랙리스트 여부 (nullable)
+          nullable: true
+        startGradeUpdateDateTime:
           type: string
-          description: 사업자 등록 번호 (nullable)
+          description: 등급변경일시 검색 시작 (yyyy-MM-dd HH:mm:ss) (nullable)
           nullable: true
-        joinTermsAgreements:
+        startLastLoginDateTime:
           type: string
-          description: 선택동의항목
+          description: 마지막 로그인일시 검색 시작 (yyyy-MM-dd HH:mm:ss) (nullable)
           nullable: true
-          enum:
-          - "쇼핑몰/회사 소개: MALL_INTRODUCTION"
-          - "이용약관: USE"
-          - "전자금융거래 이용약관: E_COMMERCE"
-          - "개인정보처리방침: PI_PROCESS"
-          - "회원가입시 개인정보 수집/이용(필수): PI_COLLECTION_AND_USE_REQUIRED"
-          - "회원가입시 개인정보 수집/이용(선택): PI_COLLECTION_AND_USE_OPTIONAL"
-          - "개인정보 처리/위탁: PI_PROCESS_CONSIGNMENT"
-          - "개인정보 제3자 제공: PI_THIRD_PARTY_PROVISION"
-          - "비회원 게시글/문의글 작성 시 개인정보 수집/이용: PI_COLLECTION_AND_USE_FOR_GUEST_ON_ARTICLE"
-          - "이용 안내: ACCESS_GUIDE"
-          - "탈퇴 안내: WITHDRAWAL_GUIDE"
-          - "개인정보 판매자 제공: PI_SELLER_PROVISION"
-          - "회원 주문 시 개인정보 수집/이용: PI_COLLECTION_AND_USE_ON_ORDER"
-          - "주문정보 동의: ORDER_INFO_AGREE"
-          - "통관정보 수집/이용: CLEARANCE_INFO_COLLECTION_AND_USE"
-          - "개인정보 국외이전 동의: TRANSFER_AGREE"
-        detailAddress:
+        endGradeUpdateDateTime:
           type: string
-          description: 도로명 주소 상세 (nullable)
+          description: 등급변경일시 검색 종료 (yyyy-MM-dd HH:mm:ss) (nullable)
           nullable: true
-        refundBankAccount:
+        includesCount:
+          type: boolean
+          description: totalCount 포함 여부. 기본값 false. false로 설정하면 조회 속도가 향상됩니다. (nullable)
+          nullable: true
+        endUpdateDateTime:
           type: string
-          description: 환불 계좌 번호 (nullable)
+          description: 수정일시 검색 종료 (yyyy-MM-dd HH:mm:ss) (nullable)
           nullable: true
-        extraInfo:
-          type: array
-          description: 추가 항목 정보
-          items:
-            required:
-            - extraInfoNo
-            - extraInfoOptionNos
-            type: object
-            properties:
-              extraInfoOptionNos:
-                type: array
-                description: "추가항목 옵션 번호 목록^|[10, 11, 12]"
-                items:
-                  oneOf:
-                  - type: object
-                  - type: boolean
-                  - type: string
-                  - type: number
-              extraInfoOptionTextContent:
-                type: string
-                description: 추가항목 옵션 텍스트 답변 내용^|null
-                nullable: true
-              extraInfoNo:
-                type: number
-                description: 추가항목 번호^|1
-    members-expelled-members951942479:
+        searchAfter:
+          type: string
+          description: "keySet search 방식의 커서 값. 첫 페이지 조회 시 생략 가능하며, 이후 페이지 조회 시 이전\
+            \ 응답의 lastId 값을 사용합니다. (nullable)"
+          nullable: true
+        endSignUpDateTime:
+          type: string
+          description: 가입일시 검색 종료 (yyyy-MM-dd HH:mm:ss) (nullable)
+          nullable: true
+        startSignUpDateTime:
+          type: string
+          description: 가입일시 검색 시작 (yyyy-MM-dd HH:mm:ss) (nullable)
+          nullable: true
+        groupNo:
+          type: number
+          description: 그룹 번호 (nullable)
+          nullable: true
+        status:
+          type: string
+          description: "회원상태 (필수). WAITING(대기), ACTIVE(가입완료), PAUSED(이용정지), PENDING(승\
+            인대기) 중 하나를 입력해야 합니다.^|ACTIVE"
+    profile-bulk-1153989928:
       type: array
       items:
-        required:
-        - joinYmdt
-        - loginCount
-        - memberGradeName
-        - memberGroupNames
-        - memberId
-        - memberNo
-        - memberStatus
-        - memberType
-        - withdrawalDateTime
-        - withdrawalReason
         type: object
         properties:
-          lastLoginYmdt:
+          birthday:
             type: string
-            description: 최근 접속 시간 (nullable) (nullable)
+            description: 생일 yyyyMMdd (nullable)
             nullable: true
-          joinTypeName:
+          lastName:
             type: string
-            description: 가입 경로 (nullable)
+            description: 성 (nullable)
             nullable: true
-          memberStatus:
+          city:
             type: string
-            description: 회원 상태^|WITHDRAWN
-            enum:
-            - "WAITING: 가입대기"
-            - "ACTIVE: 가입완료"
-            - "WITHDRAWN: 회원 탈퇴"
-            - "FREEZE: 휴면"
-            - "DORMANT: 휴면"
-            - "PAUSED: 일시 이용정지"
-            - "PENDING: 승인대기"
-          withdrawalDateTime:
-            type: string
-            description: 탈퇴 일시^|2021-01-01T00:00
-          loginCount:
-            type: number
-            description: 로그인 횟수^|0
-          providerType:
-            type: string
-            description: 마지막 연동 SNS (nullable)
+            description: "(국내, 해외 겸용) 도시 (nullable)"
             nullable: true
-          lastLoginIp:
+          businessName:
             type: string
-            description: 마지막 접속 IP (nullable)
+            description: 회사명 (nullable)
+            nullable: true
+          memberName:
+            type: string
+            description: 회원 성명 (nullable)
+            nullable: true
+          zipCd:
+            type: string
+            description: 우편번호 (nullable)
+            nullable: true
+          pushNotificationAgreed:
+            type: boolean
+            description: 푸시 알림 동의 여부 (nullable)
+            nullable: true
+          isAdultCertified:
+            type: boolean
+            description: "성인인증 여부 (true: 인증, false: 미인증) (nullable)"
+            nullable: true
+          countryCode:
+            type: string
+            description: 거주 국가 (nullable)
+            nullable: true
+          directMailAgreed:
+            type: boolean
+            description: 이메일 알림 동의 여부 (nullable)
+            nullable: true
+          additionalInfo:
+            type: string
+            description: 추가 정보 (JSON) (nullable)
+            nullable: true
+          nickname:
+            type: string
+            description: 닉네임 (nullable)
+            nullable: true
+          customTermsNos:
+            type: array
+            description: 추가 선택 동의 항목 (nullable)
+            nullable: true
+            items:
+              oneOf:
+              - type: object
+              - type: boolean
+              - type: string
+              - type: number
+          state:
+            type: string
+            description: "(국내, 해외 겸용) 국내: 군/구, 해외: 주 (nullable)"
+            nullable: true
+          email:
+            type: string
+            description: 이메일 주소 (nullable)
+            nullable: true
+          jibunDetailAddress:
+            type: string
+            description: 도로명 주소 상세 (지번 주소) (nullable)
+            nullable: true
+          memberId:
+            type: string
+            description: 회원 아이디 (nullable)
+            nullable: true
+          address:
+            type: string
+            description: 도로명 주소 (nullable)
+            nullable: true
+          mobileCountryCode:
+            type: string
+            description: 국제전화번호 코드 (nullable)
+            nullable: true
+          certificated:
+            type: boolean
+            description: 인증확인 여부 (nullable)
+            nullable: true
+          ci:
+            type: string
+            description: CI (nullable)
+            nullable: true
+          smsAgreed:
+            type: boolean
+            description: SMS 알림 동의 여부 (nullable)
+            nullable: true
+          sex:
+            type: string
+            description: 성별 (F:여성/M:남성) (nullable)
+            nullable: true
+          jibunAddress:
+            type: string
+            description: 도로명 주소 (지번 주소) (nullable)
+            nullable: true
+          mobileNo:
+            type: string
+            description: 휴대전화번호 (nullable)
+            nullable: true
+          refundBank:
+            type: string
+            description: 환불 계좌 은행 (nullable)
+            nullable: true
+          firstName:
+            type: string
+            description: 이름 (nullable)
             nullable: true
           memberNo:
             type: number
-            description: 회원번호^|1000000
-          memberGradeName:
-            type: string
-            description: 회원등급이름^|기본등급
-          additionalInfo:
-            type: string
-            description: 추가 정보(JSON) (nullable)
+            description: 회원 번호 (nullable)
             nullable: true
-          withdrawalReason:
+          blacklisted:
+            type: boolean
+            description: "[개발중] 블랙리스트 등록 여부 (nullable)"
+            nullable: true
+          refundBankDepositorName:
             type: string
-            description: 탈퇴 사유^|탙퇴 사유
-          joinYmdt:
+            description: 환불 계좌 예금주명 (nullable)
+            nullable: true
+          telephoneNo:
             type: string
-            description: 가입 일시^|2025-12-16 09:59
-          memberType:
+            description: 일반전화번호 (nullable)
+            nullable: true
+          registrationNo:
             type: string
-            description: 회원 구분^|MALL
+            description: 사업자 등록 번호 (nullable)
+            nullable: true
+          joinTermsAgreements:
+            type: string
+            description: 선택동의항목
+            nullable: true
             enum:
-            - "MALL: 일반 회원"
-            - "SYNC_ID: 연동형 회원"
-            - "OPEN_ID: 간편로그인 회원"
-          memberGroupNames:
+            - "쇼핑몰/회사 소개: MALL_INTRODUCTION"
+            - "이용약관: USE"
+            - "전자금융거래 이용약관: E_COMMERCE"
+            - "개인정보처리방침: PI_PROCESS"
+            - "회원가입시 개인정보 수집/이용(필수): PI_COLLECTION_AND_USE_REQUIRED"
+            - "회원가입시 개인정보 수집/이용(선택): PI_COLLECTION_AND_USE_OPTIONAL"
+            - "개인정보 처리/위탁: PI_PROCESS_CONSIGNMENT"
+            - "개인정보 제3자 제공: PI_THIRD_PARTY_PROVISION"
+            - "비회원 게시글/문의글 작성 시 개인정보 수집/이용: PI_COLLECTION_AND_USE_FOR_GUEST_ON_ARTICLE"
+            - "이용 안내: ACCESS_GUIDE"
+            - "탈퇴 안내: WITHDRAWAL_GUIDE"
+            - "개인정보 판매자 제공: PI_SELLER_PROVISION"
+            - "회원 주문 시 개인정보 수집/이용: PI_COLLECTION_AND_USE_ON_ORDER"
+            - "주문정보 동의: ORDER_INFO_AGREE"
+            - "통관정보 수집/이용: CLEARANCE_INFO_COLLECTION_AND_USE"
+            - "개인정보 국외이전 동의: TRANSFER_AGREE"
+          detailAddress:
             type: string
-            description: "회원그룹이름^|그룹1, 그룹2"
-          memberId:
+            description: 도로명 주소 상세 (nullable)
+            nullable: true
+          refundBankAccount:
             type: string
-            description: 아이디^|test
+            description: 환불 계좌 번호 (nullable)
+            nullable: true
+          extraInfo:
+            type: array
+            description: 추가 항목 정보
+            items:
+              required:
+              - extraInfoNo
+              - extraInfoOptionNos
+              type: object
+              properties:
+                extraInfoOptionNos:
+                  type: array
+                  description: "추가항목 옵션 번호 목록^|[]"
+                  items:
+                    oneOf:
+                    - type: object
+                    - type: boolean
+                    - type: string
+                    - type: number
+                extraInfoOptionTextContent:
+                  type: string
+                  description: 추가항목 옵션 텍스트 답변 내용^|추가항목 텍스트 답변
+                  nullable: true
+                extraInfoNo:
+                  type: number
+                  description: 추가항목 번호^|2
     profile-bulk-delete-722054971:
       required:
       - memberNos
@@ -3788,7 +4037,7 @@ components:
         value:
           type: string
           description: 회원 정지 / 정지 해제^|일시 이용정지
-    members-1662571364:
+    members331746680:
       required:
       - contents
       type: object
@@ -3893,13 +4142,13 @@ components:
                 description: 거주 국가^|KR
               nickname:
                 type: string
-                description: 이름^|활빈당
+                description: 닉네임^|활빈당
               isDirectMailAgreed:
                 type: boolean
                 description: email 알림 동의 여부^|false
               joinYmdt:
                 type: string
-                description: 회원가입일자^|2025-12-16 09:59
+                description: 회원가입일자^|2026-06-16 15:19
               state:
                 type: string
                 description: "(국내, 해외 겸용) 국내: 군/구, 해외: 주 (nullable)"
@@ -3939,6 +4188,10 @@ components:
               mobileCountryCode:
                 type: string
                 description: 국제전화번호 코드 (nullable)
+                nullable: true
+              ci:
+                type: string
+                description: CI (nullable)
                 nullable: true
               sex:
                 type: string
@@ -4034,3 +4287,81 @@ components:
               type: boolean
               description: 적립금 혜택 사용 여부^|false
           description: 적립금 혜택 정보
+    members-expelled-members2118687990:
+      type: array
+      items:
+        required:
+        - joinYmdt
+        - loginCount
+        - memberGradeName
+        - memberGroupNames
+        - memberId
+        - memberNo
+        - memberStatus
+        - memberType
+        - withdrawalDateTime
+        - withdrawalReason
+        type: object
+        properties:
+          lastLoginYmdt:
+            type: string
+            description: 최근 접속 시간 (nullable) (nullable)
+            nullable: true
+          joinTypeName:
+            type: string
+            description: 가입 경로 (nullable)
+            nullable: true
+          memberStatus:
+            type: string
+            description: 회원 상태^|WITHDRAWN
+            enum:
+            - "WAITING: 가입대기"
+            - "ACTIVE: 가입완료"
+            - "WITHDRAWN: 회원 탈퇴"
+            - "FREEZE: 휴면"
+            - "DORMANT: 휴면"
+            - "PAUSED: 일시 이용정지"
+            - "PENDING: 승인대기"
+          withdrawalDateTime:
+            type: string
+            description: 탈퇴 일시^|2021-01-01T00:00
+          loginCount:
+            type: number
+            description: 로그인 횟수^|0
+          providerType:
+            type: string
+            description: 마지막 연동 SNS (nullable)
+            nullable: true
+          lastLoginIp:
+            type: string
+            description: 마지막 접속 IP (nullable)
+            nullable: true
+          memberNo:
+            type: number
+            description: 회원번호^|1000000
+          memberGradeName:
+            type: string
+            description: 회원등급이름^|기본등급
+          additionalInfo:
+            type: string
+            description: 추가 정보(JSON) (nullable)
+            nullable: true
+          withdrawalReason:
+            type: string
+            description: 탈퇴 사유^|탙퇴 사유
+          joinYmdt:
+            type: string
+            description: 가입 일시^|2026-06-16 15:19
+          memberType:
+            type: string
+            description: 회원 구분^|MALL
+            enum:
+            - "MALL: 일반 회원"
+            - "SYNC_ID: 연동형 회원"
+            - "OPEN_ID: 간편로그인 회원"
+          memberGroupNames:
+            type: string
+            description: "회원그룹이름^|그룹1, 그룹2"
+          memberId:
+            type: string
+            description: 아이디^|test
