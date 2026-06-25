@@ -1,6 +1,6 @@
 """공통으로 사용하는 모델들"""
 
-from typing import Any, Literal
+from typing import Literal
 
 from pydantic import Field
 
@@ -73,16 +73,16 @@ class MemberGradeDisplayInfo(BaseDto):
     """회원등급 전시 정보"""
 
     check: str = Field(..., description="회원등급 전시 체크")
-    # 운영데이터 전부 빈 배열(300/300) → 아이템 구조 추론 불가
-    info: list[Any] = Field(default_factory=list, description="회원등급 정보")
+    # 스펙상 회원 등급 번호 리스트 (운영데이터는 빈 배열)
+    info: list[int] = Field(default_factory=list, description="노출 설정할 회원 등급 번호 리스트")
 
 
 class MemberGroupDisplayInfo(BaseDto):
     """회원그룹 전시 정보"""
 
     check: str = Field(..., description="회원그룹 전시 체크")
-    # 운영데이터 전부 빈 배열(300/300) → 아이템 구조 추론 불가
-    info: list[Any] = Field(default_factory=list, description="회원그룹 정보")
+    # 스펙상 회원 그룹 번호 리스트 (운영데이터는 빈 배열)
+    info: list[int] = Field(default_factory=list, description="노출 설정할 회원 그룹 번호 리스트")
 
 
 class PromotionInfo(BaseDto):

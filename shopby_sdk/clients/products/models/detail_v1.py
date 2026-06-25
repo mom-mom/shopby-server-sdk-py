@@ -79,13 +79,20 @@ class V1ReservationInfo(BaseDto):
     delivery_date_time: KstDatetime = Field(..., description="예약판매 배송시작일")
 
 
+class V1RelatedProduct(BaseDto):
+    """관련 상품 항목 (V1, relatedProductInfo.products[])."""
+
+    display_order: int | None = Field(None, description="노출 순서")
+    product_no: str | None = Field(None, description="관련 상품 번호")
+
+
 class V1RelatedProductInfo(BaseDto):
     """관련 상품 정보 (V1)"""
 
     config_type: str | None = Field(None, description="관련 상품 설정 유형")
     sort_criterion: str | None = Field(None, description="관련 상품 정렬 기준")
-    # 관련상품 정보 자체가 운영데이터 전부 null → 아이템 구조 추론 불가
-    products: list[Any] = Field(default_factory=list, description="관련 상품 목록")
+    # 스펙 정의 객체 배열 (운영데이터는 전부 null)
+    products: list[V1RelatedProduct] = Field(default_factory=list, description="관련 상품 목록")
     mall_no: int | None = Field(None, description="몰 번호")
 
 

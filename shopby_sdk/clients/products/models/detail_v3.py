@@ -152,6 +152,79 @@ class ProductOption(BaseDto):
     is_required_option: bool = Field(..., description="필수 옵션 여부")
 
 
+class UnitPriceInfo(BaseDto):
+    """단위별 가격 정보 (unitPriceInfo). 예: 100g 당 200원."""
+
+    price: float | None = Field(None, description="단위별 가격 (100g 당 200원이면 200)")
+    name: float | None = Field(None, description="기준 수량 (100g 당 200원이면 100)")
+    type: str | None = Field(None, description="단위 (100g 당 200원이면 g)")
+
+
+class AccumulationLimitInfo(BaseDto):
+    """적립금 사용 한도율 정보 (accumulationLimitInfo)."""
+
+    unit_type: str | None = Field(None, description="적립금 사용 금액 단위 (AMOUNT: 원, PERCENT: %)")
+    limit_value: float | None = Field(None, description="적립금 사용 한도 양")
+
+
+class ReservationInfo(BaseDto):
+    """예약판매 정보 (reservationInfo)."""
+
+    delivery_ymdt: KstDatetime | None = Field(None, description="예약배송시작일")
+    start_ymdt: KstDatetime | None = Field(None, description="예약판매 시작일")
+    end_ymdt: KstDatetime | None = Field(None, description="예약판매 종료일")
+    stock_cnt: int | None = Field(None, description="예약재고수량")
+
+
+class DeliveryDueDatePeriod(BaseDto):
+    """배송지정일 기간 (deliveryDueDate.period)."""
+
+    start_date: KstDate | None = Field(None, description="시작일")
+    end_date: KstDate | None = Field(None, description="종료일")
+
+
+class DeliveryDueDate(BaseDto):
+    """배송지정일 (deliveryDueDate)."""
+
+    days_of_the_week: list[str] | None = Field(
+        None, description="요일 (MON, TUE, WED, THU, FRI, SAT, SUN)"
+    )
+    period: DeliveryDueDatePeriod | None = Field(None, description="기간")
+    days_after_purchase: int | None = Field(None, description="주문일 기준 일수")
+
+
+class CustomerDemand(BaseDto):
+    """구매자 작성형 (customerDemands[])."""
+
+    input_no: int | None = Field(None, description="구매자작성형 번호 (신규생성: 0)")
+    input_text: str | None = Field(None, description="구매자작성형 문구")
+    matching_type: str | None = Field(
+        None, description="매칭타입 (OPTION: 옵션별, PRODUCT: 상품별, AMOUNT: 수량별)"
+    )
+    required: bool | None = Field(None, description="필수 입력값 여부")
+    use_yn: str | None = Field(None, description="사용 여부 (Y/N)")
+
+
+class RelatedProductItem(BaseDto):
+    """관련 상품 항목 (relatedProductInfo.products[])."""
+
+    display_order: int | None = Field(None, description="노출 순서")
+    product_no: int | None = Field(None, description="관련 상품 번호")
+
+
+class RelatedProductInfo(BaseDto):
+    """관련 상품 정보 (relatedProductInfo)."""
+
+    sort_criterion: str | None = Field(
+        None, description="진열 순서 (LATEST_REGISTER_DATE/SALES_COUNT/REVIEW_COUNT/CUSTOM_ORDER)"
+    )
+    mall_no: int | None = Field(None, description="몰번호")
+    config_type: str | None = Field(
+        None, description="관련 상품 설정 (DISPLAY_CATEGORY: 전시 카테고리, SELECTED: 개별상품)"
+    )
+    products: list[RelatedProductItem] | None = Field(None, description="관련 상품")
+
+
 class ProductDetailV3Response(BaseDto):
     """
     상품 상세 조회하기 (Version 3.0) 응답 모델
@@ -189,8 +262,8 @@ class ProductDetailV3Response(BaseDto):
     # 구매 제한
     minor_purchase_yn: str = Field(..., description="미성년자 구매 가능 여부")
     payment_means_control_yn: str = Field(..., description="결제수단제어 여부")
-    # 운영데이터 전부 빈 배열(300/300) → 아이템 구조 추론 불가
-    payment_means: list[Any] = Field(default_factory=list, description="결제수단")
+    # 스펙상 결제수단 Enum(PAYCO/CREDIT/...) 문자열 리스트 (운영데이터는 빈 배열)
+    payment_means: list[str] = Field(default_factory=list, description="결제수단")
     nonmember_purchase_yn: str = Field(..., description="비회원 구매 가능 여부")
 
     # 장바구니
@@ -206,8 +279,8 @@ class ProductDetailV3Response(BaseDto):
     sale_period_info: SalePeriodInfo = Field(..., description="판매기간 정보")
     commission_info: CommissionInfo = Field(..., description="판매수수료 정보")
     sale_price: float = Field(..., description="판매가")
-    # 운영데이터 전부 null(300/300) → 추론 불가
-    unit_price_info: Any | None = Field(None, description="단가 정보")
+    # 스펙 정의 객체 (운영데이터는 null)
+    unit_price_info: UnitPriceInfo | None = Field(None, description="단가 정보")
 
     # 할인 정보
     immediate_discount_info: ImmediateDiscountInfo = Field(..., description="즉시할인 정보")
@@ -216,8 +289,8 @@ class ProductDetailV3Response(BaseDto):
     accumulation_rate: float | None = Field(None, description="적립금적립 - %")
     partner_charge_amt: float = Field(..., description="파트너 부담 금액")
     accumulation_use_yn: str = Field(..., description="적립금 사용 가능 여부")
-    # 운영데이터 전부 null(300/300) → 추론 불가
-    accumulation_limit_info: dict[str, Any] | None = Field(None, description="적립금 제한 정보")
+    # 스펙 정의 객체 (운영데이터는 null)
+    accumulation_limit_info: AccumulationLimitInfo | None = Field(None, description="적립금 제한 정보")
 
     # 프로모션
     promotion_info: PromotionInfo = Field(..., description="프로모션 정보")
@@ -304,9 +377,8 @@ class ProductDetailV3Response(BaseDto):
     mall_product_list_image: str | None = Field(None, description="리스트 이미지 URL")
     mall_product_list_image_url_type: str = Field(..., description="리스트 이미지 URL 타입")
 
-    # 예약 정보
-    # 운영데이터 전부 null(300/300) → 추론 불가
-    reservation_info: Any | None = Field(None, description="예약 정보")
+    # 예약 정보 (스펙 정의 객체, 운영데이터는 null)
+    reservation_info: ReservationInfo | None = Field(None, description="예약 정보")
 
     # 스티커
     sticker_infos: list[StickerInfo] = Field(default_factory=list, description="스티커 정보")
@@ -315,13 +387,11 @@ class ProductDetailV3Response(BaseDto):
     # 운영데이터 전부 빈 배열(300/300) → 아이템 구조 추론 불가
     custom_property_values: list[Any] = Field(default_factory=list, description="커스텀 속성 값")
 
-    # 배송 지정일
-    # 운영데이터 전부 null(300/300) → 추론 불가
-    delivery_due_date: dict[str, Any] | None = Field(None, description="배송지정일")
+    # 배송 지정일 (스펙 정의 객체, 운영데이터는 null)
+    delivery_due_date: DeliveryDueDate | None = Field(None, description="배송지정일")
 
-    # 구매자 작성형
-    # 운영데이터 전부 빈 배열(300/300) → 아이템 구조 추론 불가
-    customer_demands: list[dict[str, Any]] = Field(default_factory=list, description="구매자 작성형")
+    # 구매자 작성형 (스펙 정의 객체 배열, 운영데이터는 빈 배열)
+    customer_demands: list[CustomerDemand] = Field(default_factory=list, description="구매자 작성형")
 
     # 수정 가능 여부
     modifiable: bool = Field(..., description="수정 가능 여부")
@@ -341,16 +411,14 @@ class ProductDetailV3Response(BaseDto):
     # 매입처 상품명
     supplier_product_name: str | None = Field(None, description="매입처 상품명")
 
-    # 관련 상품 정보
-    # 운영데이터 전부 null(300/300) → 추론 불가
-    related_product_info: dict[str, Any] | None = Field(None, description="관련 상품 정보")
+    # 관련 상품 정보 (스펙 정의 객체, 운영데이터는 null)
+    related_product_info: RelatedProductInfo | None = Field(None, description="관련 상품 정보")
 
     # 재입고 알림
     use_restock_noti_yn: str = Field(..., description="재입고 알림 사용 여부")
 
-    # 추가 정보
-    # 운영데이터 전부 null(300/300) → 추론 불가
-    extra_info: Any | None = Field(None, description="추가 정보")
+    # 추가 정보 (스펙상 string, 운영데이터는 null)
+    extra_info: str | None = Field(None, description="추가 정보")
 
     # 총 무게
     total_weight: float = Field(..., description="총 무게")

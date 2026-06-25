@@ -577,8 +577,8 @@ class RequiredPropertiesResponse(BaseDto):
     """
 
     mall_no: int | None = Field(None, description="몰 번호")
-    # 운영데이터 빈 배열 → 아이템 구조 추론 불가
-    required_properties: list[Any] = Field(default_factory=list, description="필수 항목 목록")
+    # 스펙상 필수 항목명(brand/displayCategory 등) 문자열 리스트 (운영데이터는 빈 배열)
+    required_properties: list[str] = Field(default_factory=list, description="필수 항목 목록")
 
 
 # ------------------------------------
