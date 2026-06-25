@@ -1,6 +1,6 @@
 """Admin API 모델 정의"""
 
-from typing import Any, Literal
+from typing import Literal
 
 from pydantic import Field
 
@@ -311,9 +311,8 @@ class AdminDetailResponse(BaseDto):
     phone_no: str | None = Field(None, description="전화번호")
     mobile_no: str | None = Field(None, description="휴대전화번호")
     external_access_enabled: bool | None = Field(None, description="외부접속 가능 여부")
-    # 운영데이터 전부 빈 배열([]) + 스펙상 items 가 oneOf(object/boolean/string/number)
-    # 자유형식 → 타입화 불가, list[Any] 유지
-    permitted_ip_addresses: list[Any] = Field(
+    # 접속 가능 IP 주소 문자열 리스트 (운영데이터는 빈 배열)
+    permitted_ip_addresses: list[str] = Field(
         default_factory=list, description="접속 가능 IP"
     )
     phone_certification_yn: bool | None = Field(None, description="휴대폰 인증 여부")

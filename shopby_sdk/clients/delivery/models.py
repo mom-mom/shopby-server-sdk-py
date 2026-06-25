@@ -1,6 +1,6 @@
 """Delivery API 모델 정의"""
 
-from typing import Any, Literal
+from typing import Literal
 
 from pydantic import Field
 
@@ -391,9 +391,8 @@ class TemplateGroupCreateRequest(BaseDto):
     uses_area_fee: bool | None = Field(None, description="지역별 추가배송비 사용 여부")
     area_fee_no: int | None = Field(None, description="사용할 지역별 추가배송비 번호")
     templates: list[TemplateRequest] = Field(default_factory=list, description="추가할 템플릿 내역")
-    # request-only 필드 + 스펙 items 가 oneOf[object|boolean|string|number] (자유형식) →
-    # 운영 응답에 미노출(검증 100+건 hit=0)이라 실데이터 추론 불가, dict/Any 유지
-    undeliverable_countries: list[Any] = Field(
+    # 국가코드 리스트([KR, CN, JP]) → 모듈 공용 CountryCode enum 재사용
+    undeliverable_countries: list[CountryCode] = Field(
         default_factory=list, description="배송 불가능한 국가 리스트"
     )
     currency_code: str | None = Field(None, description="통화 정보 (nullable)")
@@ -422,9 +421,8 @@ class TemplateGroupUpdateRequest(BaseDto):
     modify_templates: list[TemplateModifyRequest] = Field(
         default_factory=list, description="수정할 템플릿 리스트"
     )
-    # request-only 필드 + 스펙 items 가 oneOf[object|boolean|string|number] (자유형식) →
-    # 운영 응답에 미노출(검증 100+건 hit=0)이라 실데이터 추론 불가, dict/Any 유지
-    undeliverable_countries: list[Any] = Field(
+    # 국가코드 리스트([KR, CN, JP]) → 모듈 공용 CountryCode enum 재사용
+    undeliverable_countries: list[CountryCode] = Field(
         default_factory=list, description="배송 불가능한 국가 리스트"
     )
 

@@ -1,6 +1,6 @@
 """Display API 모델 정의"""
 
-from typing import Any, Literal
+from typing import Literal
 
 from pydantic import Field
 
@@ -50,9 +50,8 @@ class MemberDisplayInfo(BaseDto):
     """회원등급/그룹 노출 설정"""
 
     check: str | None = Field(None, description="설정 상태 (NONE, ANY, PART)")
-    # 운영데이터 전부 빈 배열(events/banners/products v3 1000+건 모두 []) + 스펙상
-    # items 가 oneOf:[object,boolean,string,number] 자유형식 → 구조 추론 불가, list[Any] 유지
-    info: list[Any] = Field(default_factory=list, description="노출 설정 정보 (check=PART일 때만 채워짐)")
+    # 회원 등급/그룹 번호 리스트 (운영데이터는 빈 배열, products base.py memberGrade/GroupDisplayInfo 와 동일)
+    info: list[int] = Field(default_factory=list, description="노출 설정 정보 (check=PART일 때만 채워짐)")
 
 
 class PlatformDisplay(BaseDto):

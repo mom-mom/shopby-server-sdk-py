@@ -198,9 +198,8 @@ class AssembleItem(BaseDto):
     valid_period: int | None = Field(None, description="만료 기간 (월)")
     expire_date_time: KstDatetime | None = Field(None, description="지정 만료 기간")
     targets: list[AssembleTarget] = Field(default_factory=list, description="지급 대상 목록")
-    # 스펙상 items 가 oneOf(object/boolean/string/number) 자유형식이고,
-    # 운영데이터 24건 모두 빈 배열([])이라 항목 구조를 추론할 수 없어 list[Any] 유지.
-    exclude_member_nos: list[Any] = Field(
+    # 제외 회원 번호 리스트 (운영데이터는 빈 배열)
+    exclude_member_nos: list[int] = Field(
         default_factory=list, description="지급 대상 중 제외된 회원 번호"
     )
     order_request: AssembleOrderRequest | None = Field(None, description="주문 정보")
