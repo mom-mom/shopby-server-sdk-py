@@ -162,6 +162,9 @@ class AssembleTarget(BaseDto):
     """적립금 변동 요청 지급 대상 (assembles targets)"""
 
     type: str | None = Field(None, description="지급 대상 유형")
+    # 스펙상 items 가 oneOf(object/boolean/string/number) 자유형식 → 타입화 불가.
+    # 운영데이터(targets 24건)는 전부 type=MEMBER_NO 이며 values 항목이 모두 int(회원번호)였으나,
+    # 지급 대상 유형에 따라 값 형태가 달라질 수 있어 list[Any] 유지.
     values: list[Any] = Field(default_factory=list, description="지급 대상 값 리스트")
 
 
@@ -195,6 +198,8 @@ class AssembleItem(BaseDto):
     valid_period: int | None = Field(None, description="만료 기간 (월)")
     expire_date_time: KstDatetime | None = Field(None, description="지정 만료 기간")
     targets: list[AssembleTarget] = Field(default_factory=list, description="지급 대상 목록")
+    # 스펙상 items 가 oneOf(object/boolean/string/number) 자유형식이고,
+    # 운영데이터 24건 모두 빈 배열([])이라 항목 구조를 추론할 수 없어 list[Any] 유지.
     exclude_member_nos: list[Any] = Field(
         default_factory=list, description="지급 대상 중 제외된 회원 번호"
     )
@@ -611,7 +616,8 @@ class SendKakaoMessageRequest(BaseDto):
     """
 
     template_code: str = Field(..., description="템플릿 코드")
-    replace_map: dict[str, Any] = Field(
+    # 키가 동적(템플릿별 치환 변수명)이고 값은 1depth 치환 텍스트(문자열) → dict[str, str].
+    replace_map: dict[str, str] = Field(
         default_factory=dict, description="치환 텍스트(1depth만 허용)"
     )
     reserved_time: str | None = Field(None, description="예약전송 시간 (YYYY-MM-DD HH:mm:ss)")

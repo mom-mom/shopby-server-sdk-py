@@ -50,7 +50,9 @@ class MemberDisplayInfo(BaseDto):
     """회원등급/그룹 노출 설정"""
 
     check: str | None = Field(None, description="설정 상태 (NONE, ANY, PART)")
-    info: list[Any] = Field(default_factory=list, description="노출 설정 정보")
+    # 운영데이터 전부 빈 배열(events/banners/products v3 1000+건 모두 []) + 스펙상
+    # items 가 oneOf:[object,boolean,string,number] 자유형식 → 구조 추론 불가, list[Any] 유지
+    info: list[Any] = Field(default_factory=list, description="노출 설정 정보 (check=PART일 때만 채워짐)")
 
 
 class PlatformDisplay(BaseDto):

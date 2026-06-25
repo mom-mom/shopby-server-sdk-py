@@ -267,8 +267,9 @@ class OptionCancelRequest(BaseDto):
     reason_type: ClaimReasonType | None = Field(None, description="클레임사유")
     reason_detail: str | None = Field(None, description="클레임사유-상세")
     refund_bank_account: BankAccount | None = Field(None, description="환불계좌(환불시)")
+    # request-only, 스펙상 자유형식 object(properties 없음) → 구조 추론 불가, dict 유지
     complex_refund_adjust: dict[str, Any] | None = Field(
-        None, description="결제수단 별 환불금액"
+        None, description="결제수단 별 환불금액 (자유형식 object)"
     )
 
 
@@ -347,8 +348,9 @@ class CancelExchangeCalculateParam(BaseDto):
     product_adjust_amt: float | None = Field(
         None, description="상품조정금액(추가되는 상품 차액을 쇼핑몰이 부담하는 경우 입력)"
     )
+    # request-only, 스펙상 자유형식 object(properties 없음) → 구조 추론 불가, dict 유지
     complex_refund_adjust: dict[str, Any] | None = Field(
-        None, description="결제수단 별 환불금액 (refundType 은 ADMIN_ETC 를 입력)"
+        None, description="결제수단 별 환불금액 (refundType 은 ADMIN_ETC 를 입력, 자유형식 object)"
     )
 
 
@@ -473,8 +475,9 @@ class ReturnExchangeCalculateParam(BaseDto):
     )
     return_address: ClaimAddress | None = Field(None, description="반품수거지 주소")
     exchange_address: ClaimAddress | None = Field(None, description="교환출고지 주소")
+    # request-only, 스펙상 자유형식 object(properties 없음) → 구조 추론 불가, dict 유지
     complex_refund_adjust: dict[str, Any] | None = Field(
-        None, description="결제수단 별 환불금액 (refundType 은 ADMIN_ETC 를 입력)"
+        None, description="결제수단 별 환불금액 (refundType 은 ADMIN_ETC 를 입력, 자유형식 object)"
     )
 
 
@@ -566,7 +569,10 @@ class ReturnRequest(BaseDto):
     is_refund_adjust: bool | None = Field(
         None, description="환불 조정 여부 (배송안함 상품만 환불 조정 가능)"
     )
-    complex_refund_request: dict[str, Any] | None = Field(None, description="결제수단 별 환불금액")
+    # request-only, 스펙상 자유형식 object(properties 없음) → 구조 추론 불가, dict 유지
+    complex_refund_request: dict[str, Any] | None = Field(
+        None, description="결제수단 별 환불금액 (자유형식 object)"
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -778,13 +784,225 @@ class ClaimedOption(BaseDto):
     )
 
 
+# ---------------------------------------------------------------------------
+# 클레임 계산 데이터 (claimData) - 실데이터 추론 (운영 572건 기준, 전 필드 안정)
+# amounts.before / after / refund 는 동일한 금액 구조(ClaimAmountSnapshot)를 공유한다.
+# 금액 필드는 실데이터에서 int/float 혼재이므로 모두 float 로 둔다(pydantic 이 int 허용).
+# ---------------------------------------------------------------------------
+class ClaimOrderAmount(BaseDto):
+    """주문 금액 정보 (amounts.{before,after,refund}.order)"""
+
+    pay_amt: float = Field(..., description="결제금액")
+    accumulation_pay_amt: float = Field(..., description="적립금 결제금액")
+    standard_amt: float = Field(..., description="판매가 기준 금액")
+    immediate_discount_amt: float = Field(..., description="즉시할인 금액")
+    additional_discount_amt: float = Field(..., description="추가할인 금액")
+    remaining_pg_pay_amt: float = Field(..., description="잔여 PG 결제금액")
+    remaining_main_pay_amt: float = Field(..., description="잔여 메인 결제금액")
+    free_gift_discount_amt: float = Field(..., description="사은품 할인 금액")
+    external_pay_amt: float = Field(..., description="외부결제 금액")
+    main_pay_amt: float = Field(..., description="메인 결제금액")
+    # 운영데이터에서 항상 빈 배열/null → 아이템 구조 추론 불가, dict 유지
+    external_pay_infos: list[dict[str, Any]] | None = Field(
+        None, description="외부결제 정보 목록 (운영데이터 전부 빈 배열 → 아이템 구조 추론 불가)"
+    )
+
+
+class ClaimDeliveryGroupAmount(BaseDto):
+    """배송그룹 금액 (amounts.{...}.delivery.deliveryGroupAmounts)"""
+
+    delivery_amt: float = Field(..., description="배송비")
+    remote_delivery_amt: float = Field(..., description="지역별 추가 배송비")
+    prepaid_delivery_amt: float = Field(..., description="선결제 배송비")
+    prepaid_remote_delivery_amt: float = Field(..., description="선결제 지역별 추가 배송비")
+    pay_on_delivery_amt: float = Field(..., description="착불 배송비")
+    pay_on_remote_delivery_amt: float = Field(..., description="착불 지역별 추가 배송비")
+    already_paid_total_delivery_amt: float = Field(..., description="기결제 총 배송비")
+    total_delivery_amt: float = Field(..., description="총 배송비")
+    total_prepaid_delivery_amt: float = Field(..., description="총 선결제 배송비")
+
+
+class ClaimDeliveryAmount(BaseDto):
+    """배송 금액 정보 (amounts.{before,after,refund}.delivery)"""
+
+    delivery_group_amounts: ClaimDeliveryGroupAmount = Field(..., description="배송그룹 금액")
+    delivery_amt: float = Field(..., description="배송비")
+    remote_delivery_amt: float = Field(..., description="지역별 추가 배송비")
+    total_delivery_amt: float = Field(..., description="총 배송비")
+
+
+class ClaimAccumulationAmount(BaseDto):
+    """적립금 금액 정보 (amounts.{before,after,refund}.accumulation)"""
+
+    accumulation_amt: float = Field(..., description="적립금 금액")
+
+
+class ClaimProductCouponDiscountAmount(BaseDto):
+    """상품쿠폰 할인 금액 (coupon.productCouponDiscountAmounts[])"""
+
+    order_product_no: int = Field(..., description="주문상품번호")
+    coupon_discount_amt: float = Field(..., description="쿠폰 할인금액")
+    mall_product_no: int = Field(..., description="몰 상품번호")
+
+
+class ClaimCouponAmount(BaseDto):
+    """쿠폰 할인 금액 정보 (amounts.{before,after,refund}.coupon)"""
+
+    cart_coupon_discount_amt: float = Field(..., description="장바구니 쿠폰 할인금액")
+    product_coupon_discount_amt: float = Field(..., description="상품 쿠폰 할인금액")
+    product_coupon_discount_amounts: list[ClaimProductCouponDiscountAmount] | None = Field(
+        None, description="상품쿠폰 할인금액 목록"
+    )
+
+
+class ClaimAmountSnapshot(BaseDto):
+    """클레임 금액 스냅샷 (amounts.before / amounts.after / amounts.refund)"""
+
+    order: ClaimOrderAmount = Field(..., description="주문 금액")
+    delivery: ClaimDeliveryAmount = Field(..., description="배송 금액")
+    accumulation: ClaimAccumulationAmount = Field(..., description="적립금 금액")
+    coupon: ClaimCouponAmount = Field(..., description="쿠폰 금액")
+
+
+class ClaimAdjustedAmounts(BaseDto):
+    """조정 금액 정보 (amounts.adjustedAmounts)"""
+
+    pay_amt: float = Field(..., description="결제금액")
+    main_pay_amt: float = Field(..., description="메인 결제금액")
+    accumulation_pay_amt: float = Field(..., description="적립금 결제금액")
+    additional_pay_amt: float = Field(..., description="추가결제 금액")
+    external_pay_amt: float = Field(..., description="외부결제 금액")
+    claim_amt: float = Field(..., description="클레임 금액(환불은 음수)")
+    # 운영데이터 전부 null / 빈 배열 → 구조 추론 불가, 보존
+    external_pay_infos: list[dict[str, Any]] | None = Field(
+        None, description="외부결제 정보 목록 (운영데이터 전부 빈 배열 → 아이템 구조 추론 불가)"
+    )
+    complex_refund_pg_amt: float | None = Field(
+        None, description="관리자 지정 환불 PG 금액 (운영데이터 전부 null)"
+    )
+    complex_refund_account_amt: float | None = Field(
+        None, description="관리자 지정 환불 계좌 금액 (운영데이터 전부 null)"
+    )
+
+
+class ClaimReturnDeliveryAmount(BaseDto):
+    """반품 배송 금액 정보 (amounts.returnDelivery, 반품/교환 클레임에만 존재)"""
+
+    return_delivery_amt: float = Field(..., description="반품 배송비")
+    return_remote_delivery_amt: float = Field(..., description="반품 지역별 추가 배송비")
+    processed_delivery_amt: float = Field(..., description="처리된 배송비")
+    prepaid: bool = Field(..., description="선결제 여부")
+    prepaid_processed_delivery_amt: float = Field(..., description="선결제 처리 배송비")
+    prepaid_total_pure_return_delivery_amt: float = Field(
+        ..., description="선결제 순수 반품배송비 합계"
+    )
+    total_return_delivery_amt: float = Field(..., description="총 반품 배송비")
+    total_pure_return_delivery_amt: float = Field(..., description="순수 반품배송비 합계")
+    prepaid_return_delivery_amt: float = Field(..., description="선결제 반품 배송비")
+    prepaid_return_remote_delivery_amt: float = Field(
+        ..., description="선결제 반품 지역별 추가 배송비"
+    )
+    prepaid_total_return_delivery_amt: float = Field(..., description="선결제 총 반품 배송비")
+
+
+class ClaimAmounts(BaseDto):
+    """클레임 금액 종합 (claimData.amounts)"""
+
+    before: ClaimAmountSnapshot = Field(..., description="클레임 전 금액")
+    after: ClaimAmountSnapshot = Field(..., description="클레임 후 금액")
+    refund: ClaimAmountSnapshot = Field(..., description="환불 금액")
+    adjusted_amounts: ClaimAdjustedAmounts = Field(..., description="조정 금액")
+    delivery_adjust_amt: float = Field(..., description="배송비 조정금액")
+    refund_delivery_amt: float = Field(..., description="환불 배송비")
+    initial_delivery_amt: float = Field(..., description="초도 배송비")
+    return_delivery: ClaimReturnDeliveryAmount | None = Field(
+        None, description="반품 배송 금액 (반품/교환 클레임에만 존재)"
+    )
+    return_delivery_adjust_amt: float | None = Field(
+        None, description="반품 배송비 조정금액 (반품/교환 클레임에만 존재)"
+    )
+    refund_adjust_amt: float | None = Field(
+        None, description="환불 조정금액 (반품/교환 클레임에만 존재)"
+    )
+
+
+class ClaimShippingAddress(BaseDto):
+    """클레임 배송 주소 (claimData.shipping.address)"""
+
+    zip_cd: str = Field(..., description="우편번호")
+    address: str = Field(..., description="주소")
+    jibun_address: str | None = Field(None, description="지번주소")
+    detail_address: str | None = Field(None, description="상세주소")
+    name: str = Field(..., description="수령자명")
+    contact1: str | None = Field(None, description="연락처1")
+    contact2: str | None = Field(None, description="연락처2")
+    mobile_country_cd: str | None = Field(None, description="휴대폰번호 국가 코드")
+    country_cd: str | None = Field(None, description="국가코드")
+    receiver_city: str | None = Field(None, description="(해외) 도시")
+    receiver_state: str | None = Field(None, description="(해외) 주")
+    customs_id_number: str | None = Field(None, description="개인통관고유부호")
+    shipping_etc_info: ShippingEtcInfo | None = Field(None, description="해외배송 관련 기타 필드")
+
+
+class ClaimShipping(BaseDto):
+    """클레임 배송 정보 (claimData.shipping)"""
+
+    original_shipping_no: int = Field(..., description="원배송번호")
+    shipping_no: int = Field(..., description="배송번호")
+    delivery_group_no: int = Field(..., description="배송그룹번호")
+    delivery_template_no: int = Field(..., description="배송템플릿번호")
+    delivery_type: str = Field(..., description="배송유형 (예: PARCEL_DELIVERY, NONE)")
+    requires_shipping: bool = Field(..., description="배송 필요 여부")
+    combined: bool = Field(..., description="묶음배송 여부")
+    divided: bool = Field(..., description="분할배송 여부")
+    prepaid: bool = Field(..., description="선결제 여부")
+    has_adjusted_exchange_delivery_amt: bool = Field(
+        ..., description="교환 배송비 조정 여부"
+    )
+    address: ClaimShippingAddress = Field(..., description="배송 주소")
+    invoice_no: str | None = Field(None, description="송장번호")
+    delivery_company_type: str | None = Field(None, description="택배사 타입")
+    customs_id_number: str | None = Field(None, description="개인통관고유부호")
+
+
+class ClaimCouponInfo(BaseDto):
+    """클레임 쿠폰 단건 정보 (coupon.cartCoupon, coupon.productCoupons[])"""
+
+    coupon_no: int = Field(..., description="쿠폰번호")
+    coupon_issue_no: int = Field(..., description="쿠폰발급번호")
+    coupon_name: str = Field(..., description="쿠폰명")
+    coupon_sub_type: str = Field(..., description="쿠폰 서브타입 (예: NONE, CART)")
+    order_product_no: int = Field(..., description="주문상품번호")
+    restores: bool = Field(..., description="쿠폰 복원 여부")
+
+
+class ClaimCoupon(BaseDto):
+    """클레임 쿠폰 정보 (claimData.coupon)"""
+
+    cart_coupon: ClaimCouponInfo | None = Field(None, description="장바구니 쿠폰")
+    product_coupons: list[ClaimCouponInfo] | None = Field(None, description="상품 쿠폰 목록")
+
+
+class ClaimData(BaseDto):
+    """클레임 계산 데이터 (claimData)
+
+    OpenAPI Schema: claims2026232036.contents[].claimData
+
+    금액/배송/쿠폰 등 클레임 계산 결과. 운영 572건 기준 전 필드 구조 안정.
+    금액 필드는 실데이터에서 int/float 혼재이므로 float 로 통일했다.
+    """
+
+    amounts: ClaimAmounts = Field(..., description="클레임 금액 정보")
+    shipping: ClaimShipping = Field(..., description="배송 정보")
+    coupon: ClaimCoupon | None = Field(None, description="쿠폰 정보")
+    refund_type: str = Field(..., description="환불 타입 (예: PG, ACCUMULATION)")
+    overflows_pg_amt: bool = Field(..., description="PG 금액 초과 여부")
+
+
 class ClaimListItem(BaseDto):
     """클레임 목록 단건 항목
 
     OpenAPI Schema: claims2026232036.contents[]
-
-    참고: claimData 는 금액/배송/쿠폰 등 매우 깊은 중첩 구조이므로
-    dict[str, Any] 로 보존합니다 (계산값 원본 그대로 접근 가능).
     """
 
     claim_no: int = Field(..., description="클레임번호")
@@ -830,8 +1048,8 @@ class ClaimListItem(BaseDto):
     )
     additional_pay_remitter: str | None = Field(None, description="추가결제 - 입금자명")
     first_order_option_no: int | None = Field(None, description="최초 주문옵션번호")
-    claim_data: dict[str, Any] | None = Field(
-        None, description="클레임 계산 데이터(금액/배송/쿠폰 등 중첩 구조 원본)"
+    claim_data: ClaimData | None = Field(
+        None, description="클레임 계산 데이터(금액/배송/쿠폰 등)"
     )
 
 

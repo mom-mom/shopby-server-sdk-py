@@ -10,7 +10,7 @@ client.py 에서 dict 로 직접 구성하며(BaseDto camelCase 변환 회피),
 토큰 응답(AuthTokenResponse)은 BaseDto 의 validate_by_name(snake_case=필드명)으로 파싱한다.
 """
 
-from typing import Any, Literal
+from typing import Literal
 
 from pydantic import Field
 
@@ -108,6 +108,26 @@ class AuthMeBusiness(BaseDto):
     representative_name: str | None = Field(None, description="대표자명")
 
 
+class AuthMeCustomerCenter(BaseDto):
+    """auth/me - 고객센터 정보 (mall.customerCenter)
+
+    실데이터: {"tel": "07041380153", "email": "cs@mom-mom.net"}
+    """
+
+    tel: str | None = Field(None, description="고객센터 전화번호")
+    email: str | None = Field(None, description="고객센터 이메일")
+
+
+class AuthMeDomain(BaseDto):
+    """auth/me - 어드민 몰 도메인 (mall.domains items)
+
+    실데이터: {"domain": "mom-mom.net", "deviceType": "PC"}
+    """
+
+    domain: str = Field(..., description="어드민 몰 도메인 이름")
+    device_type: DeviceType = Field(..., description="어드민 몰 도메인 디바이스 종류 (PC, MOBILE)")
+
+
 class AuthMeMall(BaseDto):
     """auth/me - 쇼핑몰 정보"""
 
@@ -120,8 +140,8 @@ class AuthMeMall(BaseDto):
     mall_id: str | None = Field(None, description="쇼핑몰 ID")
     sno: int | None = Field(None, description="서비스 번호")
     shop_no: int | None = Field(None, description="고도몰 상점 번호")
-    customer_center: dict[str, Any] | None = Field(None, description="고객센터 정보")
-    domains: list[Any] = Field(default_factory=list, description="도메인 목록")
+    customer_center: AuthMeCustomerCenter | None = Field(None, description="고객센터 정보")
+    domains: list[AuthMeDomain] = Field(default_factory=list, description="도메인 목록")
 
 
 class AuthMeResponse(BaseDto):

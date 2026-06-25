@@ -1,6 +1,6 @@
 """Promotion(쿠폰) API 모델 정의"""
 
-from typing import Any, Literal
+from typing import Literal
 
 from pydantic import Field
 
@@ -317,7 +317,10 @@ class ProductCouponDetail(BaseDto):
     skips_accumulation: bool | None = Field(None, description="적립금 제한 여부")
     usable_cart_coupon: bool | None = Field(None, description="주문쿠폰 사용 제한 여부")
     service_share_percent: float | None = Field(None, description="비용분담 설정-쇼핑몰 부담")
-    coupon_issue_limit_types: list[Any] = Field(default_factory=list, description="발급위치 제한")
+    # 운영 802건 모두 빈 배열([]) → 실데이터로 item 타입 추론 불가.
+    # 스펙(promotion-server-public.yml) items=string enum[PRODUCT_DETAIL] 및
+    # 동일 의미의 CartCouponDetail.coupon_issue_limit_types(list[str])에 맞춰 list[str]로 타입화.
+    coupon_issue_limit_types: list[str] = Field(default_factory=list, description="발급위치 제한 (PRODUCT_DETAIL 등)")
     coupon_target_type: CouponTargetType | None = Field(None, description="할인쿠폰 대상 타입")
     coupon_targets: list[CouponTargetItem] = Field(default_factory=list, description="쿠폰 대상 리스트")
     excludes_target: bool | None = Field(None, description="할인 대상 제외 설정 여부")
@@ -364,7 +367,7 @@ class IssuableConstraint(BaseDto):
     issue_per_person_limit_cnt: int | None = Field(None, description="1인당 발급 제한 수량")
     daily_issue_per_person_limit_cnt: int | None = Field(None, description="1인당 발급 제한 - 1일 발급 제한 개수")
     issuable_platform_types: list[PlatformType] = Field(default_factory=list, description="발급가능 플랫폼")
-    channel_types: list[str] = Field(default_factory=list, description="채널타입 리스트")
+    channel_types: list[str] | None = Field(None, description="채널타입 리스트 (운영데이터 전부 null)")
     possible_days_of_week: list[int] = Field(default_factory=list, description="발급가능 요일")
     promotion_code: str | None = Field(None, description="프로모션코드 - 지정코드 발급인 경우")
     coupon_code_length: int | None = Field(None, description="난수 자리수 - 난수코드 발급인 경우")

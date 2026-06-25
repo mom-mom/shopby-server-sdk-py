@@ -1,6 +1,6 @@
 """상품 변경 히스토리 조회 응답 모델"""
 
-from typing import Any, Literal
+from typing import Literal
 
 from pydantic import Field
 
@@ -42,7 +42,8 @@ class ProductHistoryItem(BaseDto):
     ] = Field(..., description="판매설정")
     admin_name: str = Field(..., description="요청 담당자")
     confirm_admin_name: str = Field(..., description="처리 담당자")
-    change_properties: list[Any] = Field(default_factory=list, description="변경내역")
+    # 운영데이터(717개 히스토리 모두 문자열 배열) → list[str]
+    change_properties: list[str] = Field(default_factory=list, description="변경내역 (변경된 항목명 목록)")
 
 
 # Response is a list of ProductHistoryItem

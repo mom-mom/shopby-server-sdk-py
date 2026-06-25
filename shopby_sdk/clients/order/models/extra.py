@@ -159,6 +159,7 @@ class AppCardPaymentKey(BaseDto):
 
     pg_type: PgType | None = Field(None, description="PG 구분")
     key: str | None = Field(None, description="PG 결제 키")
+    # PG사별로 키가 동적(예: TOSS_PAYMENTS → {mertKey}) → dict 유지
     etc_infos: dict[str, Any] | None = Field(None, description="추가 정보")
 
 
@@ -238,12 +239,26 @@ class WishResponse(BaseDto):
 # ============================================
 
 
+class ShippingEtcInfo(BaseDto):
+    """해외배송지 기타정보 (shippingEtcInfo)
+
+    orderAdditionalInfo 는 운영데이터 전부 null 이라 dict[str, Any] 로 둔다.
+    """
+
+    receiver_first_name: str | None = Field(None, description="수령자 이름(영문)")
+    receiver_last_name: str | None = Field(None, description="수령자 성(영문)")
+    order_additional_info: dict[str, Any] | None = Field(
+        None, description="주문 추가정보 (운영데이터 전부 null → 추론 불가)"
+    )
+
+
 class OrderDeliveryItem(BaseDto):
     """
     배송번호 기준 주문 조회 항목
 
-    중첩된 주문/주문상품 구조가 매우 깊어 핵심 배송 필드만 명시하고,
-    nested 컬렉션은 dict[str, Any]로 처리한다.
+    핵심 배송 필드와 shipping_etc_info 는 타입화한다.
+    orders 는 주문 목록(list.py Order)을 깊게 중첩한 구조라 dict[str, Any]로 둔다.
+    order_products 는 이 응답 레벨에는 데이터가 없어(orders[].orderProducts 에 존재) dict 유지한다.
     """
 
     delivery_no: int | None = Field(None, description="배송번호")
@@ -279,8 +294,10 @@ class OrderDeliveryItem(BaseDto):
     country_cd: str | None = Field(None, description="국가코드")
     customs_id_number: str | None = Field(None, description="개인고유통관부호")
     delivery_memo: str | None = Field(None, description="배송메모")
-    shipping_etc_info: dict[str, Any] | None = Field(None, description="해외배송지 기타정보")
+    shipping_etc_info: ShippingEtcInfo | None = Field(None, description="해외배송지 기타정보")
+    # 이 응답 레벨에는 데이터 없음(orders[].orderProducts 에 존재) → dict 유지
     order_products: list[dict[str, Any]] = Field(default_factory=list, description="주문 상품")
+    # 주문 목록(Order)을 깊게 중첩한 구조 → dict 유지
     orders: list[dict[str, Any]] = Field(default_factory=list, description="주문 목록")
 
 
@@ -318,7 +335,8 @@ class PreviousOrderItem(BaseDto):
     """
     이전주문 검색 항목
 
-    중첩 구조(orderer/receiver/payment 등)는 dict[str, Any]로 처리한다.
+    중첩 구조(orderer/receiver/payment 등)는 이 몰에 이전주문 데이터가 전혀 없어
+    (totalCount=0) 실데이터 추론이 불가하므로 dict[str, Any]로 유지한다.
 
     OpenAPI Schema: previous-orders1028372904 (item)
     """
@@ -410,6 +428,7 @@ class PreviousOrderRegisterItem(BaseDto):
     refund_bank_depositor_name: str | None = Field(None, description="환불 계좌 예금주")
     refund_complete_ymdt: KstDatetime | None = Field(None, description="환불처리일시")
     member_grade_names: list[str] = Field(default_factory=list, description="회원등급")
+    # 이전주문 등록(POST)용 + 이 몰에 데이터 없음 → 추론 불가, dict 유지
     purchaser_inputs: list[dict[str, Any]] = Field(default_factory=list, description="사용자 입력형 옵션")
     admin_memo: list[dict[str, Any]] = Field(default_factory=list, description="관리자 메모")
 
@@ -613,6 +632,7 @@ class CouponProductResult(BaseDto):
     buy_amt: float | None = Field(None, description="구매 금액")
     product_coupon_discount_amt: float | None = Field(None, description="상품 쿠폰 할인 금액")
     product_coupons: list[CouponInfo] = Field(default_factory=list, description="상품 쿠폰 목록")
+    # 쿠폰 계산은 POST 요청 기반이라 운영 read-only 샘플 없음 → 추론 불가, dict 유지
     product_plus_coupons: list[dict[str, Any]] = Field(default_factory=list, description="상품 플러스 쿠폰 목록")
     invalid_product_coupons: list[dict[str, Any]] = Field(default_factory=list, description="사용 불가 상품 쿠폰 목록")
     option_inputs: list[dict[str, Any]] = Field(default_factory=list, description="사용자 입력 옵션")
@@ -661,6 +681,7 @@ class ChangeStatusByShippingNoRequest(BaseDto):
 class ChangeStatusFailure(BaseDto):
     """주문 상태 변경 실패 항목"""
 
+    # 변경 실패 시에만 반환되는 원 요청 echo(자유형식) → dict 유지
     original_request: dict[str, Any] | None = Field(None, description="최초 요청 정보")
     error_code: str | None = Field(None, description="에러코드")
     error_message: str | None = Field(None, description="에러메세지")
@@ -784,6 +805,24 @@ class UploadedFileInfo(BaseDto):
     uploaded_file_name: str | None = Field(None, description="업로드 파일명")
 
 
+class TaskMessageRegisterInfo(BaseDto):
+    """업무메시지 등록정보 (registerInfo)"""
+
+    register_admin_name: str | None = Field(None, description="등록자명")
+    register_admin_no: int | None = Field(None, description="등록자 번호")
+    register_admin_ip: str | None = Field(None, description="등록자 IP")
+    register_ymdt: KstDatetime | None = Field(None, description="등록일시")
+
+
+class TaskMessageCompletedInfo(BaseDto):
+    """업무메시지 완료정보 (completedInfo)"""
+
+    completed_admin_name: str | None = Field(None, description="완료자명")
+    completed_admin_no: int | None = Field(None, description="완료자 번호")
+    completed_admin_ip: str | None = Field(None, description="완료자 IP")
+    completed_ymdt: KstDatetime | None = Field(None, description="완료일시")
+
+
 class TaskMessageItem(BaseDto):
     """업무메시지 항목"""
 
@@ -799,10 +838,13 @@ class TaskMessageItem(BaseDto):
     from_target_type: str | None = Field(None, description="등록자 타입")
     to_target_no: int | None = Field(None, description="담당자 번호")
     to_target_type: str | None = Field(None, description="담당자 타입")
-    register_info: dict[str, Any] | None = Field(None, description="등록정보")
-    completed_info: dict[str, Any] | None = Field(None, description="완료정보")
+    register_info: TaskMessageRegisterInfo | None = Field(None, description="등록정보")
+    completed_info: TaskMessageCompletedInfo | None = Field(None, description="완료정보")
     update_ymdt: KstDatetime | None = Field(None, description="수정일시")
-    uploaded_file_infos: list[UploadedFileInfo] = Field(default_factory=list, description="첨부파일 정보")
+    uploaded_file_infos: list[UploadedFileInfo] | None = Field(
+        default_factory=list, description="첨부파일 정보 (운영데이터에서 null 가능)"
+    )
+    # 운영데이터 전부 빈 배열 → 추론 불가, dict 유지
     task_message_details: list[dict[str, Any]] = Field(default_factory=list, description="업무메세지 상세정보")
 
 

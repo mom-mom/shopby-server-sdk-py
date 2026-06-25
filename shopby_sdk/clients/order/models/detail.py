@@ -105,7 +105,7 @@ class ClaimInfo(BaseDto):
     claim_status_type: ClaimStatusType | None = Field(None, description="클레임상태")
     claim_amt: float | None = Field(None, description="클레임금액")
     return_way_type: str | None = Field(None, description="반품수거방법")
-    order_option_nos: list[Any] = Field(default_factory=list, description="주문옵션번호목록")
+    order_option_nos: list[int] = Field(default_factory=list, description="주문옵션번호목록")
     responsible_object_type: str | None = Field(None, description="귀책대상")
     claim_reason_type: str | None = Field(None, description="클레임사유타입")
     claim_reason_detail: str | None = Field(None, description="클레임사유상세")
@@ -114,6 +114,79 @@ class ClaimInfo(BaseDto):
     withdraw_reason: str | None = Field(None, description="철회사유")
     treatment_status_type: str | None = Field(None, description="처리상태")
     treatment_ymdt: KstDatetime | None = Field(None, description="처리일시")
+
+
+class OrderDetailOption(BaseDto):
+    """주문 상세 주문상품 옵션 (orderProducts[].orderOptions[])"""
+
+    order_option_no: int | None = Field(None, description="주문옵션번호")
+    origin_order_option_no: int | None = Field(None, description="원주문옵션번호")
+    order_no: str | None = Field(None, description="주문번호")
+    service_no: int | None = Field(None, description="서비스번호")
+    mall_no: int | None = Field(None, description="몰번호")
+    member_no: int | None = Field(None, description="회원번호")
+    product_name: str | None = Field(None, description="상품명")
+    option_name: str | None = Field(None, description="옵션명")
+    option_value: str | None = Field(None, description="옵션값")
+    purchaser_inputs: list[dict[str, Any]] = Field(
+        default_factory=list, description="구매자 입력형 옵션 (운영데이터 전부 빈 배열 → 추론 불가)"
+    )
+    partner_no: int | None = Field(None, description="파트너번호")
+    order_cnt: int | None = Field(None, description="주문수량")
+    shipping_no: int | None = Field(None, description="배송번호")
+    origin_shipping_no: int | None = Field(None, description="원배송번호")
+    order_status_type: str | None = Field(None, description="주문상태")
+    claim_status_type: str | None = Field(None, description="클레임상태")
+    claim_no: int | None = Field(None, description="클레임번호")
+    mall_product_no: int | None = Field(None, description="몰상품번호")
+    mall_option_no: int | None = Field(None, description="몰옵션번호")
+    order_product_no: int | None = Field(None, description="주문상품번호")
+    uses_option: bool | None = Field(None, description="옵션 사용여부")
+    pay_type: str | None = Field(None, description="결제수단")
+    accumulation_amt: float | None = Field(None, description="적립금")
+    sale_price: float | None = Field(None, description="판매가")
+    add_price: float | None = Field(None, description="옵션 추가금액")
+    immediate_discount_amt: float | None = Field(None, description="즉시할인금액")
+    additional_discount_amt: float | None = Field(None, description="추가할인금액")
+    standard_price: float | None = Field(None, description="판매기준금액")
+    discounted_price: float | None = Field(None, description="할인적용가")
+    immediate_discounted_price: float | None = Field(None, description="즉시할인적용가")
+    buy_price: float | None = Field(None, description="구매가")
+    adjusted_amt: float | None = Field(None, description="조정금액")
+    exchanged_release: bool | None = Field(None, description="교환출고여부")
+    original_order_cnt: int | None = Field(None, description="원주문수량")
+    order_register_type: str | None = Field(None, description="주문등록타입")
+    requires_shipping: bool | None = Field(None, description="배송필요여부")
+    extra_management_cd: str | None = Field(None, description="추가관리코드")
+    option_management_cd: str | None = Field(None, description="옵션관리코드")
+    first_order_option_no: int | None = Field(None, description="최초주문옵션번호")
+    claimed_order_option_no: int | None = Field(None, description="클레임주문옵션번호")
+    additional_discount_no: int | None = Field(None, description="추가할인번호")
+    set_options: list[dict[str, Any]] | None = Field(
+        None, description="세트옵션 (운영데이터 전부 null → 추론 불가)"
+    )
+    purchase_price: float | None = Field(None, description="매입가/공급가")
+    pay_type_label: str | None = Field(None, description="결제수단 라벨")
+    delivered: bool | None = Field(None, description="배송완료여부")
+    product_name_for_display: str | None = Field(None, description="전시용 상품명")
+    option_name_for_display: str | None = Field(None, description="전시용 옵션명")
+
+
+class OrderDetailProduct(BaseDto):
+    """주문 상세 주문상품 (orderProducts[])"""
+
+    order_product_no: int | None = Field(None, description="주문상품번호")
+    mall_product_no: int | None = Field(None, description="몰상품번호")
+    partner_no: int | None = Field(None, description="파트너번호")
+    product_name: str | None = Field(None, description="상품명")
+    product_management_cd: str | None = Field(None, description="상품관리코드")
+    first_product_coupon_discount_amt: float | None = Field(None, description="처음 쿠폰할인금액")
+    last_product_coupon_discount_amt: float | None = Field(None, description="최종 쿠폰할인금액")
+    order_options: list[OrderDetailOption] = Field(default_factory=list, description="주문옵션 목록")
+    reservation_delivery_start_ymdt: KstDatetime | None = Field(None, description="예약배송 시작일시")
+    tax_type: str | None = Field(None, description="과세유형")
+    hs_code: str | None = Field(None, description="HS코드")
+    product_sale_price: float | None = Field(None, description="상품 판매가")
 
 
 class OrderDetailResponse(BaseDto):
@@ -144,7 +217,7 @@ class OrderDetailResponse(BaseDto):
     external_order_no: str | None = Field(None, description="외부주문번호")
     order_memo: str | None = Field(None, description="주문메모")
     first_pay_ymdt: KstDatetime | None = Field(None, description="최초결제일시")
-    order_products: list[dict[str, Any]] = Field(default_factory=list, description="주문상품목록")
+    order_products: list[OrderDetailProduct] = Field(default_factory=list, description="주문상품목록")
     shippings: list[Shipping] = Field(default_factory=list, description="배송정보목록")
     payments: list[Payment] = Field(default_factory=list, description="결제정보목록")
     claim_infos: list[ClaimInfo] = Field(default_factory=list, description="클레임정보목록")

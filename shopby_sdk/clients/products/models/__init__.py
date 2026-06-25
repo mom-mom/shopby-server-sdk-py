@@ -42,6 +42,7 @@ from .detail_v1 import (
 
 # 상품 상세 조회 V3
 from .detail_v3 import (
+    CertificationDataItem,
     DutyContent,
     MallProductImage,
     OptionImage,
@@ -285,6 +286,7 @@ __all__ = [
     "V1Sticker",
     "V1StickerDisplayPeriod",
     # Detail V3
+    "CertificationDataItem",
     "MallProductImage",
     "OptionImage",
     "OptionMapping",

@@ -5,6 +5,8 @@ from shopby_sdk.clients.workspace.models import (
     AppInstalledExtendRequest,
     AppInstalledStatusResponse,
     AuthMeBusiness,
+    AuthMeCustomerCenter,
+    AuthMeDomain,
     AuthMeMall,
     AuthMePartner,
     AuthMeResponse,
@@ -33,6 +35,8 @@ __all__ = [
     "AuthMePartner",
     "AuthMeBusiness",
     "AuthMeMall",
+    "AuthMeCustomerCenter",
+    "AuthMeDomain",
     # External Script
     "ExternalScriptContent",
     "ExternalScriptRegisterRequest",

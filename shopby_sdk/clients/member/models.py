@@ -1,6 +1,6 @@
 """Member API 모델 정의"""
 
-from typing import Any, Literal
+from typing import Literal
 
 from pydantic import Field
 
@@ -320,7 +320,9 @@ class OpenIdConfigResponse(BaseDto):
 
     client_id: str = Field(..., description="간편로그인 client id")
     client_secret: str | None = Field(None, description="간편로그인 clientSecret (마스킹)")
-    scopes: list[Any] | None = Field(None, description="간편로그인 scopes")
+    # 운영데이터 전부 null(8개 프로바이더 모두) → 응답 실데이터 추론 불가.
+    # 스펙 example 이 ["id", "name"] (문자열 scope) 이므로 list[str] 로 타입화.
+    scopes: list[str] | None = Field(None, description="간편로그인 scopes (예: id, name)")
     apple_config: AppleLoginConfig | None = Field(None, description="애플인 경우 config")
 
 
@@ -354,7 +356,8 @@ class OpenIdConfigUpdateRequest(BaseDto):
 
     client_id: str = Field(..., description="간편로그인 client id")
     client_secret: str | None = Field(None, description="간편로그인 clientSecret (마스킹)")
-    scopes: list[Any] | None = Field(None, description="간편로그인 scopes")
+    # 요청 전용. 스펙 example 이 ["id", "name"] (문자열 scope) 이므로 list[str] 로 타입화.
+    scopes: list[str] | None = Field(None, description="간편로그인 scopes (예: id, name)")
     apple_config: AppleLoginConfig | None = Field(None, description="애플인 경우 config")
 
 
@@ -450,7 +453,8 @@ class ExternalMemberRequest(BaseDto):
     birthday: str | None = Field(None, description="생년월일")
     gender: str | None = Field(None, description="성별")
     grade_no: int | None = Field(None, description="회원 등급")
-    group_nos: list[Any] | None = Field(None, description="회원 그룹")
+    # 요청 전용. 회원 그룹 번호 목록. 스펙 example "groupNos":[] (회원그룹 번호) → list[int].
+    group_nos: list[int] | None = Field(None, description="회원 그룹 번호 목록")
     adult_certified: bool | None = Field(None, description="성인 인증 여부")
     privacy_policy_agreed: bool | None = Field(None, description="본인 인증 여부")
     push_policy_agreed: bool | None = Field(None, description="앱푸시 동의 여부")
@@ -666,7 +670,8 @@ class ProfileUpdateRequest(BaseDto):
     certificated: bool | None = Field(None, description="인증확인 여부")
     blacklisted: bool | None = Field(None, description="블랙리스트 등록 여부")
     join_terms_agreements: list[JoinTermsAgreementType] | None = Field(None, description="선택동의항목")
-    custom_terms_nos: list[Any] | None = Field(None, description="추가 선택 동의 항목")
+    # 요청 전용. 추가 선택 동의 항목 번호 목록. 스펙 example "customTermsNos":[1] → list[int].
+    custom_terms_nos: list[int] | None = Field(None, description="추가 선택 동의 항목 번호 목록")
     additional_info: str | None = Field(None, description="추가 정보 (JSON)")
     extra_info: list[ProfileExtraInfoRequest] = Field(default_factory=list, description="추가 항목 정보")
     is_adult_certified: bool | None = Field(None, description="성인인증 여부")

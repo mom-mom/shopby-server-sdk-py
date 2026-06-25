@@ -73,6 +73,7 @@ class MemberGradeDisplayInfo(BaseDto):
     """회원등급 전시 정보"""
 
     check: str = Field(..., description="회원등급 전시 체크")
+    # 운영데이터 전부 빈 배열(300/300) → 아이템 구조 추론 불가
     info: list[Any] = Field(default_factory=list, description="회원등급 정보")
 
 
@@ -80,6 +81,7 @@ class MemberGroupDisplayInfo(BaseDto):
     """회원그룹 전시 정보"""
 
     check: str = Field(..., description="회원그룹 전시 체크")
+    # 운영데이터 전부 빈 배열(300/300) → 아이템 구조 추론 불가
     info: list[Any] = Field(default_factory=list, description="회원그룹 정보")
 
 

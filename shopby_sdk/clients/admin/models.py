@@ -134,6 +134,88 @@ BankCode = Literal[
 ]
 """은행 코드"""
 
+ProductAuthorityType = Literal[
+    "REGISTER_PRODUCT",
+    "MODIFY_PRODUCT",
+    "SELL_SETTING",
+    "DISPLAY_SETTING",
+]
+"""운영그룹 권한타입 - REGISTER_PRODUCT: 상품 등록, MODIFY_PRODUCT: 상품 수정,
+SELL_SETTING: 판매설정, DISPLAY_SETTING: 전시설정"""
+
+ProductAuditType = Literal[
+    "SALE_METHOD_TYPE",
+    "MANUFACTURE_NAME",
+    "PRODUCT_MODEL_NAME",
+    "SERIAL_NUMBER",
+    "ADMIN_NO",
+    "CATEGORY_NO",
+    "DISPLAY_CATEGORY_NOS",
+    "REPRESENTATIVE_DISPLAY_CATEGORY_NO",
+    "PLATFORM_DISPLAY_INFO",
+    "URL_DIRECT_DISPLAY_YN",
+    "PRODUCT_NAME",
+    "PRODUCT_NAME_EN",
+    "PROMOTION_TEXT_INFO",
+    "BRAND_NO",
+    "PAYMENT_MEANS_CONTROL_YN",
+    "PAYMENT_MEANS",
+    "NONMEMBER_PURCHASE_YN",
+    "NAVER_PAY_LIMIT_YN",
+    "KAKAO_PAY_LIMIT_YN",
+    "MINOR_PURCHASE_YN",
+    "CART_INFO",
+    "KEYWORDS",
+    "RESERVATION_INFO",
+    "SALE_PERIOD_INFO",
+    "COMMISSION_INFO",
+    "SALE_PRICE",
+    "UNIT_PRICE_INFO",
+    "CONTENTS_IF_PAUSING",
+    "IMMEDIATE_DISCOUNT_INFO",
+    "PURCHASE_PRICE",
+    "ACCUMULATION_RATE",
+    "ACCUMULATION_USE_YN",
+    "PROMOTION_INFO",
+    "USE_RESTOCK_NOTI_YN",
+    "MIN_BUY_CNT",
+    "MAX_BUY_COUNT_INFO",
+    "OPTION_USE_YN",
+    "DUTY_CONTENT",
+    "CERTIFICATION_INFO",
+    "PLACE_ORIGIN_INFO",
+    "SUPPLIER_PRODUCT_NAME",
+    "MANUFACTURE_YMDT",
+    "EXPIRATION_YMDT",
+    "VALUE_ADDED_TAX_TYPE",
+    "PRODUCT_MANAGEMENT_CD",
+    "EXTRA_MANAGEMENT_CD",
+    "HS_CODE",
+    "REFUNDABLE_YN",
+    "STICKER_MAPPINGS",
+    "EXTRA_PRODUCT_ONLY",
+    "EXTRA_PRODUCT_CONFIG",
+    "PRODUCT_MAIN_IMAGE",
+    "PRODUCT_ADDITIONAL_IMAGES",
+    "MALL_PRODUCT_LIST_IMAGE",
+    "CONTENT_HEADER",
+    "CONTENT",
+    "CONTENT_FOOTER",
+    "GUIDE_DELIVERY",
+    "GUIDE_AFTER_SERVICE",
+    "GUIDE_REFUND",
+    "GUIDE_EXCHANGE",
+    "SHIPPING_AREA_TYPE",
+    "DELIVERY_DUE_DATE",
+    "DELIVERY_COMBINATION_YN",
+    "DELIVERY_INTERNATIONAL_YN",
+    "TOTAL_WEIGHT",
+    "DELIVERY_TEMPLATE_NO",
+    "DELIVERY_CUSTOMER_INFO",
+    "PROP_NO_VALUE_MAP",
+]
+"""운영그룹 심사항목 타입 (상품 등록/수정 시 심사 대상 필드)"""
+
 
 # ------------------------------------
 #  공통 중첩 객체
@@ -229,6 +311,8 @@ class AdminDetailResponse(BaseDto):
     phone_no: str | None = Field(None, description="전화번호")
     mobile_no: str | None = Field(None, description="휴대전화번호")
     external_access_enabled: bool | None = Field(None, description="외부접속 가능 여부")
+    # 운영데이터 전부 빈 배열([]) + 스펙상 items 가 oneOf(object/boolean/string/number)
+    # 자유형식 → 타입화 불가, list[Any] 유지
     permitted_ip_addresses: list[Any] = Field(
         default_factory=list, description="접속 가능 IP"
     )
@@ -952,7 +1036,7 @@ class OperationGroupAuthority(BaseDto):
     """운영그룹 권한 정보"""
 
     authority_group_type: str | None = Field(None, description="권한그룹 타입")
-    authority_types: list[Any] = Field(
+    authority_types: list[ProductAuthorityType] = Field(
         default_factory=list, description="권한타입 목록"
     )
 
@@ -968,7 +1052,9 @@ class OperationGroupItem(BaseDto):
     name: str | None = Field(None, description="운영그룹 명")
     description: str | None = Field(None, description="운영그룹 설명")
     audit_step: str | None = Field(None, description="심사 절차")
-    audit_types: list[Any] = Field(default_factory=list, description="심사 항목")
+    audit_types: list[ProductAuditType] = Field(
+        default_factory=list, description="심사 항목"
+    )
     default_config: OperationGroupDefaultConfig | None = Field(
         None, description="기본값 지정"
     )

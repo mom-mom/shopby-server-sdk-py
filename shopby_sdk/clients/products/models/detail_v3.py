@@ -29,11 +29,20 @@ class PlaceOriginInfo(BaseDto):
     place_origin: str | None = Field(None, description="원산지")
 
 
+class CertificationDataItem(BaseDto):
+    """인증 항목 (certificationInfo.data[])"""
+
+    certification_category_no: int = Field(..., description="인증유형 번호")
+    certification_contents: list[str] = Field(
+        default_factory=list, description="인증기관, 인증번호, 인증상호 등 인증 내용 목록"
+    )
+
+
 class CertificationInfo(BaseDto):
     """인증 정보 (certificationInfo)"""
 
     type: str = Field(..., description="인증 대상 타입 (예: NOT_TARGET, DETAIL_PAGE)")
-    data: list[dict[str, Any]] = Field(default_factory=list, description="인증 항목 목록")
+    data: list[CertificationDataItem] = Field(default_factory=list, description="인증 항목 목록")
 
 
 class RefundableInfo(BaseDto):
@@ -180,6 +189,7 @@ class ProductDetailV3Response(BaseDto):
     # 구매 제한
     minor_purchase_yn: str = Field(..., description="미성년자 구매 가능 여부")
     payment_means_control_yn: str = Field(..., description="결제수단제어 여부")
+    # 운영데이터 전부 빈 배열(300/300) → 아이템 구조 추론 불가
     payment_means: list[Any] = Field(default_factory=list, description="결제수단")
     nonmember_purchase_yn: str = Field(..., description="비회원 구매 가능 여부")
 
@@ -196,6 +206,7 @@ class ProductDetailV3Response(BaseDto):
     sale_period_info: SalePeriodInfo = Field(..., description="판매기간 정보")
     commission_info: CommissionInfo = Field(..., description="판매수수료 정보")
     sale_price: float = Field(..., description="판매가")
+    # 운영데이터 전부 null(300/300) → 추론 불가
     unit_price_info: Any | None = Field(None, description="단가 정보")
 
     # 할인 정보
@@ -205,6 +216,7 @@ class ProductDetailV3Response(BaseDto):
     accumulation_rate: float | None = Field(None, description="적립금적립 - %")
     partner_charge_amt: float = Field(..., description="파트너 부담 금액")
     accumulation_use_yn: str = Field(..., description="적립금 사용 가능 여부")
+    # 운영데이터 전부 null(300/300) → 추론 불가
     accumulation_limit_info: dict[str, Any] | None = Field(None, description="적립금 제한 정보")
 
     # 프로모션
@@ -251,6 +263,7 @@ class ProductDetailV3Response(BaseDto):
     content_footer: str = Field(..., description="상품 상세 하단")
 
     # 추가 정보
+    # 키가 동적/자유형식(contentsIfPausing, naverExtra(JSON문자열), manufactureName 등) → dict 유지
     extra_json: dict[str, Any] = Field(default_factory=dict, description="추가 JSON")
 
     # 배송 정보
@@ -292,18 +305,22 @@ class ProductDetailV3Response(BaseDto):
     mall_product_list_image_url_type: str = Field(..., description="리스트 이미지 URL 타입")
 
     # 예약 정보
+    # 운영데이터 전부 null(300/300) → 추론 불가
     reservation_info: Any | None = Field(None, description="예약 정보")
 
     # 스티커
     sticker_infos: list[StickerInfo] = Field(default_factory=list, description="스티커 정보")
 
     # 커스텀 속성
+    # 운영데이터 전부 빈 배열(300/300) → 아이템 구조 추론 불가
     custom_property_values: list[Any] = Field(default_factory=list, description="커스텀 속성 값")
 
     # 배송 지정일
+    # 운영데이터 전부 null(300/300) → 추론 불가
     delivery_due_date: dict[str, Any] | None = Field(None, description="배송지정일")
 
     # 구매자 작성형
+    # 운영데이터 전부 빈 배열(300/300) → 아이템 구조 추론 불가
     customer_demands: list[dict[str, Any]] = Field(default_factory=list, description="구매자 작성형")
 
     # 수정 가능 여부
@@ -325,12 +342,14 @@ class ProductDetailV3Response(BaseDto):
     supplier_product_name: str | None = Field(None, description="매입처 상품명")
 
     # 관련 상품 정보
+    # 운영데이터 전부 null(300/300) → 추론 불가
     related_product_info: dict[str, Any] | None = Field(None, description="관련 상품 정보")
 
     # 재입고 알림
     use_restock_noti_yn: str = Field(..., description="재입고 알림 사용 여부")
 
     # 추가 정보
+    # 운영데이터 전부 null(300/300) → 추론 불가
     extra_info: Any | None = Field(None, description="추가 정보")
 
     # 총 무게

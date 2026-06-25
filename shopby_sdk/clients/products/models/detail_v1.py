@@ -84,6 +84,7 @@ class V1RelatedProductInfo(BaseDto):
 
     config_type: str | None = Field(None, description="관련 상품 설정 유형")
     sort_criterion: str | None = Field(None, description="관련 상품 정렬 기준")
+    # 관련상품 정보 자체가 운영데이터 전부 null → 아이템 구조 추론 불가
     products: list[Any] = Field(default_factory=list, description="관련 상품 목록")
     mall_no: int | None = Field(None, description="몰 번호")
 
@@ -91,6 +92,7 @@ class V1RelatedProductInfo(BaseDto):
 class V1ImageUrlMappingInfo(BaseDto):
     """이미지 URL 매핑 정보 (V1)"""
 
+    # 키가 동적(원본 이미지 URL → 변환 URL 매핑) → dict 유지. 운영데이터 전부 빈 객체(300/300)
     content_header: dict[str, Any] = Field(default_factory=dict, description="상단 내용 이미지 매핑")
     content: dict[str, Any] = Field(default_factory=dict, description="본문 내용 이미지 매핑")
     content_footer: dict[str, Any] = Field(default_factory=dict, description="하단 내용 이미지 매핑")

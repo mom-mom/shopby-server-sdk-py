@@ -28,6 +28,8 @@ from shopby_sdk.clients.order.models.base import (
 from shopby_sdk.clients.order.models.detail import (
     ClaimedOption,
     ClaimInfo,
+    OrderDetailOption,
+    OrderDetailProduct,
     OrderDetailResponse,
     Orderer,
     Payment,
@@ -36,12 +38,16 @@ from shopby_sdk.clients.order.models.detail import (
     Shipping,
 )
 from shopby_sdk.clients.order.models.list import (
+    ApplyCoupon,
+    ApplyCouponProduct,
     DeliveryGroup,
+    MemberGroupInfo,
     Order,
     OrderProduct,
     OrderProductOption,
     OrderSheetInfo,
     OrdersResponse,
+    PayProduct,
 )
 from shopby_sdk.clients.order.models.extra import (
     # Enum types
@@ -69,6 +75,7 @@ from shopby_sdk.clients.order.models.extra import (
     # 배송번호 기준 주문 조회
     OrderDeliveriesResponse,
     OrderDeliveryItem,
+    ShippingEtcInfo,
     # 이전주문
     PreviousOrderDeleteByOrderNosRequest,
     PreviousOrderDeleteResult,
@@ -109,8 +116,10 @@ from shopby_sdk.clients.order.models.extra import (
     TaskMessageCreateResult,
     TaskMessageDetailCreateRequest,
     TaskMessageDetailCreateResult,
+    TaskMessageCompletedInfo,
     TaskMessageDetailUpdateRequest,
     TaskMessageItem,
+    TaskMessageRegisterInfo,
     TaskMessagesResponse,
     TaskMessageUpdateRequest,
     UploadedFileInfo,
@@ -146,9 +155,15 @@ __all__ = [
     "DeliveryGroup",
     "OrderProduct",
     "OrderProductOption",
+    "MemberGroupInfo",
     "OrderSheetInfo",
+    "PayProduct",
+    "ApplyCoupon",
+    "ApplyCouponProduct",
     # Detail response models
     "OrderDetailResponse",
+    "OrderDetailProduct",
+    "OrderDetailOption",
     "Orderer",
     "Receiver",
     "Shipping",
@@ -181,6 +196,7 @@ __all__ = [
     # --- 배송번호 기준 주문 조회 ---
     "OrderDeliveriesResponse",
     "OrderDeliveryItem",
+    "ShippingEtcInfo",
     # --- 이전주문 ---
     "PreviousOrderItem",
     "PreviousOrderPayDetail",
@@ -219,6 +235,8 @@ __all__ = [
     # --- 업무 메시지 ---
     "UploadedFileInfo",
     "TaskMessageItem",
+    "TaskMessageRegisterInfo",
+    "TaskMessageCompletedInfo",
     "TaskMessagesResponse",
     "TaskMessageCreateRequest",
     "TaskMessageCreateResult",

@@ -19,6 +19,13 @@ from shopby_sdk.clients.order.models.base import (
 )
 
 
+class MemberGroupInfo(BaseDto):
+    """회원그룹 정보 (memberGroupInfos)"""
+
+    member_group_no: int | None = Field(None, description="회원그룹번호")
+    member_group_name: str | None = Field(None, description="회원그룹명")
+
+
 class OrderProductOption(BaseDto):
     """주문 상품 옵션"""
 
@@ -94,7 +101,7 @@ class OrderProductOption(BaseDto):
     partner_charge_amt: float | None = Field(None, description="파트너부담금액")
     user_inputs: list[UserInput] = Field(default_factory=list, description="구매자 입력형 옵션")
     set_options: list[SetOption] = Field(default_factory=list, description="세트옵션")
-    member_group_infos: list[dict[str, Any]] = Field(default_factory=list, description="회원그룹정보")
+    member_group_infos: list[MemberGroupInfo] = Field(default_factory=list, description="회원그룹정보")
 
 
 class OrderProduct(BaseDto):
@@ -154,12 +161,54 @@ class DeliveryGroup(BaseDto):
     order_products: list[OrderProduct] = Field(default_factory=list, description="주문 상품")
 
 
+class PayProduct(BaseDto):
+    """주문서 결제 상품 (orderSheetInfo.payProducts[])"""
+
+    product_no: int | None = Field(None, description="상품번호")
+    option_no: int | None = Field(None, description="옵션번호")
+    order_cnt: int | None = Field(None, description="주문수량")
+    option_inputs: list[dict[str, Any]] = Field(
+        default_factory=list, description="옵션 입력값 (운영데이터 전부 빈 배열 → 추론 불가)"
+    )
+    base_mall_product_no: int | None = Field(None, description="기준 상품번호")
+    recurring_payment_delivery: bool | None = Field(None, description="정기결제 배송여부")
+    recurring_payment_last_round: int | None = Field(None, description="정기결제 종료회차")
+    recurring_payment_no: int | None = Field(None, description="정기결제 번호")
+    rental_infos: list[dict[str, Any]] = Field(
+        default_factory=list, description="렌탈 정보 (운영데이터 전부 빈 배열 → 추론 불가)"
+    )
+    is_extra_product: bool | None = Field(None, description="추가상품 여부")
+
+
+class ApplyCouponProduct(BaseDto):
+    """적용 쿠폰 상품 (applyCoupon.productCoupons[])"""
+
+    mall_product_no: int | None = Field(None, description="상품번호")
+    coupon_issue_no: int | None = Field(None, description="쿠폰 발급번호")
+    limit_pay_type: str | None = Field(None, description="결제수단 제한 (운영데이터 전부 null)")
+
+
+class ApplyCoupon(BaseDto):
+    """적용 쿠폰 (orderSheetInfo.applyCoupon)"""
+
+    cart_coupon_issue_no: int | None = Field(None, description="장바구니 쿠폰 발급번호")
+    promotion_code: str | None = Field(None, description="프로모션 코드")
+    cart_coupon_limit_pay_type: str | None = Field(
+        None, description="장바구니 쿠폰 결제수단 제한 (운영데이터 전부 null)"
+    )
+    product_coupons: list[ApplyCouponProduct] = Field(default_factory=list, description="상품 쿠폰 목록")
+    has_coupon_issue_no: bool | None = Field(None, description="쿠폰 발급번호 보유여부")
+    cart_coupon_use_key: str | None = Field(
+        None, description="장바구니 쿠폰 사용키 (운영데이터 전부 null)"
+    )
+
+
 class OrderSheetInfo(BaseDto):
     """주문서 정보"""
 
     order_sheet_id: str | None = Field(None, description="주문서 ID")
-    pay_products: list[dict[str, Any]] = Field(default_factory=list, description="결제 상품")
-    apply_coupon: dict[str, Any] | None = Field(None, description="적용 쿠폰")
+    pay_products: list[PayProduct] = Field(default_factory=list, description="결제 상품")
+    apply_coupon: ApplyCoupon | None = Field(None, description="적용 쿠폰")
 
 
 class Order(BaseDto):

@@ -197,7 +197,7 @@ class ProductSearchItem(BaseDto):
     # 옵션 정보
     option_values: list[OptionValue] | None = Field(None, description="상품 조합형 옵션정보")
 
-    # Deprecated (스펙은 string이지만 실제로 빈 리스트가 올 수 있음)
+    # Deprecated (스펙은 string이지만 실제로 빈 리스트가 올 수 있음). 운영데이터에서 값 없음 → 추론 불가
     comparing_price_site_types: str | list[Any] | None = Field(None, description="가격비교 사이트(deprecated)")
 
 
