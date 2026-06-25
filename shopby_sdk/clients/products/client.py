@@ -12,6 +12,9 @@ from shopby_sdk.clients.products.models import (
     ChangedProductsResponse,
     CreateBrandsRequest,
     CreateBrandsResponse,
+    CreateCopiedProductRequest,
+    CreateProductRequest,
+    CreateProductTemporaryRequest,
     CreatePurchasePermissionRequest,
     CreatePurchasePermissionResponse,
     CustomPropertyItem,
@@ -62,6 +65,8 @@ from shopby_sdk.clients.products.models import (
     RequiredPropertiesResponse,
     ReservationInfoItem,
     SavedProductResponse,
+    UpdateProductRequest,
+    UpdateProductV2Request,
     UpdatePurchasePermissionProductRequest,
 )
 
@@ -982,75 +987,82 @@ class ShopbyServerProductsApiClient(ShopbyServerApiClient):
     # ------------------------------------------------------------------
     #  상품 등록/수정 (Create/Update)
     # ------------------------------------------------------------------
-    async def create_product(self, request: dict[str, Any]) -> SavedProductResponse:
+    async def create_product(self, request: CreateProductRequest) -> SavedProductResponse:
         """상품(옵션포함) 등록하기 (version 2.0)
 
-        요청 본문이 매우 방대하여 dict로 전달받습니다. 스펙(products-1263807508) 참조.
+        스펙(products-1263807508)의 full schema 를 타입화한 CreateProductRequest 로 요청합니다.
 
         Args:
-            request: 상품 등록 정보 (camelCase 키)
+            request: 상품 등록 정보 (CreateProductRequest)
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "2.0"}
-            resp = await client.post("/products", headers=headers, json=request)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
+            resp = await client.post("/products", headers=headers, json=body)
             return self.handle_resp(resp, SavedProductResponse)
 
-    async def update_product(self, request: dict[str, Any]) -> SavedProductResponse:
+    async def update_product(self, request: UpdateProductRequest) -> SavedProductResponse:
         """상품(옵션포함) 수정하기 (DEPRECATED - version 2.0 사용 권장)
 
-        요청 본문이 매우 방대하여 dict로 전달받습니다. 스펙(products-1116277168) 참조.
+        스펙(products-1116277168)의 full schema 를 타입화한 UpdateProductRequest 로 요청합니다.
 
         Args:
-            request: 상품 수정 정보 (camelCase 키, mallProductNo 포함)
+            request: 상품 수정 정보 (UpdateProductRequest, mallProductNo 포함)
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            resp = await client.put("/products", headers=headers, json=request)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
+            resp = await client.put("/products", headers=headers, json=body)
             return self.handle_resp(resp, SavedProductResponse)
 
     async def update_product_v2(
-        self, product_no: int, request: dict[str, Any]
+        self, product_no: int, request: UpdateProductV2Request
     ) -> SavedProductResponse:
         """상품(옵션포함) 수정하기 (version 2.0)
 
-        요청 본문이 매우 방대하여 dict로 전달받습니다. 스펙(products-productNo2036855991) 참조.
+        스펙(products-productNo2036855991)의 full schema 를 타입화한 UpdateProductV2Request 로 요청합니다.
 
         Args:
             product_no: 상품번호
-            request: 상품 수정 정보 (camelCase 키)
+            request: 상품 수정 정보 (UpdateProductV2Request)
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "2.0"}
-            resp = await client.put(f"/products/{product_no}", headers=headers, json=request)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
+            resp = await client.put(f"/products/{product_no}", headers=headers, json=body)
             return self.handle_resp(resp, SavedProductResponse)
 
-    async def create_product_temporary(self, request: dict[str, Any]) -> SavedProductResponse:
+    async def create_product_temporary(
+        self, request: CreateProductTemporaryRequest
+    ) -> SavedProductResponse:
         """상품 임시 등록하기
 
-        요청 본문이 매우 방대하여 dict로 전달받습니다. 스펙(products-temporary-1953288861) 참조.
+        스펙(products-temporary-1953288861)의 full schema 를 타입화한 CreateProductTemporaryRequest 로 요청합니다.
 
         Args:
-            request: 상품 임시 등록 정보 (camelCase 키)
+            request: 상품 임시 등록 정보 (CreateProductTemporaryRequest)
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            resp = await client.post("/products/temporary", headers=headers, json=request)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
+            resp = await client.post("/products/temporary", headers=headers, json=body)
             return self.handle_resp(resp, SavedProductResponse)
 
     async def create_copied_product(
-        self, product_no: int, request: dict[str, Any]
+        self, product_no: int, request: CreateCopiedProductRequest
     ) -> SavedProductResponse:
         """재고연동상품 등록하기
 
-        요청 본문이 매우 방대하여 dict로 전달받습니다. 스펙(products-productNo-1790230091) 참조.
+        스펙(products-productNo-1790230091)의 full schema 를 타입화한 CreateCopiedProductRequest 로 요청합니다.
 
         Args:
             product_no: 원본(마스터) 상품번호
-            request: 재고연동상품 등록 정보 (camelCase 키)
+            request: 재고연동상품 등록 정보 (CreateCopiedProductRequest)
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            resp = await client.post(f"/products/{product_no}", headers=headers, json=request)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
+            resp = await client.post(f"/products/{product_no}", headers=headers, json=body)
             return self.handle_resp(resp, SavedProductResponse)
 
     async def upsert_product_guide(self, request: ProductGuideRequest) -> None:

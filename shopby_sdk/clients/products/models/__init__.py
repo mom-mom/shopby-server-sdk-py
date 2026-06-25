@@ -78,6 +78,15 @@ from .list_search import (
     Sticker,
 )
 
+# 상품 등록/수정 요청
+from .create import (
+    CreateCopiedProductRequest,
+    CreateProductRequest,
+    CreateProductTemporaryRequest,
+    UpdateProductRequest,
+    UpdateProductV2Request,
+)
+
 # 상품 수정 V2
 from .patch_v2 import (
     PatchAccumulationLimitInfo,
@@ -313,6 +322,12 @@ __all__ = [
     "SaleInfo",
     "SalePeriod",
     "Sticker",
+    # Create/Update 요청
+    "CreateProductRequest",
+    "UpdateProductRequest",
+    "UpdateProductV2Request",
+    "CreateProductTemporaryRequest",
+    "CreateCopiedProductRequest",
     # Patch V2
     "PatchAccumulationLimitInfo",
     "PatchBrandInfo",
