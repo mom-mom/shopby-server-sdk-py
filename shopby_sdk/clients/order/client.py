@@ -261,7 +261,7 @@ class ShopbyServerOrderApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = [r.model_dump(by_alias=True, exclude_none=True) for r in requests]
+            body = [r.model_dump(by_alias=True, exclude_none=True, mode="json") for r in requests]
             resp = await client.put("/accounts/orders/confirmation", headers=headers, json=body)
             return self.handle_resp(resp, list[AccountOrderConfirmResult])
 
@@ -547,7 +547,7 @@ class ShopbyServerOrderApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = [x.model_dump(by_alias=True, exclude_none=True) for x in items]
+            body = [x.model_dump(by_alias=True, exclude_none=True, mode="json") for x in items]
             resp = await client.post("/previous-orders", headers=headers, json=body)
             return self.handle_resp(resp, PreviousOrderRegisterResult)
 
@@ -585,7 +585,7 @@ class ShopbyServerOrderApiClient(ShopbyServerApiClient):
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
             params: dict[str, str | int | bool] = {"mallName": mall_name}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.post(
                 "/previous-orders/delete/by-order-nos",
                 headers=headers,
@@ -689,7 +689,7 @@ class ShopbyServerOrderApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.post("/orders/coupons/available", headers=headers, json=body)
             return self.handle_resp(resp, CouponAvailableResponse)
 
@@ -708,7 +708,7 @@ class ShopbyServerOrderApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.post("/orders/coupons/calculate", headers=headers, json=body)
             return self.handle_resp(resp, CouponAvailableResponse)
 
@@ -731,7 +731,7 @@ class ShopbyServerOrderApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.put("/orders/change-status/by-shipping-no", headers=headers, json=body)
             return self.handle_resp(resp, ChangeStatusByShippingNoResponse)
 
@@ -757,7 +757,7 @@ class ShopbyServerOrderApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = [x.model_dump(by_alias=True, exclude_none=True) for x in items]
+            body = [x.model_dump(by_alias=True, exclude_none=True, mode="json") for x in items]
             resp = await client.put("/orders/delivery", headers=headers, json=body)
             self.raise_for_status(resp)
             return None
@@ -771,7 +771,7 @@ class ShopbyServerOrderApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = [x.model_dump(by_alias=True, exclude_none=True) for x in items]
+            body = [x.model_dump(by_alias=True, exclude_none=True, mode="json") for x in items]
             resp = await client.put("/orders/delivery-ing", headers=headers, json=body)
             self.raise_for_status(resp)
             return None
@@ -785,7 +785,7 @@ class ShopbyServerOrderApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = [x.model_dump(by_alias=True, exclude_none=True) for x in items]
+            body = [x.model_dump(by_alias=True, exclude_none=True, mode="json") for x in items]
             resp = await client.put("/orders/extra-data", headers=headers, json=body)
             self.raise_for_status(resp)
             return None
@@ -799,7 +799,7 @@ class ShopbyServerOrderApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.put("/orders/hold-delivery", headers=headers, json=body)
             self.raise_for_status(resp)
             return None
@@ -852,7 +852,7 @@ class ShopbyServerOrderApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.put("/orders/reserve-to-normal", headers=headers, json=body)
             self.raise_for_status(resp)
             return None
@@ -869,7 +869,7 @@ class ShopbyServerOrderApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = [x.model_dump(by_alias=True, exclude_none=True) for x in items]
+            body = [x.model_dump(by_alias=True, exclude_none=True, mode="json") for x in items]
             resp = await client.put("/orders/cash-receipt", headers=headers, json=body)
             self.raise_for_status(resp)
             return None
@@ -886,7 +886,7 @@ class ShopbyServerOrderApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = [x.model_dump(by_alias=True, exclude_none=True) for x in items]
+            body = [x.model_dump(by_alias=True, exclude_none=True, mode="json") for x in items]
             resp = await client.put("/orders/tax-invoice", headers=headers, json=body)
             self.raise_for_status(resp)
             return None
@@ -906,7 +906,7 @@ class ShopbyServerOrderApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = [x.model_dump(by_alias=True, exclude_none=True) for x in items]
+            body = [x.model_dump(by_alias=True, exclude_none=True, mode="json") for x in items]
             resp = await client.put("/orders/update-invoices", headers=headers, json=body)
             return self.handle_resp(resp, list[UpdateInvoiceResult])
 
@@ -965,7 +965,7 @@ class ShopbyServerOrderApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.post("/task-messages", headers=headers, json=body)
             return self.handle_resp(resp, TaskMessageCreateResult)
 
@@ -983,7 +983,7 @@ class ShopbyServerOrderApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.put(f"/task-messages/{task_message_no}", headers=headers, json=body)
             self.raise_for_status(resp)
             return None
@@ -1005,7 +1005,7 @@ class ShopbyServerOrderApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.post(f"/task-messages/{task_message_no}/details", headers=headers, json=body)
             return self.handle_resp(resp, TaskMessageDetailCreateResult)
 
@@ -1025,7 +1025,7 @@ class ShopbyServerOrderApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.put(
                 f"/task-messages/{task_message_no}/details/{task_message_detail_no}",
                 headers=headers,

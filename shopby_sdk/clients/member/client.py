@@ -375,7 +375,7 @@ class ShopbyServerMemberApiClient(ShopbyServerApiClient):
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
 
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.patch(
                 f"/configurations/member/open-id/{provider_type}", headers=headers, json=body
             )
@@ -408,7 +408,7 @@ class ShopbyServerMemberApiClient(ShopbyServerApiClient):
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
 
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.patch("/configurations/member/app-card", headers=headers, json=body)
             self.raise_for_status(resp)
             return None
@@ -423,7 +423,7 @@ class ShopbyServerMemberApiClient(ShopbyServerApiClient):
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
 
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.patch(
                 "/configurations/member/open-id/pending-provider", headers=headers, json=body
             )
@@ -463,7 +463,7 @@ class ShopbyServerMemberApiClient(ShopbyServerApiClient):
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
 
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.put("/profile/grades", headers=headers, json=body)
 
             return self.handle_resp(resp, ProfileGradesResponse)
@@ -482,7 +482,7 @@ class ShopbyServerMemberApiClient(ShopbyServerApiClient):
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
 
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.post("/member-groups", headers=headers, json=body)
             self.raise_for_status(resp)
             return None
@@ -498,7 +498,7 @@ class ShopbyServerMemberApiClient(ShopbyServerApiClient):
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
 
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.put(f"/member-groups/{group_no}", headers=headers, json=body)
             self.raise_for_status(resp)
             return None
@@ -674,7 +674,7 @@ class ShopbyServerMemberApiClient(ShopbyServerApiClient):
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
 
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.post("/members/external", headers=headers, json=body)
 
             return self.handle_resp(resp, ExternalMemberResponse)
@@ -689,7 +689,7 @@ class ShopbyServerMemberApiClient(ShopbyServerApiClient):
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
 
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.put("/members/external/id", headers=headers, json=body)
             self.raise_for_status(resp)
             return None
@@ -709,7 +709,7 @@ class ShopbyServerMemberApiClient(ShopbyServerApiClient):
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
 
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.post("/members/prohibit", headers=headers, json=body)
 
             return self.handle_resp(resp, MemberProhibitResponse)
@@ -774,7 +774,7 @@ class ShopbyServerMemberApiClient(ShopbyServerApiClient):
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
 
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.put("/profile", headers=headers, json=body)
 
             return self.handle_resp(resp, ProfileUpdateResponse)
@@ -889,7 +889,7 @@ class ShopbyServerMemberApiClient(ShopbyServerApiClient):
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
 
-            body = [item.model_dump(by_alias=True, exclude_none=True) for item in requests]
+            body = [item.model_dump(by_alias=True, exclude_none=True, mode="json") for item in requests]
             resp = await client.put("/profile/bulk", headers=headers, json=body)
 
             return self.handle_resp(resp, ProfileBulkUpdateResponse)
@@ -906,7 +906,7 @@ class ShopbyServerMemberApiClient(ShopbyServerApiClient):
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
 
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.post("/profile/bulk-delete", headers=headers, json=body)
             self.raise_for_status(resp)
             return None
@@ -924,7 +924,7 @@ class ShopbyServerMemberApiClient(ShopbyServerApiClient):
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
 
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.put("/profile/blocked-release", headers=headers, json=body)
             self.raise_for_status(resp)
             return None
@@ -1010,7 +1010,7 @@ class ShopbyServerMemberApiClient(ShopbyServerApiClient):
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
 
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.put("/profile/dormant-release", headers=headers, json=body)
             self.raise_for_status(resp)
             return None

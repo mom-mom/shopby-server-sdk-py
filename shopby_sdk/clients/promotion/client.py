@@ -124,7 +124,7 @@ class ShopbyServerPromotionApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
 
             resp = await client.post("/coupons", headers=headers, json=body)
             return self.handle_resp(resp, CreateCouponResponse)
@@ -232,7 +232,7 @@ class ShopbyServerPromotionApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
 
             resp = await client.post("/coupons/issues", headers=headers, json=body)
             return self.handle_resp(resp, list[IssueCouponResult])
@@ -281,7 +281,7 @@ class ShopbyServerPromotionApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
 
             resp = await client.put("/coupons/withdraw", headers=headers, json=body)
             self.raise_for_status(resp)
@@ -298,7 +298,7 @@ class ShopbyServerPromotionApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
 
             resp = await client.put("/coupons/withdraw-bulk", headers=headers, json=body)
             self.raise_for_status(resp)
@@ -332,7 +332,7 @@ class ShopbyServerPromotionApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
 
             resp = await client.put(f"/coupons/{coupon_no}", headers=headers, json=body)
             self.raise_for_status(resp)
@@ -349,7 +349,7 @@ class ShopbyServerPromotionApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
 
             resp = await client.put(f"/coupons/{coupon_no}/use-stop", headers=headers, json=body)
             self.raise_for_status(resp)
@@ -414,7 +414,7 @@ class ShopbyServerPromotionApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
+            body = [item.model_dump(by_alias=True, exclude_none=True, mode="json") for item in items]
 
             resp = await client.post("/coupons/use", headers=headers, json=body)
             self.raise_for_status(resp)
@@ -428,7 +428,7 @@ class ShopbyServerPromotionApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
 
             resp = await client.post("/coupons/use/rollback", headers=headers, json=body)
             self.raise_for_status(resp)

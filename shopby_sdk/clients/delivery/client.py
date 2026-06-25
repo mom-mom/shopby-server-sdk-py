@@ -60,7 +60,7 @@ class ShopbyServerDeliveryApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
 
             resp = await client.post("/areafees", headers=headers, json=body)
             return self.handle_resp(resp, AreaFee)
@@ -95,7 +95,7 @@ class ShopbyServerDeliveryApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
 
             resp = await client.put(f"/areafees/{area_fee_no}", headers=headers, json=body)
             self.raise_for_status(resp)
@@ -187,7 +187,7 @@ class ShopbyServerDeliveryApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
 
             resp = await client.post(
                 "/deliveries/template-groups", headers=headers, json=body
@@ -228,7 +228,7 @@ class ShopbyServerDeliveryApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
 
             resp = await client.put(
                 f"/deliveries/template-groups/{template_group_no}", headers=headers, json=body
@@ -291,7 +291,7 @@ class ShopbyServerDeliveryApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
 
             resp = await client.post("/warehouses", headers=headers, json=body)
             return self.handle_resp(resp, Warehouse)
@@ -326,7 +326,7 @@ class ShopbyServerDeliveryApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
 
             resp = await client.put(f"/warehouses/{warehouse_no}", headers=headers, json=body)
             self.raise_for_status(resp)

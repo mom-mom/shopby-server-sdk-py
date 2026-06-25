@@ -105,7 +105,7 @@ class ShopbyServerClaimApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.post(
                 "/claims/available-complex-refund-amt", headers=headers, json=body
             )
@@ -125,7 +125,7 @@ class ShopbyServerClaimApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.put(
                 f"/claims/{claim_no}/already-delivery", headers=headers, json=body
             )
@@ -161,7 +161,7 @@ class ShopbyServerClaimApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.put(
                 f"/claims/{claim_no}/assign-return-invoice", headers=headers, json=body
             )
@@ -212,7 +212,7 @@ class ShopbyServerClaimApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.post("/option-cancels", headers=headers, json=body)
             self.raise_for_status(resp)
             return None
@@ -228,7 +228,7 @@ class ShopbyServerClaimApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.post("/option-cancels/sold-out", headers=headers, json=body)
             self.raise_for_status(resp)
             return None
@@ -245,7 +245,7 @@ class ShopbyServerClaimApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.post(
                 "/option-cancels/sold-out/set-option", headers=headers, json=body
             )
@@ -266,7 +266,7 @@ class ShopbyServerClaimApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.post("/order-cancels", headers=headers, json=body)
             self.raise_for_status(resp)
             return None
@@ -284,7 +284,7 @@ class ShopbyServerClaimApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.post("/cancel-exchanges", headers=headers, json=body)
             self.raise_for_status(resp)
             return None
@@ -302,7 +302,7 @@ class ShopbyServerClaimApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.put(
                 f"/cancel-exchanges/{no}/confirm-deposit", headers=headers, json=body
             )
@@ -329,7 +329,7 @@ class ShopbyServerClaimApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.1"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.post("/return-exchanges", headers=headers, json=body)
             self.raise_for_status(resp)
             if not resp.content:
@@ -349,7 +349,7 @@ class ShopbyServerClaimApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.put(
                 f"/return-exchanges/{no}/collect", headers=headers, json=body
             )
@@ -369,7 +369,7 @@ class ShopbyServerClaimApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.put(
                 f"/return-exchanges/{no}/confirm-deposit", headers=headers, json=body
             )
@@ -394,7 +394,7 @@ class ShopbyServerClaimApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.1"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.post("/returns", headers=headers, json=body)
             self.raise_for_status(resp)
             if not resp.content:
@@ -412,7 +412,7 @@ class ShopbyServerClaimApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.put(f"/returns/{no}/collect", headers=headers, json=body)
             self.raise_for_status(resp)
             return None

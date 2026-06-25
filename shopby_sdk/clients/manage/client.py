@@ -294,7 +294,7 @@ class ShopbyServerManageApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
 
             resp = await client.post(
                 "/accumulations/members/available", headers=headers, json=body
@@ -360,7 +360,7 @@ class ShopbyServerManageApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
 
             resp = await client.post("/profile/accumulations", headers=headers, json=body)
             return self.handle_resp(resp, CreateAccumulationResponse)
@@ -523,7 +523,7 @@ class ShopbyServerManageApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
 
             resp = await client.post("/inquiries/types", headers=headers, json=body)
             self.raise_for_status(resp)
@@ -542,7 +542,7 @@ class ShopbyServerManageApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
 
             resp = await client.post(
                 f"/inquiries/{inquiry_no}/answer", headers=headers, json=body
@@ -564,7 +564,7 @@ class ShopbyServerManageApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
 
             resp = await client.post("/kakao/send", headers=headers, json=body)
             self.raise_for_status(resp)

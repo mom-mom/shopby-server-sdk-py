@@ -158,7 +158,7 @@ class ShopbyServerAdminApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.put("/contracts", headers=headers, json=body)
             self.raise_for_status(resp)
             return None
@@ -178,7 +178,7 @@ class ShopbyServerAdminApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.post("/contracts", headers=headers, json=body)
             self.raise_for_status(resp)
             return None
@@ -217,7 +217,7 @@ class ShopbyServerAdminApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.put(
                 f"/contracts/{partner_no}", headers=headers, json=body
             )
@@ -258,7 +258,7 @@ class ShopbyServerAdminApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.put(
                 f"/currencies/{currency_code}", headers=headers, json=body
             )
@@ -386,7 +386,7 @@ class ShopbyServerAdminApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.post("/partners", headers=headers, json=body)
             return self.handle_resp(resp, PartnerCreateResponse)
 
@@ -406,7 +406,7 @@ class ShopbyServerAdminApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.post("/partners/temp", headers=headers, json=body)
             return self.handle_resp(resp, PartnerCreateResponse)
 
@@ -444,7 +444,7 @@ class ShopbyServerAdminApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
             resp = await client.put(
                 f"/partners/{partner_no}", headers=headers, json=body
             )

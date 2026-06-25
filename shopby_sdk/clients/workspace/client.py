@@ -56,7 +56,7 @@ class ShopbyServerWorkspaceApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
 
             resp = await client.put("/app-installed/extend", headers=headers, json=body)
             self.raise_for_status(resp)
@@ -217,7 +217,7 @@ class ShopbyServerWorkspaceApiClient(ShopbyServerApiClient):
         """
         async with httpx.AsyncClient(base_url=self.base_url, headers=self.common_header) as client:
             headers = {"version": "1.0"}
-            body = request.model_dump(by_alias=True, exclude_none=True)
+            body = request.model_dump(by_alias=True, exclude_none=True, mode="json")
 
             resp = await client.post("/external-script", headers=headers, json=body)
             self.raise_for_status(resp)
