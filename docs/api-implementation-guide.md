@@ -325,12 +325,12 @@ return [ItemModel.model_validate(item) for item in resp.json()]
 - **Base 클래스**: `shopby_sdk/clients/base.py`
 - **BaseDto**: `shopby_sdk/base/dto.py`
 - **KST 타입**: `shopby_sdk/base/kst.py`
-- **API 스펙** (10개 도메인, `docs/api/{domain}-server-public.yml`):
+- **API 스펙** (11개 도메인, `docs/api/{domain}-server-public.yml`):
   - product, display, order, member, claim
-  - admin, delivery, manage, order-friends, promotion
+  - admin, delivery, manage, order-friends, promotion, workspace
   - 원본 URL: `https://server-docs.shopby.co.kr/spec/{domain}-server-public.yml`
 
-## 완성된 구현 (10개 도메인, 전 엔드포인트 커버리지)
+## 완성된 구현 (11개 도메인, 전 엔드포인트 커버리지)
 
 | 도메인 | 클라이언트 경로 | 엔드포인트 | 비고 |
 |--------|----------------|-----------|------|
@@ -344,5 +344,6 @@ return [ItemModel.model_validate(item) for item in resp.json()]
 | manage | `shopby_sdk/clients/manage/` | 18 | 적립금/문의/약관 |
 | order_friends | `shopby_sdk/clients/order_friends/` | 10 | 통계/정산/CS |
 | promotion | `shopby_sdk/clients/promotion/` | 14 | 쿠폰 |
+| workspace | `shopby_sdk/clients/workspace/` | 10 | 인증/토큰/앱설치/외부스크립트/웹훅 |
 
 **스크립트 예제:** `scripts/get_product_detail_v1.py`, `scripts/get_orders.py`, `scripts/get_members.py` 등 (`docs/scripts.md` 참조)

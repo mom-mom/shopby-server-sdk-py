@@ -22,6 +22,7 @@ from shopby_sdk.clients.member import ShopbyServerMemberApiClient
 from shopby_sdk.clients.order_friends import ShopbyServerOrderFriendsApiClient
 from shopby_sdk.clients.products import ShopbyServerProductsApiClient
 from shopby_sdk.clients.promotion import ShopbyServerPromotionApiClient
+from shopby_sdk.clients.workspace import ShopbyServerWorkspaceApiClient
 
 
 def _summary(result) -> str:
@@ -71,6 +72,7 @@ async def main():
     manage = ShopbyServerManageApiClient(**kw)
     of = ShopbyServerOrderFriendsApiClient(**kw)
     promotion = ShopbyServerPromotionApiClient(**kw)
+    workspace = ShopbyServerWorkspaceApiClient(**kw)
 
     ok = 0
     total = 0
@@ -102,6 +104,10 @@ async def main():
         ("order_friends.get_settlement", of.get_settlement(end.year, end.month)),
         # promotion (신규)
         ("promotion.search_coupons", promotion.search_coupons(1, 10, "REGISTER_YMD", start, end)),
+        # workspace (신규 - 인증)
+        ("workspace.get_auth_me", workspace.get_auth_me()),
+        ("workspace.get_app_installed_status", workspace.get_app_installed_status()),
+        ("workspace.get_external_scripts", workspace.get_external_scripts()),
     ]
 
     print(f"\n읽기 전용 라이브 스모크 테스트 ({len(checks)}건)\n" + "=" * 70)

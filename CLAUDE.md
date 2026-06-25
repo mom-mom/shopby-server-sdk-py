@@ -59,7 +59,7 @@ shopby_sdk/
 docs/
 ├── api-implementation-guide.md      # ⚠️ API 구현 시 반드시 먼저 읽을 것
 ├── scripts.md                       # 테스트 스크립트 실행 가이드
-└── api/                             # OpenAPI 스펙 (yml) - 10개 도메인 전체
+└── api/                             # OpenAPI 스펙 (yml) - 11개 도메인 전체
     ├── product-server-public.yml
     ├── display-server-public.yml
     ├── order-server-public.yml
@@ -69,7 +69,8 @@ docs/
     ├── delivery-server-public.yml
     ├── manage-server-public.yml
     ├── order-friends-server-public.yml
-    └── promotion-server-public.yml
+    ├── promotion-server-public.yml
+    └── workspace-server-public.yml
 ```
 
 스펙 원본 URL: `https://server-docs.shopby.co.kr/spec/{domain}-server-public.yml`
@@ -80,7 +81,7 @@ docs/
 
 This guide contains all implementation patterns, type mapping rules, parameter handling, and common pitfalls. Do not proceed without reading it.
 
-**Reference implementations (10개 도메인 전체 구현 완료, 100% 엔드포인트 커버리지):**
+**Reference implementations (11개 도메인 전체 구현 완료, 100% 엔드포인트 커버리지):**
 - `shopby_sdk/clients/products/` - Products API (상품) — models/ 패키지 구조
 - `shopby_sdk/clients/order/` - Order API (주문) — models/ 패키지 구조
 - `shopby_sdk/clients/member/` - Member API (회원)
@@ -91,7 +92,11 @@ This guide contains all implementation patterns, type mapping rules, parameter h
 - `shopby_sdk/clients/manage/` - Manage API (적립금/문의/약관)
 - `shopby_sdk/clients/order_friends/` - Order Friends API (통계/정산/CS)
 - `shopby_sdk/clients/promotion/` - Promotion API (쿠폰)
+- `shopby_sdk/clients/workspace/` - Workspace API (인증/토큰/앱설치/외부스크립트/웹훅)
 - `shopby_sdk/clients/examples/` - 기본 예제
+
+> 인증 주의: workspace `/auth/token`·`/auth/token/long-lived` 는 토큰을 *발급받는* 엔드포인트라
+> Authorization/systemKey 헤더를 보내지 않으며, 바디는 OAuth snake_case 키(client_id 등)를 사용함.
 
 > 참고: 거대 상품 등록/수정(create/update product) 등 일부 200+ 필드 중첩 요청 페이로드는
 > `dict[str, Any]`로 두고 docstring에 OpenAPI schema 이름을 명시함. 필요 시 점진적 타입화 가능.
