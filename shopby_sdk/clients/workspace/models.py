@@ -86,9 +86,9 @@ class AuthTokenResponse(BaseDto):
     """
 
     access_token: str = Field(..., description="액세스 토큰")
-    refresh_token: str | None = Field(None, description="리프레시 토큰")
-    scopes: str | None = Field(None, description="토큰 스코프")
-    expire_in: str | None = Field(None, description="만료 시간")
+    refresh_token: str | None = Field(None, description="리프레시 토큰 (장기토큰은 null)")
+    scopes: list[str] | None = Field(None, description="토큰 스코프 목록 (예: writable.PRODUCT)")
+    expire_in: str | None = Field(None, description="만료 일시 (장기토큰은 100년 후)")
     token_type: str | None = Field(None, description="토큰 타입")
     issued_at: str | None = Field(None, description="발급 일시")
 
