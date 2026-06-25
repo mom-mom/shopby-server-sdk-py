@@ -262,17 +262,85 @@ uv run --env-file .env.local python scripts/get_order_detail.py <order_no>
 
 ---
 
+## Member API
+
+### 10. get_members.py - 회원 목록 조회
+
+**용도**: 가입일 등 조건으로 회원 목록 조회
+
+**실행**:
+```bash
+uv run --env-file .env.local python scripts/get_members.py [page_size]
+```
+
+**사용 Client/Method**:
+- Client: `ShopbyServerMemberApiClient`
+- Method: `get_members(...)`
+- Response Model: `MembersListResponse`
+
+---
+
+### 11. get_member_groups.py - 회원 그룹 조회
+
+**실행**:
+```bash
+uv run --env-file .env.local python scripts/get_member_groups.py
+```
+
+**사용 Client/Method**:
+- Client: `ShopbyServerMemberApiClient`
+- Method: `get_member_groups()` / `get_member_group(group_no: int)`
+- Response Model: `list[MemberGroup]`
+
+---
+
+### 12. get_profile_groups.py - 프로필 그룹 조회
+
+**실행**:
+```bash
+uv run --env-file .env.local python scripts/get_profile_groups.py
+```
+
+**사용 Client/Method**:
+- Client: `ShopbyServerMemberApiClient`
+- Method: `get_profile_groups(...)`
+- Response Model: `ProfileGroupsResponse`
+
+---
+
+## 라이브 스모크 테스트
+
+### 13. smoke_test_readonly.py - 전 도메인 읽기 전용 라이브 검증
+
+**용도**: 11개 도메인의 대표 GET 엔드포인트를 실제 호출해 응답이 모델로 정상 파싱되는지 검증
+(생성/수정/삭제는 호출하지 않음)
+
+**실행**:
+```bash
+uv run --env-file .env.local python scripts/smoke_test_readonly.py
+```
+
+**참고**:
+- 호출하는 토큰 계정에 해당 도메인 권한이 없으면 `400 (SA0001)` 로 표시됩니다 (SDK 오류 아님).
+- 전 도메인 권한이 있는 토큰(워크스페이스 장기 토큰 등)으로 실행하면 전부 통과합니다.
+
+---
+
 ## Client/Model Import 경로
 
 ```python
-# Products Client
+# 도메인별 Client (11개 도메인)
 from shopby_sdk.clients.products import ShopbyServerProductsApiClient
-
-# Display Client
-from shopby_sdk.clients.display import ShopbyServerDisplayApiClient
-
-# Order Client
 from shopby_sdk.clients.order import ShopbyServerOrderApiClient
+from shopby_sdk.clients.member import ShopbyServerMemberApiClient
+from shopby_sdk.clients.display import ShopbyServerDisplayApiClient
+from shopby_sdk.clients.claim import ShopbyServerClaimApiClient
+from shopby_sdk.clients.admin import ShopbyServerAdminApiClient
+from shopby_sdk.clients.delivery import ShopbyServerDeliveryApiClient
+from shopby_sdk.clients.manage import ShopbyServerManageApiClient
+from shopby_sdk.clients.order_friends import ShopbyServerOrderFriendsApiClient
+from shopby_sdk.clients.promotion import ShopbyServerPromotionApiClient
+from shopby_sdk.clients.workspace import ShopbyServerWorkspaceApiClient
 
 # Response Models
 from shopby_sdk.clients.products.models import (
