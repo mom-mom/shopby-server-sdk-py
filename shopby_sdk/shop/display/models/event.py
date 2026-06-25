@@ -28,17 +28,6 @@ class EventSummary(BaseDto):
     end_ymdt: KstDatetime | None = None
 
 
-class EventListResponse(BaseDto):
-    """이벤트 목록 조회 응답 (schema: display-events-1184885934).
-
-    참고: 스펙상 익명 배열 키 ``[]`` 도 존재하나 실데이터는 ``contents`` 를 사용한다.
-    """
-
-    contents: list[EventSummary] | None = None
-    total_page: int | None = None
-    total_count: int | None = None
-
-
 class ClosedEventListResponse(BaseDto):
     """종료된 이벤트 목록 응답 (schema: display-events-close1639109920)."""
 
@@ -75,13 +64,66 @@ class EventWithProducts(BaseDto):
     products: list[ShopProductItem] | None = None
 
 
+class EventCouponUseConstraint(BaseDto):
+    """쿠폰 사용 제약(useConstraint)."""
+
+    limit_pay_type: str | None = None
+    use_days: int | None = None
+    min_sale_price: float | None = None
+    max_sale_price: float | None = None
+    min_delivery_amt: float | None = None
+    usable_platform_types: str | None = None
+    use_end_ymdt: KstDatetime | None = None
+
+
+class EventCouponDateInfo(BaseDto):
+    """쿠폰 발급 기간 정보(dateInfo)."""
+
+    issue_start_ymdt: KstDatetime | None = None
+    issue_end_ymdt: KstDatetime | None = None
+    issue_days_of_week: str | None = None
+    issue_start_hour: int | None = None
+    issue_end_hour: int | None = None
+
+
+class EventCouponDiscountInfo(BaseDto):
+    """쿠폰 할인 정보(discountInfo)."""
+
+    discount_rate: float | None = None
+    discount_amt: float | None = None
+    max_discount_amt: float | None = None
+    fixed_amt: bool | None = None
+    free_delivery: bool | None = None
+    use_other_coupon: bool | None = None
+    skipped_accumulation_amt: bool | None = None
+
+
+class EventCouponIssueConstraint(BaseDto):
+    """쿠폰 발급 제약(issueConstraint)."""
+
+    daily_issue_limit_cnt: int | None = None
+    issue_per_person_limit_cnt: int | None = None
+    issuable_platform_types: str | None = None
+
+
+class EventCoupon(BaseDto):
+    """기획전 발급 쿠폰 (event detail coupon item)."""
+
+    coupon_no: int | None = None
+    coupon_name: str | None = None
+    coupon_sub_type: str | None = None
+    coupon_target_type: str | None = None
+    downloadable: bool | None = None
+    use_constraint: EventCouponUseConstraint | None = None
+    date_info: EventCouponDateInfo | None = None
+    discount_info: EventCouponDiscountInfo | None = None
+    issue_constraint: EventCouponIssueConstraint | None = None
+
+
 class EventCouponSummary(BaseDto):
-    """기획전 발급 쿠폰 묶음 (event detail coupon).
+    """기획전 발급 쿠폰 묶음 (event detail coupon)."""
 
-    coupons[] 의 개별 쿠폰은 사용/발급 제약 등 깊게 중첩된 구조라 ``dict[str, Any]`` 로 둔다.
-    """
-
-    coupons: list[dict[str, Any]] | None = None
+    coupons: list[EventCoupon] | None = None
     before_issue_image_url: str | None = None
     already_issued_image_url: str | None = None
     issued_image_url: str | None = None

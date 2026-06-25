@@ -21,10 +21,10 @@ from shopby_sdk.shop.display.models.category import (
 from shopby_sdk.shop.display.models.common import MemberDisplayInfo, TagValue
 from shopby_sdk.shop.display.models.event import (
     ClosedEventListResponse,
+    EventCoupon,
     EventCouponSummary,
     EventDetailResponse,
     EventDetailSection,
-    EventListResponse,
     EventSectionProductsResponse,
     EventSectionsByEventNo,
     EventSectionSummary,
@@ -113,11 +113,11 @@ __all__ = [
     "SkinBannerGroupsBySkin",
     # event
     "EventSummary",
-    "EventListResponse",
     "ClosedEventListResponse",
     "EventSectionSummary",
     "EventSectionsByEventNo",
     "EventWithProducts",
+    "EventCoupon",
     "EventCouponSummary",
     "EventDetailSection",
     "EventDetailResponse",

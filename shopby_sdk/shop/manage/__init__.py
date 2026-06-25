@@ -16,6 +16,8 @@ from shopby_sdk.shop.manage.models import (
     ArticleListResponse,
     BoardCategory,
     BoardChannelConfig,
+    ReviewAccumulation,
+    ReviewAccumulationAmount,
     BoardConfigurationsResponse,
     BoardDirection,
     CustomTermsCategoryType,
@@ -72,6 +74,8 @@ __all__ = [
     # Board
     "BoardConfigurationsResponse",
     "BoardChannelConfig",
+    "ReviewAccumulation",
+    "ReviewAccumulationAmount",
     "BoardCategory",
     "PostAttachment",
     "ArticleListItem",

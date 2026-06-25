@@ -22,6 +22,7 @@ class ImageUrlInfo(BaseDto):
 
     url: str | None = None
     type: str | None = Field(None, description="예: IMAGE_URL, VIDEO_URL")
+    is_main: bool | None = Field(None, description="대표 이미지 여부(진열/기획전 상품)")
 
 
 class StickerInfo(BaseDto):
@@ -171,7 +172,7 @@ class ItemBaseInfo(BaseDto):
     accumulation_amt_when_buy_confirm: float | None = None
     can_add_to_cart: bool | None = None
     image_url_info: list[ImageUrlInfo] | None = None
-    list_image_url_info: ImageUrlInfo | None = None
+    list_image_url_info: ImageUrlInfo | list[ImageUrlInfo] | None = None
     rental_infos: list | None = None
     enable_coupons: bool | None = None
     main_best_product_yn: bool | None = None
@@ -254,7 +255,7 @@ class ShopProductItem(BaseDto):
     image_urls: list[str] | None = None
     list_image_urls: list[str] | None = None
     image_url_info: list[ImageUrlInfo] | None = None
-    list_image_url_info: ImageUrlInfo | None = None
+    list_image_url_info: ImageUrlInfo | list[ImageUrlInfo] | None = None
 
     # 스티커
     sticker_infos: list[StickerInfo] | None = None

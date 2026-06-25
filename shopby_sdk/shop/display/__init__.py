@@ -19,7 +19,6 @@ from shopby_sdk.shop.display.models import (
     DesignPopup,
     DesignPopupRequest,
     EventDetailResponse,
-    EventListResponse,
     EventSectionProductsResponse,
     EventSectionsByEventNo,
     EventSummary,
@@ -62,7 +61,6 @@ __all__ = [
     "CategoryNoByCode",
     # event
     "EventSummary",
-    "EventListResponse",
     "ClosedEventListResponse",
     "EventWithProducts",
     "EventSectionsByEventNo",

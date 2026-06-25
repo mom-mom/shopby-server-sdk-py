@@ -22,7 +22,6 @@ from shopby_sdk.shop.display.models import (
     DesignPopup,
     DesignPopupRequest,
     EventDetailResponse,
-    EventListResponse,
     EventSectionProductsResponse,
     EventSectionsByEventNo,
     EventSummary,
@@ -210,8 +209,10 @@ class ShopbyShopDisplayApiClient(ShopbyShopApiClient):
         progress_status: str | None = None,
         order_by: str | None = None,
         order_direction: str | None = None,
-    ) -> EventListResponse:
+    ) -> list[EventSummary]:
         """이벤트 기간안에 포함된 모든 이벤트 목록 조회하기 (Version 1.0).
+
+        응답은 EventSummary 의 top-level 배열이다(실데이터 dev+prod 확인).
 
         Args:
             page_number: 페이지 번호.
@@ -248,7 +249,7 @@ class ShopbyShopDisplayApiClient(ShopbyShopApiClient):
             if order_direction is not None:
                 params["order.direction"] = order_direction
             resp = await client.get("/display/events", headers=headers, params=params)
-            return self.handle_resp(resp, EventListResponse)
+            return self.handle_resp(resp, list[EventSummary])
 
     async def get_closed_events(
         self,

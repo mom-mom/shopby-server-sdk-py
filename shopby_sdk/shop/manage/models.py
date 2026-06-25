@@ -60,6 +60,21 @@ class JapanAddressResponse(BaseDto):
 # =====================================================================
 
 
+class ReviewAccumulationAmount(BaseDto):
+    """상품평 적립 금액 설정(normalReview/photoReview)."""
+
+    amount: float | None = None
+    content_length: int | None = Field(None, description="적립 조건 최소 글자수")
+
+
+class ReviewAccumulation(BaseDto):
+    """상품평 적립 설정(reviewAccumulation, 상품리뷰 채널 전용)."""
+
+    use: bool | None = None
+    normal_review: ReviewAccumulationAmount | None = None
+    photo_review: ReviewAccumulationAmount | None = None
+
+
 class BoardChannelConfig(BaseDto):
     """게시판 채널 설정 (1:1문의/상품리뷰/상품문의 공통 구조).
 
@@ -81,7 +96,7 @@ class BoardChannelConfig(BaseDto):
     sms_used: bool | None = None
     answer_mail_template_used: bool | None = None
     answer_sms_template_used: bool | None = None
-    review_accumulation: dict | None = Field(None, description="리뷰 적립 설정(상품리뷰 전용, 미설정 시 null)")
+    review_accumulation: ReviewAccumulation | None = Field(None, description="리뷰 적립 설정(상품리뷰 전용)")
 
 
 class BoardConfigurationsResponse(BaseDto):
