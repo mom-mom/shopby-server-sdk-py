@@ -15,6 +15,7 @@ from shopby_sdk.shop.manage.models import (
     ArticleListItem,
     ArticleListResponse,
     BoardCategory,
+    BoardChannelConfig,
     BoardConfigurationsResponse,
     BoardDirection,
     CustomTermsCategoryType,
@@ -70,6 +71,7 @@ __all__ = [
     "JapanAddressResponse",
     # Board
     "BoardConfigurationsResponse",
+    "BoardChannelConfig",
     "BoardCategory",
     "PostAttachment",
     "ArticleListItem",

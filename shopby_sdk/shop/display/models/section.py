@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-from typing import Any
 
 from shopby_sdk.base.dto import BaseDto
+from shopby_sdk.shop.product.models.catalog_item import ShopProductItem
 
 
 class SectionSummary(BaseDto):
@@ -41,9 +41,9 @@ class SectionResponse(BaseDto):
 class SectionProductsResponse(BaseDto):
     """상품 진열 내 상품 상세 조회 응답 (schema: display-sections-sectionNo-products).
 
-    products[] 는 전시 상품 카탈로그의 거대 중첩 페이로드(50+ 필드)라 ``dict[str, Any]`` 로 둔다.
+    products[] 는 product 도메인과 공유하는 상품 카탈로그 표현(ShopProductItem).
     """
 
     product_total_count: int | None = None
     displayable_stock: bool | None = None
-    products: list[dict[str, Any]] | None = None
+    products: list[ShopProductItem] | None = None

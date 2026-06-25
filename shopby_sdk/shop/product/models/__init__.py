@@ -12,6 +12,19 @@ from shopby_sdk.shop.product.models.brand import (
     BrandsByNoResponse,
     BrandTreeItem,
 )
+from shopby_sdk.shop.product.models.catalog_item import (
+    DeliveryConditionInfo,
+    HasCoupons,
+    ImageUrlInfo,
+    ItemAccumulationInfo,
+    ItemAccumulationUseInfo,
+    ItemBaseInfo,
+    ItemPrice,
+    ItemStatus,
+    ShopProductItem,
+    StickerInfo,
+    UnitPrice,
+)
 from shopby_sdk.shop.product.models.catalog import (
     CustomPropertiesResponse,
     CustomProperty,
@@ -23,7 +36,21 @@ from shopby_sdk.shop.product.models.catalog import (
     StandardCategoryResponse,
     UrlShorteningResponse,
 )
-from shopby_sdk.shop.product.models.detail import ProductDetailResponse
+from shopby_sdk.shop.product.models.detail import (
+    AccumulationUseLimitInfo,
+    ProductDetailBaseInfo,
+    ProductDetailBrand,
+    ProductDetailCategory,
+    ProductDetailCounter,
+    ProductDetailDeliveryFee,
+    ProductDetailLimitations,
+    ProductDetailPartner,
+    ProductDetailPrice,
+    ProductDetailResponse,
+    ProductDetailShippingInfo,
+    ProductDetailStatus,
+    ProductDetailStock,
+)
 from shopby_sdk.shop.product.models.discount import (
     AdditionalDiscountResponse,
     AdditionalDiscountsResponse,
@@ -59,7 +86,7 @@ from shopby_sdk.shop.product.models.option import (
     ProductsOptionsResponse,
     RentalInfo,
 )
-from shopby_sdk.shop.product.models.public_info import PublicInfoItem
+from shopby_sdk.shop.product.models.public_info import PublicInfo, PublicInfoItem
 from shopby_sdk.shop.product.models.purchasable import PurchasePermissionItem
 from shopby_sdk.shop.product.models.regular_delivery import (
     RegularDeliveryDiscount,
@@ -126,8 +153,32 @@ __all__ = [
     "ProductKeywordsItem",
     "StandardCategoryResponse",
     "UrlShorteningResponse",
+    # catalog item (shared)
+    "ShopProductItem",
+    "ItemBaseInfo",
+    "ItemPrice",
+    "ItemStatus",
+    "ItemAccumulationInfo",
+    "ItemAccumulationUseInfo",
+    "UnitPrice",
+    "HasCoupons",
+    "StickerInfo",
+    "ImageUrlInfo",
+    "DeliveryConditionInfo",
     # detail
     "ProductDetailResponse",
+    "ProductDetailBaseInfo",
+    "ProductDetailPrice",
+    "ProductDetailStock",
+    "ProductDetailDeliveryFee",
+    "ProductDetailLimitations",
+    "ProductDetailCounter",
+    "ProductDetailCategory",
+    "ProductDetailBrand",
+    "ProductDetailPartner",
+    "ProductDetailStatus",
+    "ProductDetailShippingInfo",
+    "AccumulationUseLimitInfo",
     # discount
     "AdditionalDiscountResponse",
     "AdditionalDiscountsResponse",
@@ -162,6 +213,7 @@ __all__ = [
     "RentalInfo",
     # public info
     "PublicInfoItem",
+    "PublicInfo",
     # purchasable
     "PurchasePermissionItem",
     # regular delivery

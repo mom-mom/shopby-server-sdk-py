@@ -7,7 +7,7 @@
 - products-productNo-options-optionNo-images-589532874 (옵션 이미지)
 """
 
-from typing import Any, Literal
+from typing import Literal
 
 from shopby_sdk.base.dto import BaseDto
 
@@ -34,8 +34,7 @@ class RentalInfo(BaseDto):
 class OptionValue(BaseDto):
     """옵션 값 (조합형/단독형 공통).
 
-    children 는 다단계 옵션의 하위 옵션 목록으로 동일 구조가 재귀되므로
-    dict[str, Any] 로 둔다 (OpenAPI 상 깊이 가변).
+    children 는 다단계 옵션의 하위 옵션 목록으로 동일 구조가 재귀된다.
     """
 
     option_no: int | None = None
@@ -54,7 +53,7 @@ class OptionValue(BaseDto):
     extra_management_cd: str | None = None
     images: list[OptionImage] | None = None
     rental_info: list[RentalInfo] | None = None
-    children: list[dict[str, Any]] | None = None
+    children: list["OptionValue"] | None = None
 
 
 class OptionInput(BaseDto):

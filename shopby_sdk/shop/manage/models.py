@@ -58,23 +58,44 @@ class JapanAddressResponse(BaseDto):
 # =====================================================================
 # Board (게시판)
 # =====================================================================
-# 게시판 설정(board configurations) 응답은 boardConfigs / inquiryConfig /
-# productReviewConfig / productInquiryConfig 등 매우 깊고 동적인 중첩 구조이므로
-# (authorityConfig 등 다수의 권한 설정 트리 포함) dict[str, Any] 로 둔다.
+
+
+class BoardChannelConfig(BaseDto):
+    """게시판 채널 설정 (1:1문의/상품리뷰/상품문의 공통 구조).
+
+    실데이터(dev+prod) 기반 타입화. inquiryConfig/productReviewConfig/
+    productInquiryConfig 가 동일 형태를 공유한다.
+    """
+
+    name: str | None = None
+    description: str | None = None
+    used: bool | None = None
+    display_type: str | None = Field(None, description="LIST 등")
+    image_display_type: str | None = Field(None, description="ATTACHMENT 등")
+    member_posting_used: bool | None = None
+    guest_posting_used: bool | None = None
+    secret_posting_used: bool | None = None
+    reply_used: bool | None = None
+    attachment_used: bool | None = None
+    email_used: bool | None = None
+    sms_used: bool | None = None
+    answer_mail_template_used: bool | None = None
+    answer_sms_template_used: bool | None = None
+    review_accumulation: dict | None = Field(None, description="리뷰 적립 설정(상품리뷰 전용, 미설정 시 null)")
 
 
 class BoardConfigurationsResponse(BaseDto):
     """게시판 설정 조회 응답. (schema: boards-configurations-235903281)
 
-    boardConfigs/inquiryConfig/productReviewConfig/productInquiryConfig 는
-    각각 깊은 권한 설정 트리(authorityConfig 등)를 포함하는 동적 구조라
-    ``dict[str, Any]`` 로 둔다.
+    boardConfigs 항목은 authorityConfig 등 깊은 권한 설정 트리를 포함하는 가변 구조라
+    (실데이터에서도 비어 있어 구조 확인 불가) ``dict[str, Any]`` 로 둔다.
+    inquiry/review/productInquiry config 는 공통 BoardChannelConfig 로 타입화.
     """
 
-    board_configs: list[dict[str, Any]] = Field(default_factory=list, description="게시판 설정 목록")
-    inquiry_config: dict[str, Any] | None = Field(None, description="1:1문의 설정")
-    product_review_config: dict[str, Any] | None = Field(None, description="상품리뷰 설정")
-    product_inquiry_config: dict[str, Any] | None = Field(None, description="상품문의 설정")
+    board_configs: list[dict[str, Any]] = Field(default_factory=list, description="게시판 설정 목록(동적 권한 트리)")
+    inquiry_config: BoardChannelConfig | None = Field(None, description="1:1문의 설정")
+    product_review_config: BoardChannelConfig | None = Field(None, description="상품리뷰 설정")
+    product_inquiry_config: BoardChannelConfig | None = Field(None, description="상품문의 설정")
 
 
 class BoardCategory(BaseDto):

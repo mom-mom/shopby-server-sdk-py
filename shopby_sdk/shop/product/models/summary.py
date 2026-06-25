@@ -4,9 +4,14 @@
 브랜드/카테고리/커스텀속성 집계는 묶음배송 응답에서도 재사용된다.
 """
 
-from typing import Any
-
 from shopby_sdk.base.dto import BaseDto
+
+
+class ClickUrlPrefix(BaseDto):
+    """검색결과 클릭 추적 URL prefix."""
+
+    url: str | None = None
+    param: str | None = None
 
 
 class BrandSummary(BaseDto):
@@ -33,7 +38,7 @@ class CategorySummary(BaseDto):
 class MultiLevelCategorySummary(BaseDto):
     """다단계 카테고리 집계 (자기참조).
 
-    childCategories 는 동일 구조의 재귀라 dict[str, Any] 로 둔다.
+    childCategories 는 동일 구조(자기참조)의 재귀.
     """
 
     category_no: int | None = None
@@ -41,7 +46,7 @@ class MultiLevelCategorySummary(BaseDto):
     label: str | None = None
     display_order: int | None = None
     count: int | None = None
-    child_categories: list[dict[str, Any]] | None = None
+    child_categories: list["MultiLevelCategorySummary"] | None = None
 
 
 class CustomPropertyValueSummary(BaseDto):
@@ -71,7 +76,7 @@ class SearchSummaryResponse(BaseDto):
     max_price: int | None = None
     displayable_stock: bool | None = None
     corrected_keyword: str | None = None
-    click_url_prefix: dict[str, Any] | None = None
+    click_url_prefix: ClickUrlPrefix | None = None
     brands: list[BrandSummary] | None = None
     custom_properties: list[CustomPropertySummary] | None = None
     depth1_categories: list[CategorySummary] | None = None

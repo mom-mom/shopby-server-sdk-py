@@ -6,6 +6,7 @@ from typing import Any
 
 from shopby_sdk.base.dto import BaseDto
 from shopby_sdk.base.kst import KstDatetime
+from shopby_sdk.shop.product.models.catalog_item import ShopProductItem
 
 
 class EventSummary(BaseDto):
@@ -67,11 +68,11 @@ class EventSectionsByEventNo(BaseDto):
 class EventWithProducts(BaseDto):
     """기획전 + 대표 상품 목록 (schema: display-events-search-by-nos-823985503[]).
 
-    products[] 는 전시 상품 카탈로그의 거대 중첩 페이로드(50+ 필드)라 ``dict[str, Any]`` 로 둔다.
+    products[] 는 product 도메인과 공유하는 상품 카탈로그 표현(ShopProductItem).
     """
 
     event: EventSummary | None = None
-    products: list[dict[str, Any]] | None = None
+    products: list[ShopProductItem] | None = None
 
 
 class EventCouponSummary(BaseDto):
@@ -92,7 +93,7 @@ class EventCouponSummary(BaseDto):
 class EventDetailSection(BaseDto):
     """기획전 상세 내 섹션.
 
-    products[] 는 전시 상품 카탈로그의 거대 중첩 페이로드라 ``dict[str, Any]`` 로 둔다.
+    products[] 는 product 도메인과 공유하는 상품 카탈로그 표현(ShopProductItem).
     """
 
     section_no: int | None = None
@@ -102,7 +103,7 @@ class EventDetailSection(BaseDto):
     pc_per_row: int | None = None
     mobile_per_row: int | None = None
     displayable_stock: bool | None = None
-    products: list[dict[str, Any]] | None = None
+    products: list[ShopProductItem] | None = None
 
 
 class EventDetailResponse(BaseDto):
@@ -134,9 +135,9 @@ class EventDetailResponse(BaseDto):
 class EventSectionProductsResponse(BaseDto):
     """기획전 상품진열 상품 조회 응답 (schema: display-events-eventNo-sections-sectionNo).
 
-    products[] 는 전시 상품 카탈로그의 거대 중첩 페이로드라 ``dict[str, Any]`` 로 둔다.
+    products[] 는 product 도메인과 공유하는 상품 카탈로그 표현(ShopProductItem).
     """
 
     section_no: int | None = None
     total_count: int | None = None
-    products: list[dict[str, Any]] | None = None
+    products: list[ShopProductItem] | None = None
