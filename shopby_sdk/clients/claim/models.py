@@ -269,7 +269,12 @@ class OptionCancelRequest(BaseDto):
     refund_bank_account: BankAccount | None = Field(None, description="환불계좌(환불시)")
     # request-only, 스펙상 자유형식 object(properties 없음) → 구조 추론 불가, dict 유지
     complex_refund_adjust: dict[str, Any] | None = Field(
-        None, description="결제수단 별 환불금액 (자유형식 object)"
+        None,
+        description=(
+            "결제수단 별 환불금액(관리자 지정 환불·개발중). 스펙 미정의·example 전부 null 이라 dict 유지. "
+            "추정 키(환불가능금액 조회 응답과 대칭): "
+            "{pgRefundAmt, cashRefundAmt, accumulationRefundAmt, externalPayRefundAmts:[{externalPayKey, refundAmt}]}"
+        ),
     )
 
 
@@ -350,7 +355,12 @@ class CancelExchangeCalculateParam(BaseDto):
     )
     # request-only, 스펙상 자유형식 object(properties 없음) → 구조 추론 불가, dict 유지
     complex_refund_adjust: dict[str, Any] | None = Field(
-        None, description="결제수단 별 환불금액 (refundType 은 ADMIN_ETC 를 입력, 자유형식 object)"
+        None,
+        description=(
+            "결제수단 별 환불금액(관리자 지정 환불·개발중, refundType 은 ADMIN_ETC 입력). "
+            "스펙 미정의·example 전부 null 이라 dict 유지. 추정 키(환불가능금액 조회 응답과 대칭): "
+            "{pgRefundAmt, cashRefundAmt, accumulationRefundAmt, externalPayRefundAmts:[{externalPayKey, refundAmt}]}"
+        ),
     )
 
 
@@ -477,7 +487,12 @@ class ReturnExchangeCalculateParam(BaseDto):
     exchange_address: ClaimAddress | None = Field(None, description="교환출고지 주소")
     # request-only, 스펙상 자유형식 object(properties 없음) → 구조 추론 불가, dict 유지
     complex_refund_adjust: dict[str, Any] | None = Field(
-        None, description="결제수단 별 환불금액 (refundType 은 ADMIN_ETC 를 입력, 자유형식 object)"
+        None,
+        description=(
+            "결제수단 별 환불금액(관리자 지정 환불·개발중, refundType 은 ADMIN_ETC 입력). "
+            "스펙 미정의·example 전부 null 이라 dict 유지. 추정 키(환불가능금액 조회 응답과 대칭): "
+            "{pgRefundAmt, cashRefundAmt, accumulationRefundAmt, externalPayRefundAmts:[{externalPayKey, refundAmt}]}"
+        ),
     )
 
 
@@ -571,7 +586,12 @@ class ReturnRequest(BaseDto):
     )
     # request-only, 스펙상 자유형식 object(properties 없음) → 구조 추론 불가, dict 유지
     complex_refund_request: dict[str, Any] | None = Field(
-        None, description="결제수단 별 환불금액 (자유형식 object)"
+        None,
+        description=(
+            "결제수단 별 환불금액(관리자 지정 환불·개발중). 스펙 미정의·example 전부 null 이라 dict 유지. "
+            "추정 키(환불가능금액 조회 응답과 대칭): "
+            "{pgRefundAmt, cashRefundAmt, accumulationRefundAmt, externalPayRefundAmts:[{externalPayKey, refundAmt}]}"
+        ),
     )
 
 
