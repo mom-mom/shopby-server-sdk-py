@@ -240,24 +240,52 @@ class WishResponse(BaseDto):
 
 
 class ShippingEtcInfo(BaseDto):
-    """해외배송지 기타정보 (shippingEtcInfo)
-
-    orderAdditionalInfo 는 운영데이터 전부 null 이라 dict[str, Any] 로 둔다.
-    """
+    """해외배송지 기타정보 (shippingEtcInfo)"""
 
     receiver_first_name: str | None = Field(None, description="수령자 이름(영문)")
     receiver_last_name: str | None = Field(None, description="수령자 성(영문)")
-    order_additional_info: dict[str, Any] | None = Field(
-        None, description="주문 추가정보 (운영데이터 전부 null → 추론 불가)"
-    )
+    # 스펙상 string (예: "여권번호 : M0123456789"). 운영데이터는 null.
+    order_additional_info: str | None = Field(None, description="주문 추가정보")
+
+
+class NestedOrder(BaseDto):
+    """배송 항목에 중첩된 주문 정보 (orders[]).
+
+    스칼라/enum 최상위 필드는 타입화한다. orderSheetInfo(깊은 중첩)/deliveryGroups(oneOf)/
+    extraData·memberAdditionalInfoJson(json string)는 동적이라 dict/list[Any]/str 로 둔다.
+    """
+
+    order_no: str | None = Field(None, description="주문번호")
+    platform_type: PlatformType | None = Field(None, description="플랫폼타입")
+    channel_type: str | None = Field(None, description="채널타입")
+    pay_type: str | None = Field(None, description="결제수단")
+    pg_type: str | None = Field(None, description="외부 PG사")
+    tracking_key: str | None = Field(None, description="주문추적키")
+    orderer_name: str | None = Field(None, description="주문자명")
+    orderer_email: str | None = Field(None, description="주문자이메일")
+    member_id: str | None = Field(None, description="회원아이디")
+    order_memo: str | None = Field(None, description="주문메모")
+    exchange_rate: float | None = Field(None, description="적용 환율")
+    first_pay_amt: float | None = Field(None, description="처음 결제금액")
+    first_main_pay_amt: float | None = Field(None, description="처음 실제결제금액(적립금제외)")
+    first_sub_pay_amt: float | None = Field(None, description="처음 포인트 사용금액")
+    first_cart_coupon_discount_amt: float | None = Field(None, description="처음 장바구니 쿠폰 할인금액")
+    last_pay_amt: float | None = Field(None, description="마지막 결제금액")
+    last_main_pay_amt: float | None = Field(None, description="마지막 실제결제금액(적립금제외)")
+    last_sub_pay_amt: float | None = Field(None, description="마지막 포인트 사용금액")
+    last_cart_coupon_discount_amt: float | None = Field(None, description="마지막 장바구니 쿠폰 할인금액")
+    member_additional_info_json: str | None = Field(None, description="회원 부가정보 json")
+    # json/oneOf/깊은 중첩 → honest 유지
+    order_sheet_info: dict[str, Any] | None = Field(None, description="주문서 정보(깊은 중첩)")
+    delivery_groups: list[Any] = Field(default_factory=list, description="배송그룹")
+    extra_data: dict[str, Any] | None = Field(None, description="추가정보 (json)")
 
 
 class OrderDeliveryItem(BaseDto):
     """
     배송번호 기준 주문 조회 항목
 
-    핵심 배송 필드와 shipping_etc_info 는 타입화한다.
-    orders 는 주문 목록(list.py Order)을 깊게 중첩한 구조라 dict[str, Any]로 둔다.
+    핵심 배송 필드와 shipping_etc_info, orders(NestedOrder) 를 타입화한다.
     order_products 는 이 응답 레벨에는 데이터가 없어(orders[].orderProducts 에 존재) dict 유지한다.
     """
 
@@ -295,10 +323,9 @@ class OrderDeliveryItem(BaseDto):
     customs_id_number: str | None = Field(None, description="개인고유통관부호")
     delivery_memo: str | None = Field(None, description="배송메모")
     shipping_etc_info: ShippingEtcInfo | None = Field(None, description="해외배송지 기타정보")
-    # 이 응답 레벨에는 데이터 없음(orders[].orderProducts 에 존재) → dict 유지
+    # 이 응답 레벨에는 데이터 없음(orders[].orderProducts 에 존재, 스펙도 oneOf placeholder) → dict 유지
     order_products: list[dict[str, Any]] = Field(default_factory=list, description="주문 상품")
-    # 주문 목록(Order)을 깊게 중첩한 구조 → dict 유지
-    orders: list[dict[str, Any]] = Field(default_factory=list, description="주문 목록")
+    orders: list[NestedOrder] = Field(default_factory=list, description="주문 목록")
 
 
 class OrderDeliveriesResponse(BaseDto):
@@ -331,12 +358,123 @@ class PreviousOrderPayDetail(BaseDto):
     discount_amt: float | None = Field(None, description="할인 금액")
 
 
+class PreviousOrderOrderer(BaseDto):
+    """이전주문 주문자 정보 (orderer)."""
+
+    orderer_email: str | None = Field(None, description="이메일")
+    orderer_mobile_number: str | None = Field(None, description="휴대폰번호")
+    member_no: int | None = Field(None, description="회원번호")
+    member_grade_names: list[str] = Field(default_factory=list, description="회원등급")
+    orderer_phone_number: str | None = Field(None, description="전화번호")
+    order_memo: str | None = Field(None, description="주문메모")
+    orderer_name: str | None = Field(None, description="주문자명")
+    member_id: str | None = Field(None, description="아이디")
+
+
+class PreviousOrderReceiver(BaseDto):
+    """이전주문 수령자 정보 (receiver[])."""
+
+    delivery_info: str | None = Field(None, description="배송지 정보")
+    receiver_name: str | None = Field(None, description="수령자명")
+    option_value: str | None = Field(None, description="옵션값")
+    customs_id_number: str | None = Field(None, description="개인통관번호")
+    receiver_phone_number: str | None = Field(None, description="전화번호")
+    purchaser_inputs: list[PurchaserInput] = Field(default_factory=list, description="사용자 입력형 옵션")
+    delivery_company_type: str | None = Field(None, description="택배사")
+    receiver_zip_cd: str | None = Field(None, description="우편번호")
+    receiver_detail_address: str | None = Field(None, description="배송지 상세 주소")
+    delivery_memo: str | None = Field(None, description="배송메모")
+    product_name: str | None = Field(None, description="상품명")
+    receiver_address: str | None = Field(None, description="배송지 주소")
+    receiver_mobile_number: str | None = Field(None, description="휴대폰번호")
+    option_name: str | None = Field(None, description="옵션명")
+    invoice_no: str | None = Field(None, description="송장번호")
+
+
+class PreviousOrderProduct(BaseDto):
+    """이전주문 주문상품 정보 (orderProduct[])."""
+
+    sale_price: float | None = Field(None, description="상품합계")
+    partner_name: str | None = Field(None, description="파트너사")
+    order_status_type: str | None = Field(None, description="주문상태")
+    option_value: str | None = Field(None, description="옵션값")
+    delivery_company_type: str | None = Field(None, description="택배사")
+    remote_delivery_amt: float | None = Field(None, description="지역별 배송비")
+    purchaser_inputs: list[PurchaserInput] = Field(default_factory=list, description="사용자 입력형 옵션")
+    order_cnt: int | None = Field(None, description="수량")
+    purchase_price: float | None = Field(None, description="주문금액")
+    product_name: str | None = Field(None, description="상품명")
+    delivery_amt: float | None = Field(None, description="기본 배송비")
+    invoice_no: str | None = Field(None, description="송장번호")
+    option_name: str | None = Field(None, description="옵션명")
+    option_no: int | None = Field(None, description="옵션 번호")
+
+
+class PreviousOrderPayDetailInfo(BaseDto):
+    """이전주문 결제 상세 (paymentMethod.payDetail)."""
+
+    account_holder: str | None = Field(None, description="예금주")
+    discount_amt: float | None = Field(None, description="할인 금액")
+    bank: str | None = Field(None, description="은행명")
+    depositor: str | None = Field(None, description="입금자")
+    account: str | None = Field(None, description="계좌 번호")
+
+
+class PreviousOrderPaymentMethod(BaseDto):
+    """이전주문 결제 정보 (paymentMethod)."""
+
+    pay_type: str | None = Field(None, description="결제방법")
+    order_ymdt: KstDatetime | None = Field(None, description="주문일시")
+    pay_detail: PreviousOrderPayDetailInfo | None = Field(None, description="결제 상세")
+    pay_type_label: str | None = Field(None, description="결제방법 라벨")
+    pay_ymdt: KstDatetime | None = Field(None, description="결제일시")
+
+
+class PreviousOrderPaymentAmount(BaseDto):
+    """이전주문 결제 금액 정보 (firstPayment / lastPayment)."""
+
+    discount_amt: float | None = Field(None, description="할인혜택")
+    delivery_amt: float | None = Field(None, description="배송비")
+    standard_amt: float | None = Field(None, description="판매금액")
+    main_pay_amt: float | None = Field(None, description="실 결제금액")
+    sub_pay_amt: float | None = Field(None, description="적립금사용")
+    pay_amt: float | None = Field(None, description="결제금액")
+
+
+class PreviousOrderRefundBankAccount(BaseDto):
+    """이전주문 환불 계좌 (refund.refundBankAccount)."""
+
+    depositor_name: str | None = Field(None, description="계좌 예금주")
+    bank: str | None = Field(None, description="은행명")
+    account: str | None = Field(None, description="계좌 번호")
+
+
+class PreviousOrderRefund(BaseDto):
+    """이전주문 환불 정보 (refund)."""
+
+    refund_type_label: str | None = Field(None, description="환불방법 라벨")
+    refund_type: str | None = Field(None, description="환불방법")
+    refund_complete_ymdt: KstDatetime | None = Field(None, description="환불처리일시")
+    refund_bank_account: PreviousOrderRefundBankAccount | None = Field(None, description="환불 계좌")
+    refund_amt: float | None = Field(None, description="환불금액")
+
+
+class PreviousOrderAdminMemo(BaseDto):
+    """이전주문 관리자 메모 (adminMemo[])."""
+
+    no: int | None = Field(None, description="메모 번호")
+    deletable: bool | None = Field(None, description="메모 삭제가능 여부")
+    name: str | None = Field(None, description="메모 등록자")
+    memo: str | None = Field(None, description="메모")
+    register_ymdt: KstDatetime | None = Field(None, description="메모 등록일시")
+
+
 class PreviousOrderItem(BaseDto):
     """
     이전주문 검색 항목
 
     중첩 구조(orderer/receiver/payment 등)는 이 몰에 이전주문 데이터가 전혀 없어
-    (totalCount=0) 실데이터 추론이 불가하므로 dict[str, Any]로 유지한다.
+    (totalCount=0) 실데이터 추론이 불가하나, OpenAPI 스펙 정의 기준으로 타입화한다.
 
     OpenAPI Schema: previous-orders1028372904 (item)
     """
@@ -344,14 +482,14 @@ class PreviousOrderItem(BaseDto):
     order_no: str | None = Field(None, description="주문 번호")
     mall_no: int | None = Field(None, description="몰 번호")
     accumulation_amt: float | None = Field(None, description="적립혜택")
-    orderer: dict[str, Any] | None = Field(None, description="주문자 정보")
-    receiver: list[dict[str, Any]] = Field(default_factory=list, description="수령자 정보")
-    order_product: list[dict[str, Any]] = Field(default_factory=list, description="주문상품 정보")
-    payment_method: dict[str, Any] | None = Field(None, description="결제 정보")
-    first_payment: dict[str, Any] | None = Field(None, description="최초 결제 정보")
-    last_payment: dict[str, Any] | None = Field(None, description="최종 결제 정보")
-    refund: dict[str, Any] | None = Field(None, description="환불 정보")
-    admin_memo: list[dict[str, Any]] = Field(default_factory=list, description="관리자 메모")
+    orderer: PreviousOrderOrderer | None = Field(None, description="주문자 정보")
+    receiver: list[PreviousOrderReceiver] = Field(default_factory=list, description="수령자 정보")
+    order_product: list[PreviousOrderProduct] = Field(default_factory=list, description="주문상품 정보")
+    payment_method: PreviousOrderPaymentMethod | None = Field(None, description="결제 정보")
+    first_payment: PreviousOrderPaymentAmount | None = Field(None, description="최초 결제 정보")
+    last_payment: PreviousOrderPaymentAmount | None = Field(None, description="최종 결제 정보")
+    refund: PreviousOrderRefund | None = Field(None, description="환불 정보")
+    admin_memo: list[PreviousOrderAdminMemo] = Field(default_factory=list, description="관리자 메모")
 
 
 class PreviousOrdersResponse(BaseDto):
@@ -428,9 +566,9 @@ class PreviousOrderRegisterItem(BaseDto):
     refund_bank_depositor_name: str | None = Field(None, description="환불 계좌 예금주")
     refund_complete_ymdt: KstDatetime | None = Field(None, description="환불처리일시")
     member_grade_names: list[str] = Field(default_factory=list, description="회원등급")
-    # 이전주문 등록(POST)용 + 이 몰에 데이터 없음 → 추론 불가, dict 유지
-    purchaser_inputs: list[dict[str, Any]] = Field(default_factory=list, description="사용자 입력형 옵션")
-    admin_memo: list[dict[str, Any]] = Field(default_factory=list, description="관리자 메모")
+    # 이전주문 등록(POST)용. 스펙 정의 기준 타입화 (운영데이터 없음).
+    purchaser_inputs: list[PurchaserInput] = Field(default_factory=list, description="사용자 입력형 옵션")
+    admin_memo: list[PreviousOrderAdminMemo] = Field(default_factory=list, description="관리자 메모")
 
 
 class PreviousOrderRegisterResult(BaseDto):
@@ -678,11 +816,19 @@ class ChangeStatusByShippingNoRequest(BaseDto):
     change_status_list: list[ChangeStatusItem] = Field(default_factory=list, description="변경 목록")
 
 
+class OriginalRequestInfo(BaseDto):
+    """주문 상태 변경 실패 시 반환되는 최초 요청 정보 (originalRequest)."""
+
+    shipping_no: int | None = Field(None, description="최초 배송 번호")
+    delivery_company_type: str | None = Field(None, description="택배사타입")
+    invoice_no: str | None = Field(None, description="송장번호")
+
+
 class ChangeStatusFailure(BaseDto):
     """주문 상태 변경 실패 항목"""
 
-    # 변경 실패 시에만 반환되는 원 요청 echo(자유형식) → dict 유지
-    original_request: dict[str, Any] | None = Field(None, description="최초 요청 정보")
+    # 변경 실패 시에만 반환되는 최초 요청 echo (스펙 정의 객체)
+    original_request: OriginalRequestInfo | None = Field(None, description="최초 요청 정보")
     error_code: str | None = Field(None, description="에러코드")
     error_message: str | None = Field(None, description="에러메세지")
 
@@ -823,6 +969,21 @@ class TaskMessageCompletedInfo(BaseDto):
     completed_ymdt: KstDatetime | None = Field(None, description="완료일시")
 
 
+class TaskMessageDetailItem(BaseDto):
+    """업무메시지 상세정보 (taskMessageDetails[])."""
+
+    no: int | None = Field(None, description="업무메시지 상세 번호")
+    content: str | None = Field(None, description="내용")
+    task_message_channel_type: TaskMessageTargetType | None = Field(
+        None, description="메시지 작성 채널"
+    )
+    update_ymdt: KstDatetime | None = Field(None, description="수정일시")
+    register_info: TaskMessageRegisterInfo | None = Field(None, description="등록정보")
+    uploaded_file_infos: list[UploadedFileInfo] = Field(
+        default_factory=list, description="첨부파일 정보"
+    )
+
+
 class TaskMessageItem(BaseDto):
     """업무메시지 항목"""
 
@@ -844,8 +1005,9 @@ class TaskMessageItem(BaseDto):
     uploaded_file_infos: list[UploadedFileInfo] | None = Field(
         default_factory=list, description="첨부파일 정보 (운영데이터에서 null 가능)"
     )
-    # 운영데이터 전부 빈 배열 → 추론 불가, dict 유지
-    task_message_details: list[dict[str, Any]] = Field(default_factory=list, description="업무메세지 상세정보")
+    task_message_details: list[TaskMessageDetailItem] = Field(
+        default_factory=list, description="업무메세지 상세정보"
+    )
 
 
 class TaskMessagesResponse(BaseDto):

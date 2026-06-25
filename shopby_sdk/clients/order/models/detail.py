@@ -1,6 +1,5 @@
 """GET /orders/{orderNo} (주문 상세 조회) 응답 모델"""
 
-from typing import Any
 
 from pydantic import Field
 
@@ -15,7 +14,9 @@ from shopby_sdk.clients.order.models.base import (
     PaymentInfo,
     PayType,
     PlatformType,
+    SetOption,
 )
+from shopby_sdk.clients.order.models.extra import PurchaserInput
 
 
 class Orderer(BaseDto):
@@ -128,8 +129,8 @@ class OrderDetailOption(BaseDto):
     product_name: str | None = Field(None, description="상품명")
     option_name: str | None = Field(None, description="옵션명")
     option_value: str | None = Field(None, description="옵션값")
-    purchaser_inputs: list[dict[str, Any]] = Field(
-        default_factory=list, description="구매자 입력형 옵션 (운영데이터 전부 빈 배열 → 추론 불가)"
+    purchaser_inputs: list[PurchaserInput] = Field(
+        default_factory=list, description="구매자 입력형 옵션"
     )
     partner_no: int | None = Field(None, description="파트너번호")
     order_cnt: int | None = Field(None, description="주문수량")
@@ -162,9 +163,7 @@ class OrderDetailOption(BaseDto):
     first_order_option_no: int | None = Field(None, description="최초주문옵션번호")
     claimed_order_option_no: int | None = Field(None, description="클레임주문옵션번호")
     additional_discount_no: int | None = Field(None, description="추가할인번호")
-    set_options: list[dict[str, Any]] | None = Field(
-        None, description="세트옵션 (운영데이터 전부 null → 추론 불가)"
-    )
+    set_options: list[SetOption] | None = Field(None, description="세트옵션")
     purchase_price: float | None = Field(None, description="매입가/공급가")
     pay_type_label: str | None = Field(None, description="결제수단 라벨")
     delivered: bool | None = Field(None, description="배송완료여부")
