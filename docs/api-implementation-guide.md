@@ -325,18 +325,24 @@ return [ItemModel.model_validate(item) for item in resp.json()]
 - **Base 클래스**: `shopby_sdk/clients/base.py`
 - **BaseDto**: `shopby_sdk/base/dto.py`
 - **KST 타입**: `shopby_sdk/base/kst.py`
-- **API 스펙**:
-  - product: `docs/api/product-server-public.yml`
-  - display: `docs/api/display-server-public.yml`
-  - order: `docs/api/order-server-public.yml`
-  - member: `docs/api/member-server-public.yml`
-  - claim: `docs/api/claim-server-public.yml`
+- **API 스펙** (10개 도메인, `docs/api/{domain}-server-public.yml`):
+  - product, display, order, member, claim
+  - admin, delivery, manage, order-friends, promotion
+  - 원본 URL: `https://server-docs.shopby.co.kr/spec/{domain}-server-public.yml`
 
-## 완성된 구현 예제
+## 완성된 구현 (10개 도메인, 전 엔드포인트 커버리지)
 
-| 도메인 | 클라이언트 경로 | 스크립트 예제 |
-|--------|----------------|---------------|
-| products | `shopby_sdk/clients/products/` | `scripts/get_product_detail_v1.py` |
-| display | `shopby_sdk/clients/display/` | `scripts/get_event_detail.py` |
-| order | `shopby_sdk/clients/order/` | `scripts/get_orders.py`, `scripts/get_order_detail.py` |
-| member | `shopby_sdk/clients/member/` | `scripts/get_members.py`, `scripts/get_member_groups.py`, `scripts/get_profile_groups.py` |
+| 도메인 | 클라이언트 경로 | 엔드포인트 | 비고 |
+|--------|----------------|-----------|------|
+| products | `shopby_sdk/clients/products/` | 55 | models/ 패키지 |
+| order | `shopby_sdk/clients/order/` | 37 | models/ 패키지 |
+| member | `shopby_sdk/clients/member/` | 34 | |
+| display | `shopby_sdk/clients/display/` | 32 | |
+| claim | `shopby_sdk/clients/claim/` | 18 | 취소/반품/교환 |
+| admin | `shopby_sdk/clients/admin/` | 22 | 운영자/계약/파트너 |
+| delivery | `shopby_sdk/clients/delivery/` | 15 | 배송비/입출고지 |
+| manage | `shopby_sdk/clients/manage/` | 18 | 적립금/문의/약관 |
+| order_friends | `shopby_sdk/clients/order_friends/` | 10 | 통계/정산/CS |
+| promotion | `shopby_sdk/clients/promotion/` | 14 | 쿠폰 |
+
+**스크립트 예제:** `scripts/get_product_detail_v1.py`, `scripts/get_orders.py`, `scripts/get_members.py` 등 (`docs/scripts.md` 참조)
