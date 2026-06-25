@@ -5,7 +5,7 @@ from typing import Any, Literal
 from pydantic import Field
 
 from shopby_sdk.base.dto import BaseDto
-from shopby_sdk.base.kst import KstDate
+from shopby_sdk.base.kst import KstDate, KstDatetime
 
 from .base import (
     CartInfo,
@@ -19,6 +19,59 @@ from .base import (
     PromotionTextInfo,
     SalePeriodInfo,
 )
+
+
+class PlaceOriginInfo(BaseDto):
+    """원산지 정보 (placeOriginInfo)"""
+
+    place_origin_seq: int | None = Field(None, description="원산지 시퀀스")
+    place_origins_yn: str | None = Field(None, description="원산지 표시 여부")
+    place_origin: str | None = Field(None, description="원산지")
+
+
+class CertificationInfo(BaseDto):
+    """인증 정보 (certificationInfo)"""
+
+    type: str = Field(..., description="인증 대상 타입 (예: NOT_TARGET, DETAIL_PAGE)")
+    data: list[dict[str, Any]] = Field(default_factory=list, description="인증 항목 목록")
+
+
+class RefundableInfo(BaseDto):
+    """환불 정보 (refundableInfo)"""
+
+    refundable_yn: str = Field(..., description="환불 가능 여부")
+    non_refundable_info: list[str] = Field(
+        default_factory=list, description="환불 불가 클레임 타입 목록 (예: CANCEL, EXCHANGE, RETURN)"
+    )
+
+
+class DutyContent(BaseDto):
+    """상품정보고시 (dutyContent / willDutyContent)
+
+    contents 항목의 키는 상품정보고시 카테고리별로 동적이므로 dict[str, str] 로 둔다.
+    """
+
+    category_no: int | None = Field(None, description="상품정보고시 카테고리 번호")
+    category_name: str | None = Field(None, description="상품정보고시 카테고리명")
+    contents: list[dict[str, str]] = Field(
+        default_factory=list, description="고시 항목 목록 (키는 카테고리별 동적)"
+    )
+
+
+class StickerInfo(BaseDto):
+    """스티커 정보 (stickerInfos)"""
+
+    sticker_no: int = Field(..., description="스티커 번호")
+    display_started_at: KstDatetime | None = Field(None, description="전시 시작일시")
+    display_ended_at: KstDatetime | None = Field(None, description="전시 종료일시")
+
+
+class ProductGuide(BaseDto):
+    """상품 안내 (productGuides)"""
+
+    template_no: int | None = Field(None, description="이용안내 템플릿 번호")
+    content: str | None = Field(None, description="안내 내용")
+    type: str = Field(..., description="안내 타입 (예: REFUND, DELIVERY)")
 
 
 class MallProductImage(BaseDto):
@@ -167,12 +220,12 @@ class ProductDetailV3Response(BaseDto):
     options: list[ProductOption] = Field(default_factory=list, description="옵션정보")
 
     # 상품정보고시 및 인증
-    duty_content: dict[str, Any] | None = Field(None, description="상품정보고시")
-    will_duty_content: dict[str, Any] | None = Field(None, description="예정 상품정보고시")
-    certification_info: dict[str, Any] = Field(..., description="인증정보")
+    duty_content: DutyContent | None = Field(None, description="상품정보고시")
+    will_duty_content: DutyContent | None = Field(None, description="예정 상품정보고시")
+    certification_info: CertificationInfo = Field(..., description="인증정보")
 
     # 원산지 및 제조정보
-    place_origin_info: dict[str, Any] | None = Field(None, description="원산지 정보")
+    place_origin_info: PlaceOriginInfo | None = Field(None, description="원산지 정보")
     manufacture_ymdt: KstDate | None = Field(None, description="제조일자")
     expiration_ymdt: KstDate | None = Field(None, description="유효일자")
 
@@ -185,7 +238,7 @@ class ProductDetailV3Response(BaseDto):
 
     # 환불
     refundable_yn: str = Field(..., description="환불가능여부")
-    refundable_info: dict[str, Any] = Field(..., description="환불 정보")
+    refundable_info: RefundableInfo = Field(..., description="환불 정보")
 
     # 기타 코드
     hs_code: str = Field(..., description="HS코드")
@@ -242,7 +295,7 @@ class ProductDetailV3Response(BaseDto):
     reservation_info: Any | None = Field(None, description="예약 정보")
 
     # 스티커
-    sticker_infos: list[dict[str, Any]] = Field(default_factory=list, description="스티커 정보")
+    sticker_infos: list[StickerInfo] = Field(default_factory=list, description="스티커 정보")
 
     # 커스텀 속성
     custom_property_values: list[Any] = Field(default_factory=list, description="커스텀 속성 값")
@@ -263,7 +316,7 @@ class ProductDetailV3Response(BaseDto):
     shorten_url: str = Field(..., description="상품 단축URL")
 
     # 상품 안내
-    product_guides: list[dict[str, Any]] = Field(default_factory=list, description="상품 안내")
+    product_guides: list[ProductGuide] = Field(default_factory=list, description="상품 안내")
 
     # 판매 중지 시 안내 내용
     contents_if_pausing: str = Field(..., description="판매 중지 시 안내 내용")
