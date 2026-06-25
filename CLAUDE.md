@@ -4,7 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Python SDK for Shopby Products API - generates type-safe API clients from OpenAPI specifications.
+Python SDK for Shopby - generates type-safe API clients from OpenAPI specifications.
+
+두 종류의 API 를 다룬다:
+- **Server API** (`server-api.e-ncp.com`): Bearer 토큰 + systemKey 인증. `shopby_sdk/clients/` — 11개 도메인 전체.
+- **Shop(Client) API** (`shop-api.e-ncp.com`): `clientId` 헤더 인증. `shopby_sdk/shop/` — **공개(인증 불필요) 엔드포인트만** (8개 도메인, 141개). 회원 토큰(accessToken)이 필요한 개인 데이터 엔드포인트는 의도적으로 제외.
 
 ## Development Commands
 
@@ -37,21 +41,35 @@ All API models inherit from `BaseDto` (in `shopby_sdk/base/dto.py`) which provid
 shopby_sdk/
 ├── base/
 │   └── dto.py                    # BaseDto with camelCase conversion
-├── clients/
+├── clients/                      # Server API (server-api.e-ncp.com)
 │   ├── base.py                   # ShopbyServerApiClient base class
 │   ├── examples/                 # Reference implementation
 │   └── {api_name}/               # Each API domain gets a folder
 │       ├── __init__.py           # Exports
 │       ├── client.py             # API client methods
-│       └── models.py             # Pydantic models
+│       └── models.py             # Pydantic models (or models/ package)
+└── shop/                         # Shop(Client) API (shop-api.e-ncp.com) — 공개 전용
+    ├── base.py                   # ShopbyShopApiClient base class
+    └── {api_name}/               # product/display 는 models/ 패키지, 나머지는 models.py
 ```
 
-### API Client Base Class
+### API Client Base Classes
 
-`ShopbyServerApiClient` (in `shopby_sdk/clients/base.py`):
+`ShopbyServerApiClient` (in `shopby_sdk/clients/base.py`) — **Server API**:
 - Base URL: `https://server-api.e-ncp.com`
 - Auth: Bearer token + systemKey headers
-- All clients inherit from this and use httpx.AsyncClient
+- All `clients/*` inherit from this and use httpx.AsyncClient
+
+`ShopbyShopApiClient` (in `shopby_sdk/shop/base.py`) — **Shop(Client) API**:
+- Base URL: `https://shop-api.e-ncp.com`
+- Auth: `clientId` + `platform` 헤더 (회원 토큰/systemKey 없음)
+- All `shop/*` inherit from this. 공개 전용이라 `accessToken`(회원 토큰)은 지원하지 않음.
+- 각 메서드는 `version` 헤더만 직접 지정(clientId/platform 은 base 가 주입), 바디는
+  `model_dump(by_alias=True, exclude_none=True, mode="json")` 로 직렬화.
+
+> Shop SDK 스코프: shop OpenAPI 의 `accessToken` 헤더가 필수(required)인 엔드포인트와, 태그상
+> 개인 데이터(MyOrder/Cart/내쿠폰/내상품평/회원프로필 등)인 엔드포인트는 제외했다. 공개 카탈로그
+> 읽기(accessToken optional)는 익명 호출 전용으로 포함한다.
 
 ## Docs
 

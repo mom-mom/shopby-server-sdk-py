@@ -1,8 +1,13 @@
-# Shopby Server SDK for Python
+# Shopby SDK for Python
 
-Python SDK for Shopby Server API - Type-safe API clients for all Shopby API domains.
+Python SDK for Shopby - Type-safe API clients for all Shopby API domains.
 
-11개 도메인 전체(255+ 엔드포인트)를 type-safe Pydantic 모델로 제공합니다.
+두 종류의 API 를 모두 제공합니다:
+
+- **Server API** (`server-api.e-ncp.com`) — 11개 도메인, 255+ 엔드포인트. Bearer 토큰 + systemKey 인증. → `shopby_sdk.clients.*`
+- **Shop(Client) API** (`shop-api.e-ncp.com`) — 8개 도메인, 141개 **공개(인증 불필요)** 엔드포인트. `clientId` 헤더만 사용. → `shopby_sdk.shop.*`
+
+모두 type-safe Pydantic 모델로 제공합니다.
 
 ## Installation
 
@@ -119,6 +124,46 @@ uv run --env-file .env.local python scripts/get_members.py
 uv run --env-file .env.local python scripts/smoke_test_readonly.py
 ```
 
+## Shop (Client) API — 공개/인증 불필요
+
+스토어프론트(`shop-api.e-ncp.com`)의 **개인을 특정하지 않는 공개 엔드포인트**만 SDK 화한
+모음입니다. 회원 로그인(`accessToken`) 없이 `clientId` 헤더만으로 호출합니다.
+(장바구니/내주문/취소/내쿠폰 등 회원 인증이 필요한 개인 데이터 엔드포인트는 **제외**)
+
+```python
+import os
+from shopby_sdk.shop.product import ShopbyShopProductApiClient
+
+client = ShopbyShopProductApiClient(
+    client_id=os.environ["SHOPBY_SHOP_CLIENT_ID"],  # 쇼핑몰 클라이언트 아이디 (회원 인증 아님)
+    platform="PC",                                  # PC | MOBILE_WEB | AOS | IOS (기본 PC)
+    base_url=os.environ.get("SHOPBY_SHOP_BASE_URL"),  # optional (기본 https://shop-api.e-ncp.com)
+)
+
+result = await client.search_products(params={"pageNumber": 1, "pageSize": 20})
+detail = await client.get_product(product_no=132652000)
+```
+
+| Domain | Client | 공개 엔드포인트 |
+|--------|--------|------|
+| product | `ShopbyShopProductApiClient` | 41 (상품/브랜드/사은품/추가할인/검색) |
+| display | `ShopbyShopDisplayApiClient` | 48 (카테고리/배너/기획전/팝업/진열/상품평·문의 읽기) |
+| manage | `ShopbyShopManageApiClient` | 23 (약관/공휴일/주소/게시판읽기/문의설정) |
+| member | `ShopbyShopMemberApiClient` | 12 (몰설정 + 검증유틸) |
+| promotion | `ShopbyShopPromotionApiClient` | 6 (쿠폰 공개조회) |
+| order | `ShopbyShopOrderApiClient` | 5 (주문/장바구니/배송 설정값) |
+| admin | `ShopbyShopAdminApiClient` | 5 (몰 정보) |
+| marketing | `ShopbyShopMarketingApiClient` | 1 (SNS 공유 설정) |
+
+> `clientId` 는 쇼핑몰 식별자이며 회원 인증 정보가 아닙니다. shop API 공개 호출에 필요한 헤더는
+> `clientId` / `platform` / `version` 뿐이며, base 클래스가 자동 주입합니다.
+
+```bash
+# shop 공개 API 라이브 스모크 (read-only, dev 몰)
+export SHOPBY_SHOP_CLIENT_ID=...
+uv run python scripts/smoke_test_shop_readonly.py
+```
+
 ## Development
 
 ### Setup
@@ -144,20 +189,24 @@ shopby_sdk/
 ├── base/
 │   ├── dto.py                    # BaseDto (camelCase <-> snake_case 자동 변환)
 │   └── kst.py                    # KstDatetime / KstDate (KST timezone 처리)
-└── clients/
-    ├── base.py                   # ShopbyServerApiClient base class
-    ├── products/                 # 도메인별 폴더: client.py + models.py (또는 models/ 패키지)
-    │   ├── client.py
-    │   └── models/               # 큰 도메인은 models/ 패키지로 분리
-    ├── order/                    # (products, order 는 models/ 패키지)
-    ├── member/ display/ claim/ admin/ delivery/
-    ├── manage/ order_friends/ promotion/ workspace/
-    └── examples/                 # 기본 예제
+├── clients/                      # Server API (server-api.e-ncp.com)
+│   ├── base.py                   # ShopbyServerApiClient base class
+│   ├── products/                 # 도메인별 폴더: client.py + models.py (또는 models/ 패키지)
+│   │   ├── client.py
+│   │   └── models/               # 큰 도메인은 models/ 패키지로 분리
+│   ├── order/                    # (products, order 는 models/ 패키지)
+│   ├── member/ display/ claim/ admin/ delivery/
+│   ├── manage/ order_friends/ promotion/ workspace/
+│   └── examples/                 # 기본 예제
+└── shop/                         # Shop(Client) API (shop-api.e-ncp.com) — 공개 전용
+    ├── base.py                   # ShopbyShopApiClient (clientId/platform 헤더)
+    ├── product/ display/         # (models/ 패키지)
+    └── manage/ member/ promotion/ order/ admin/ marketing/
 
 docs/
 ├── api-implementation-guide.md   # 새 도메인/엔드포인트 구현 가이드
 ├── scripts.md                    # 예제 스크립트 설명
-└── api/                          # OpenAPI 스펙 (11개 도메인 yml)
+└── api/                          # OpenAPI 스펙 (server 11 + shop 10 yml)
 ```
 
 ## Adding New API Domains
