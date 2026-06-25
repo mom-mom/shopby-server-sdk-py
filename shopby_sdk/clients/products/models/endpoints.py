@@ -234,7 +234,7 @@ class DutyCategoryContent(BaseDto):
     content_name: str = Field(..., description="항목값")
     data_type: str = Field(..., description="항목 타입")
     max_length: int = Field(..., description="최대 길이")
-    descriptions: list[str] = Field(default_factory=list, description="설명 목록")
+    descriptions: list[str] | None = Field(None, description="설명 목록")
 
 
 class DutyCategoryItem(BaseDto):
