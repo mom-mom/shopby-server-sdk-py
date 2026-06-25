@@ -12,8 +12,18 @@ from pydantic import Field
 
 from shopby_sdk.base.dto import BaseDto
 from shopby_sdk.base.kst import KstDatetime
-from shopby_sdk.shop.product.models.catalog_item import ImageUrlInfo, ReservationData, StickerInfo
-from shopby_sdk.shop.product.models.shipping import ReturnWarehouse, ShippingConfig
+from shopby_sdk.shop.product.models.catalog_item import (
+    ImageUrlInfo,
+    RentalInfo,
+    ReservationData,
+    StickerInfo,
+)
+from shopby_sdk.shop.product.models.shipping import (
+    DeliveryConditionDetail,
+    RemoteDeliveryAreaFee,
+    ReturnWarehouse,
+    ShippingConfig,
+)
 
 
 class AccumulationUseLimitInfo(BaseDto):
@@ -21,6 +31,36 @@ class AccumulationUseLimitInfo(BaseDto):
 
     unit_type: str | None = Field(None, description="PERCENT/WON")
     limit_value: float | None = None
+
+
+class ProductCertification(BaseDto):
+    """상품 인증 정보(certifications[])."""
+
+    no: int | None = Field(None, description="인증유형번호")
+    type: str | None = Field(None, description="인증유형")
+    code: str | None = Field(None, description="인증번호")
+    organization: str | None = Field(None, description="인증기관")
+    target: str | None = Field(None, description="인증상호")
+    date: str | None = Field(None, description="인증일자")
+
+
+class ProductDetailCustomProperty(BaseDto):
+    """상품 추가항목 정보(customProperties[] / customPropertise[])."""
+
+    prop_no: int | None = Field(None, description="항목 번호")
+    prop_name: str | None = Field(None, description="항목명")
+    prop_value_no: int | None = Field(None, description="항목 값 번호")
+    prop_value: str | None = Field(None, description="항목 값")
+    prop_type: str | None = Field(None, description="추가 항목 타입 STRING/COLOR")
+    multiple_selection_yn: str | None = Field(None, description="항목 복수선택여부 Y/N")
+
+
+class CategoryNode(BaseDto):
+    """세부 카테고리 노드(categories[].categories[])."""
+
+    depth: int | None = Field(None, description="뎁스")
+    category_no: int | None = Field(None, description="카테고리 번호")
+    label: str | None = Field(None, description="카테고리 명")
 
 
 class ProductDetailBaseInfo(BaseDto):
@@ -52,20 +92,23 @@ class ProductDetailBaseInfo(BaseDto):
     accumulation_use_limit_info: AccumulationUseLimitInfo | None = None
     delivery_customer_info: str | None = None
     certification_type: str | None = Field(None, description="NOT_TARGET 등")
-    certifications: list | None = None
+    certifications: list[ProductCertification] | None = None
     product_group: str | None = Field(None, description="SERVICE/GOODS 등")
     hs_code: str | None = None
     usable_restock_noti: bool | None = None
     product_type: str | None = None
     product_class_type: str | None = None
     mapping_type: str | None = Field(None, description="SINGLE/MULTI 등")
-    custom_propertise: list | None = Field(None, description="(API 원문 오타 키) 상품 추가항목")
-    custom_properties: list | None = None
+    custom_propertise: list[ProductDetailCustomProperty] | None = Field(
+        None, description="(API 원문 오타 키) 상품 추가항목"
+    )
+    custom_properties: list[ProductDetailCustomProperty] | None = None
     coupon_use_yn: str | None = Field(None, description="Y/N")
     minor_purchase_yn: str | None = Field(None, description="Y/N")
     url_direct_display_yn: str | None = Field(None, description="Y/N")
     image_url_info: list[ImageUrlInfo] | None = None
-    payment_means: list | None = None
+    # 스펙 enum 결제수단 문자열(PAYCO/CREDIT/...) 리스트
+    payment_means: list[str] | None = None
 
 
 class ProductDetailStock(BaseDto):
@@ -119,8 +162,8 @@ class ProductDetailDeliveryFee(BaseDto):
     default_delivery_condition_label: str | None = None
     delivery_amt_labels: str | None = None
     delivery_company_type_label: str | None = None
-    delivery_condition_details: list | None = None
-    remote_delivery_area_fees: list | None = None
+    delivery_condition_details: list[DeliveryConditionDetail] | None = None
+    remote_delivery_area_fees: list[RemoteDeliveryAreaFee] | None = None
     delivery_pre_payment: bool | None = None
     return_warehouse: ReturnWarehouse | None = Field(None, description="반품지 정보")
     delivery_customer_info: str | None = None
@@ -139,7 +182,8 @@ class ProductDetailLimitations(BaseDto):
     member_only: bool | None = None
     can_add_to_cart: bool | None = None
     refundable: bool | None = None
-    non_refund_types: list | None = None
+    # 스펙 enum 문자열(CANCEL/RETURN/EXCHANGE) 리스트
+    non_refund_types: list[str] | None = None
     naver_pay_handling: bool | None = None
 
 
@@ -157,7 +201,7 @@ class ProductDetailCategory(BaseDto):
 
     full_category_label: str | None = None
     representative_yn: str | None = Field(None, description="Y/N")
-    categories: list | None = Field(None, description="depth 별 카테고리 노드")
+    categories: list[CategoryNode] | None = Field(None, description="depth 별 카테고리 노드")
 
 
 class ProductDetailBrand(BaseDto):
@@ -261,7 +305,7 @@ class ProductDetailResponse(BaseDto):
     regular_delivery: ProductRegularDelivery | None = Field(None, description="정기배송 정보(미설정 시 null)")
     partner_notice: ProductPartnerNotice | None = Field(None, description="파트너 공지(미설정 시 null)")
     reservation_data: ReservationData | None = Field(None, description="예약판매 정보(미설정 시 null)")
-    rental_infos: list | None = None
+    rental_infos: list[RentalInfo] | None = None
     related_product_nos: list[int] | None = None
 
     # 스칼라/가이드 필드

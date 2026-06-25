@@ -3,7 +3,7 @@
 대응 OpenAPI schema: products-shipping-info597838419
 """
 
-from typing import Any, Literal
+from typing import Literal
 
 from shopby_sdk.base.dto import BaseDto
 
@@ -92,10 +92,10 @@ class ProductShippingInfo(BaseDto):
     """상품별 배송 정보 및 배송 불가 국가.
 
     OpenAPI: products-shipping-info597838419 item.
-    undeliverableCountries 는 스펙상 items 정의가 비어 있어 list[Any] 로 둔다.
     """
 
     product_no: int | None = None
     delivery_fee: DeliveryFee | None = None
     shipping_info: ShippingInfo | None = None
-    undeliverable_countries: list[Any] | None = None
+    # 스펙 예시가 국가코드 문자열(["KR", "CN"]) → list[str]
+    undeliverable_countries: list[str] | None = None

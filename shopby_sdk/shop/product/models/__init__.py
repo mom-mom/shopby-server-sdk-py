@@ -13,15 +13,19 @@ from shopby_sdk.shop.product.models.brand import (
     BrandTreeItem,
 )
 from shopby_sdk.shop.product.models.catalog_item import (
+    AccumulationLimitInfo,
     DeliveryConditionInfo,
+    DeliveryFeeRange,
     HasCoupons,
     ImageUrlInfo,
     ItemAccumulationInfo,
     ItemAccumulationUseInfo,
     ItemBaseInfo,
+    ItemCustomProperty,
+    ItemOptionValue,
     ItemPrice,
     ItemStatus,
-    AccumulationLimitInfo,
+    RentalInfo,
     ReservationData,
     ShopProductItem,
     StickerInfo,
@@ -40,12 +44,15 @@ from shopby_sdk.shop.product.models.catalog import (
 )
 from shopby_sdk.shop.product.models.detail import (
     AccumulationUseLimitInfo,
+    CategoryNode,
     DeliveryDatePeriod,
+    ProductCertification,
     ProductDeliveryDate,
     ProductDetailBaseInfo,
     ProductDetailBrand,
     ProductDetailCategory,
     ProductDetailCounter,
+    ProductDetailCustomProperty,
     ProductDetailDeliveryFee,
     ProductDetailLimitations,
     ProductDetailPartner,
@@ -101,7 +108,6 @@ from shopby_sdk.shop.product.models.option import (
     ProductOptionInfo,
     ProductOptionsResponse,
     ProductsOptionsResponse,
-    RentalInfo,
 )
 from shopby_sdk.shop.product.models.public_info import PublicInfo, PublicInfoItem
 from shopby_sdk.shop.product.models.purchasable import PurchasePermissionItem
@@ -182,6 +188,10 @@ __all__ = [
     "StickerInfo",
     "ImageUrlInfo",
     "DeliveryConditionInfo",
+    "DeliveryFeeRange",
+    "ItemCustomProperty",
+    "ItemOptionValue",
+    "RentalInfo",
     "ReservationData",
     "AccumulationLimitInfo",
     # detail
@@ -197,6 +207,9 @@ __all__ = [
     "ProductDetailPartner",
     "ProductDetailStatus",
     "ProductDetailShippingInfo",
+    "ProductDetailCustomProperty",
+    "ProductCertification",
+    "CategoryNode",
     "AccumulationUseLimitInfo",
     "ProductDeliveryDate",
     "DeliveryDatePeriod",
@@ -242,7 +255,6 @@ __all__ = [
     "ProductOptionInfo",
     "ProductOptionsResponse",
     "ProductsOptionsResponse",
-    "RentalInfo",
     # public info
     "PublicInfoItem",
     "PublicInfo",

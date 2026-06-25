@@ -11,6 +11,8 @@
 
 from __future__ import annotations
 
+from typing import Any
+
 from pydantic import Field
 
 from shopby_sdk.base.dto import BaseDto
@@ -74,13 +76,50 @@ class UnitPrice(BaseDto):
     name: str | None = None
 
 
+class DeliveryFeeRange(BaseDto):
+    """배송비 차등 조건 구간(deliveryFeeRanges[])."""
+
+    delivery_amt: float | None = Field(None, description="해당 구간에서의 배송비")
+    below: float | None = Field(None, description="~미만")
+    above_or_equal: float | None = Field(None, description="~이상")
+
+
+class RentalInfo(BaseDto):
+    """렌탈 정보(rentalInfos[])."""
+
+    monthly_rental_amount: float | None = Field(None, description="월 렌탈 금액")
+    rental_period: int | None = Field(None, description="렌탈 기간")
+    credit_rating: int | None = Field(None, description="서비스 가능 최저 신용 등급")
+
+
+class ItemCustomProperty(BaseDto):
+    """상품 추가항목 정보(customProperties[]). 목록/검색 변형은 isMultipleSelection(boolean) 사용."""
+
+    prop_no: int | None = Field(None, description="상품 항목명 번호")
+    prop_name: str | None = Field(None, description="상품 항목명")
+    prop_value_no: int | None = Field(None, description="상품 항목 값 번호")
+    prop_value: str | None = Field(None, description="상품 항목 값")
+    prop_type: str | None = Field(None, description="추가 항목 타입 STRING/COLOR")
+    is_multiple_selection: bool | None = Field(None, description="항목 복수선택여부")
+
+
+class ItemOptionValue(BaseDto):
+    """옵션 정보(optionValues[]) — 목록/검색 변형."""
+
+    option_value: str | None = Field(None, description="옵션명")
+    stock_cnt: int | None = Field(None, description="재고수")
+    option_no: int | None = Field(None, description="옵션번호")
+    product_no: int | None = Field(None, description="상품번호")
+
+
 class DeliveryConditionInfo(BaseDto):
     """배송 조건 요약 정보."""
 
     summary: str | None = Field(None, description="예: 무료배송")
-    delivery_fee_ranges: list | None = None
+    delivery_fee_ranges: list[DeliveryFeeRange] | None = None
     criteria: float | None = None
-    range_summaries: list | None = None
+    # 스펙상 oneOf placeholder (차등 조건 구간 요약 문자열 등 가변) → honest 유지
+    range_summaries: list[Any] | None = None
     per_order_cnt: int | None = None
 
 
@@ -173,7 +212,7 @@ class ItemBaseInfo(BaseDto):
     can_add_to_cart: bool | None = None
     image_url_info: list[ImageUrlInfo] | None = None
     list_image_url_info: ImageUrlInfo | list[ImageUrlInfo] | None = None
-    rental_infos: list | None = None
+    rental_infos: list[RentalInfo] | None = None
     enable_coupons: bool | None = None
     main_best_product_yn: bool | None = None
     coupon_tag: str | None = None
@@ -275,7 +314,7 @@ class ShopProductItem(BaseDto):
     section_product_end_ymdt: KstDatetime | None = None
     group_management_code: str | None = None
     group_management_code_name: str | None = None
-    custom_properties: list | None = None
+    custom_properties: list[ItemCustomProperty] | None = None
 
     # 기타
     promotion_text: str | None = None
@@ -283,8 +322,8 @@ class ShopProductItem(BaseDto):
     hs_code: str | None = None
     adult: bool | None = None
     reservation_data: ReservationData | None = None
-    rental_infos: list | None = None
-    option_values: list | None = None
+    rental_infos: list[RentalInfo] | None = None
+    option_values: list[ItemOptionValue] | None = None
     search_product_id: str | None = None
     sticker_no: int | None = None
 

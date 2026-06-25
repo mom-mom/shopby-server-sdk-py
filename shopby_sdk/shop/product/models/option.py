@@ -10,6 +10,7 @@
 from typing import Literal
 
 from shopby_sdk.base.dto import BaseDto
+from shopby_sdk.shop.product.models.catalog_item import RentalInfo
 
 OptionSaleType = Literal["AVAILABLE", "SOLD_OUT", "UNAVAILABLE"]
 OptionSelectType = Literal["MULTI", "FLAT"]
@@ -21,14 +22,6 @@ class OptionImage(BaseDto):
 
     main: bool | None = None
     url: str | None = None
-
-
-class RentalInfo(BaseDto):
-    """렌탈 정보."""
-
-    monthly_rental_amount: int | None = None
-    rental_period: int | None = None
-    credit_rating: int | None = None
 
 
 class OptionValue(BaseDto):
