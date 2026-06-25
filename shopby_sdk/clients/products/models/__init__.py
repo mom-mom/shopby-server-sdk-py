@@ -42,7 +42,6 @@ from .detail_v1 import (
 
 # 상품 상세 조회 V3
 from .detail_v3 import (
-    CertificationInfo,
     DutyContent,
     MallProductImage,
     OptionImage,
@@ -52,7 +51,6 @@ from .detail_v3 import (
     ProductGuide,
     ProductOption,
     RefundableInfo,
-    StickerInfo,
 )
 
 # 상품 리스트 검색
