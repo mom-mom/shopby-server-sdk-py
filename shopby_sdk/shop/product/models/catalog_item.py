@@ -51,11 +51,18 @@ class ItemAccumulationInfo(BaseDto):
     reward_rate_of_member_benefit: float | None = None
 
 
+class AccumulationLimitInfo(BaseDto):
+    """적립금 사용 한도 정보(unitType/limitValue)."""
+
+    unit_type: str | None = Field(None, description="PERCENT/WON")
+    limit_value: float | None = None
+
+
 class ItemAccumulationUseInfo(BaseDto):
     """적립금 사용 정보."""
 
     usable: bool | None = None
-    accumulation_info: dict | None = Field(None, description="세부 적립 정보(없으면 null)")
+    accumulation_info: AccumulationLimitInfo | None = Field(None, description="적립 한도 정보")
 
 
 class UnitPrice(BaseDto):
@@ -105,6 +112,18 @@ class ItemStatus(BaseDto):
     product_class_type: str | None = Field(None, description="DEFAULT 등")
 
 
+class ReservationData(BaseDto):
+    """예약판매 정보(reservationData).
+
+    상품 목록 아이템과 상품 상세가 공유. 미설정(예약상품 아님) 시 전체가 null.
+    """
+
+    reservation_start_ymdt: KstDatetime | None = Field(None, description="예약판매 시작일")
+    reservation_end_ymdt: KstDatetime | None = Field(None, description="예약판매 종료일")
+    reservation_delivery_ymdt: KstDatetime | None = Field(None, description="예약판매 배송시작일")
+    reservation_stock_cnt: int | None = Field(None, description="예약판매 재고수량")
+
+
 class ItemBaseInfo(BaseDto):
     """search-by-nos 등에서 내려오는 baseInfo 중첩 객체(상품 기본정보)."""
 
@@ -134,7 +153,7 @@ class ItemBaseInfo(BaseDto):
     sticker_infos: list[StickerInfo] | None = None
     sticker_labels: list[str] | None = None
     adult: bool | None = None
-    reservation_data: dict | None = None
+    reservation_data: ReservationData | None = None
     list_image_urls: list[str] | None = None
     has_coupons: HasCoupons | None = None
     max_coupon_amt: float | None = None
@@ -262,7 +281,7 @@ class ShopProductItem(BaseDto):
     contents_if_pausing: str | None = None
     hs_code: str | None = None
     adult: bool | None = None
-    reservation_data: dict | None = None
+    reservation_data: ReservationData | None = None
     rental_infos: list | None = None
     option_values: list | None = None
     search_product_id: str | None = None

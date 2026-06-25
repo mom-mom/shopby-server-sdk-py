@@ -3,16 +3,17 @@
 대응 OpenAPI schema: products-productNo318672107.
 
 상품 상세는 baseInfo/price/stock/brand/deliveryFee/limitations/status 등 깊게 중첩된
-하위 객체로 구성된다. 실데이터(dev+prod) 기반으로 각 하위 객체를 타입화했다.
-실데이터에서 항상 null 이라 구조를 알 수 없는 동적 필드(reservationData/regularDelivery
-/partnerNotice/deliveryDate 등)는 정직하게 ``dict | None`` 으로 둔다.
+하위 객체로 구성된다. 실데이터(dev+prod) + OpenAPI 스펙 정의 기반으로 각 하위 객체를
+타입화했다(reservationData/deliveryDate/regularDelivery/partnerNotice 포함 — 실데이터는
+항상 null 이지만 스펙에 스키마가 정의되어 있어 타입화).
 """
 
 from pydantic import Field
 
 from shopby_sdk.base.dto import BaseDto
 from shopby_sdk.base.kst import KstDatetime
-from shopby_sdk.shop.product.models.catalog_item import ImageUrlInfo, StickerInfo
+from shopby_sdk.shop.product.models.catalog_item import ImageUrlInfo, ReservationData, StickerInfo
+from shopby_sdk.shop.product.models.shipping import ReturnWarehouse, ShippingConfig
 
 
 class AccumulationUseLimitInfo(BaseDto):
@@ -121,7 +122,7 @@ class ProductDetailDeliveryFee(BaseDto):
     delivery_condition_details: list | None = None
     remote_delivery_area_fees: list | None = None
     delivery_pre_payment: bool | None = None
-    return_warehouse: dict | None = Field(None, description="반품지 정보")
+    return_warehouse: ReturnWarehouse | None = Field(None, description="반품지 정보")
     delivery_customer_info: str | None = None
     total_weight: float | None = None
     delivery_template_name: str | None = None
@@ -198,7 +199,45 @@ class ProductDetailShippingInfo(BaseDto):
     """배송 정보(shippingInfo)."""
 
     shipping_available: bool | None = None
-    shipping_config: dict | None = None
+    shipping_config: ShippingConfig | None = None
+
+
+class DeliveryDatePeriod(BaseDto):
+    """배송일 기간(deliveryDate.period)."""
+
+    start_ymdt: KstDatetime | None = None
+    end_ymdt: KstDatetime | None = None
+
+
+class ProductDeliveryDate(BaseDto):
+    """상품 배송일 정보(deliveryDate)."""
+
+    period: DeliveryDatePeriod | None = None
+    days_of_week: str | None = Field(None, description='요일 (예: "[MON,TUE]")')
+    days_after_purchase: int | None = Field(None, description="주문일 기준 배송 소요일")
+
+
+class RegularDeliveryDiscountInfo(BaseDto):
+    """정기결제 즉시 할인 정보(regularDelivery.discount)."""
+
+    type: str | None = Field(None, description="AMOUNT(원)/PERCENT(%)")
+    value: float | None = Field(None, description="즉시 할인 금액/율")
+
+
+class ProductRegularDelivery(BaseDto):
+    """정기 결제 정보(regularDelivery).
+
+    이 값이 null 이면 정기결제 상품이 아님.
+    """
+
+    discount: RegularDeliveryDiscountInfo | None = None
+
+
+class ProductPartnerNotice(BaseDto):
+    """파트너사 공지(partnerNotice)."""
+
+    title: str | None = None
+    content: str | None = None
 
 
 class ProductDetailResponse(BaseDto):
@@ -217,11 +256,11 @@ class ProductDetailResponse(BaseDto):
     shipping_info: ProductDetailShippingInfo | None = None
     categories: list[ProductDetailCategory] | None = None
 
-    # 실데이터 항상 null → 구조 미확인. 정직하게 dict|None / str|None 유지.
-    delivery_date: dict | None = Field(None, description="배송 예정일 정보(미설정 시 null)")
-    regular_delivery: dict | None = Field(None, description="정기배송 정보(미설정 시 null)")
-    partner_notice: dict | None = Field(None, description="파트너 공지(미설정 시 null)")
-    reservation_data: dict | None = Field(None, description="예약판매 정보(미설정 시 null)")
+    # 스펙 정의 기반 타입화 (실데이터는 항상 null 이나 스펙에 스키마 존재)
+    delivery_date: ProductDeliveryDate | None = Field(None, description="배송 예정일 정보(미설정 시 null)")
+    regular_delivery: ProductRegularDelivery | None = Field(None, description="정기배송 정보(미설정 시 null)")
+    partner_notice: ProductPartnerNotice | None = Field(None, description="파트너 공지(미설정 시 null)")
+    reservation_data: ReservationData | None = Field(None, description="예약판매 정보(미설정 시 null)")
     rental_infos: list | None = None
     related_product_nos: list[int] | None = None
 

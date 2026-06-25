@@ -21,6 +21,8 @@ from shopby_sdk.shop.product.models.catalog_item import (
     ItemBaseInfo,
     ItemPrice,
     ItemStatus,
+    AccumulationLimitInfo,
+    ReservationData,
     ShopProductItem,
     StickerInfo,
     UnitPrice,
@@ -38,6 +40,8 @@ from shopby_sdk.shop.product.models.catalog import (
 )
 from shopby_sdk.shop.product.models.detail import (
     AccumulationUseLimitInfo,
+    DeliveryDatePeriod,
+    ProductDeliveryDate,
     ProductDetailBaseInfo,
     ProductDetailBrand,
     ProductDetailCategory,
@@ -50,6 +54,9 @@ from shopby_sdk.shop.product.models.detail import (
     ProductDetailShippingInfo,
     ProductDetailStatus,
     ProductDetailStock,
+    ProductPartnerNotice,
+    ProductRegularDelivery,
+    RegularDeliveryDiscountInfo,
 )
 from shopby_sdk.shop.product.models.discount import (
     AdditionalDiscountResponse,
@@ -57,7 +64,17 @@ from shopby_sdk.shop.product.models.discount import (
     MemberDiscountInfo,
     QuantityDiscountInfo,
 )
-from shopby_sdk.shop.product.models.extra_product import ExtraProductsResponse
+from shopby_sdk.shop.product.models.extra_product import (
+    ExtraProductCouponDiscountInfo,
+    ExtraProductDiscountInfo,
+    ExtraProductInput,
+    ExtraProductItem,
+    ExtraProductMultiOption,
+    ExtraProductOptionChild,
+    ExtraProductOptionInfo,
+    ExtraProductPrice,
+    ExtraProductsResponse,
+)
 from shopby_sdk.shop.product.models.free_gift import (
     FreeGiftCondition,
     FreeGiftConditionResponse,
@@ -165,6 +182,8 @@ __all__ = [
     "StickerInfo",
     "ImageUrlInfo",
     "DeliveryConditionInfo",
+    "ReservationData",
+    "AccumulationLimitInfo",
     # detail
     "ProductDetailResponse",
     "ProductDetailBaseInfo",
@@ -179,6 +198,11 @@ __all__ = [
     "ProductDetailStatus",
     "ProductDetailShippingInfo",
     "AccumulationUseLimitInfo",
+    "ProductDeliveryDate",
+    "DeliveryDatePeriod",
+    "ProductRegularDelivery",
+    "RegularDeliveryDiscountInfo",
+    "ProductPartnerNotice",
     # discount
     "AdditionalDiscountResponse",
     "AdditionalDiscountsResponse",
@@ -186,6 +210,14 @@ __all__ = [
     "QuantityDiscountInfo",
     # extra product
     "ExtraProductsResponse",
+    "ExtraProductItem",
+    "ExtraProductPrice",
+    "ExtraProductDiscountInfo",
+    "ExtraProductCouponDiscountInfo",
+    "ExtraProductOptionInfo",
+    "ExtraProductMultiOption",
+    "ExtraProductOptionChild",
+    "ExtraProductInput",
     # free gift
     "FreeGiftCondition",
     "FreeGiftConditionResponse",
