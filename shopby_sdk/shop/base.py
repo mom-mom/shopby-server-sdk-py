@@ -10,7 +10,8 @@ Bearer 토큰 + systemKey 가 아니라 쇼핑몰 식별자 `clientId` 와 `plat
 """
 
 import logging
-from typing import Literal, Type, TypeVar
+from collections.abc import Callable
+from typing import Any, Literal, Type, TypeVar
 
 from httpx import HTTPStatusError, Response
 from pydantic import TypeAdapter
@@ -52,11 +53,15 @@ class ShopbyShopApiClient:
         *,
         base_url: str | None = None,
         language: str | None = None,
+        on_response: Callable[[Response], None] | None = None,
+        raw: bool = False,
     ):
         self._client_id = client_id
         self._platform = platform
         self._language = language
         self.base_url = base_url or self.DEFAULT_BASE_URL
+        self._on_response = on_response
+        self._raw = raw
 
     @property
     def common_header(self) -> dict[str, str]:
@@ -72,9 +77,13 @@ class ShopbyShopApiClient:
             header["language"] = self._language
         return header
 
-    def handle_resp(self, resp: Response, type_model: Type[_ResponseType]) -> _ResponseType:
+    def handle_resp(
+        self, resp: Response, type_model: Type[_ResponseType], raw: bool | None = None
+    ) -> _ResponseType | Any:
         self.raise_for_status(resp)
 
+        if self._raw if raw is None else raw:
+            return resp.json()
         try:
             return TypeAdapter(type_model).validate_python(resp.json())
         except ValueError:
@@ -90,6 +99,11 @@ class ShopbyShopApiClient:
         Raises:
             HTTPStatusError: 4xx 또는 5xx 응답 시
         """
+        if self._on_response is not None:
+            try:
+                self._on_response(resp)
+            except Exception:  # 콜백 오류가 요청을 깨뜨리지 않도록
+                logger.warning("on_response callback raised", exc_info=True)
         try:
             resp.raise_for_status()
         except HTTPStatusError:
