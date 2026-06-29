@@ -188,6 +188,13 @@ class ApplyCouponProduct(BaseDto):
     limit_pay_type: str | None = Field(None, description="결제수단 제한 (운영데이터 전부 null)")
 
 
+class CartCouponUseKey(BaseDto):
+    """카트쿠폰 사용 정보 (applyCoupon.cartCouponUseKey)"""
+
+    coupon_issue_no: int | None = Field(None, description="쿠폰 발급 번호")
+    promotion_code: str | None = Field(None, description="쿠폰의 프로모션 코드")
+
+
 class ApplyCoupon(BaseDto):
     """적용 쿠폰 (orderSheetInfo.applyCoupon)"""
 
@@ -198,8 +205,8 @@ class ApplyCoupon(BaseDto):
     )
     product_coupons: list[ApplyCouponProduct] = Field(default_factory=list, description="상품 쿠폰 목록")
     has_coupon_issue_no: bool | None = Field(None, description="쿠폰 발급번호 보유여부")
-    cart_coupon_use_key: str | None = Field(
-        None, description="장바구니 쿠폰 사용키 (운영데이터 전부 null)"
+    cart_coupon_use_key: CartCouponUseKey | None = Field(
+        None, description="장바구니 쿠폰 사용 정보 (미사용 시 null)"
     )
 
 

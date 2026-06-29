@@ -40,6 +40,7 @@ from shopby_sdk.clients.order.models.detail import (
 from shopby_sdk.clients.order.models.list import (
     ApplyCoupon,
     ApplyCouponProduct,
+    CartCouponUseKey,
     DeliveryGroup,
     MemberGroupInfo,
     Order,
@@ -172,6 +173,7 @@ __all__ = [
     "PayProduct",
     "ApplyCoupon",
     "ApplyCouponProduct",
+    "CartCouponUseKey",
     # Detail response models
     "OrderDetailResponse",
     "OrderDetailProduct",
