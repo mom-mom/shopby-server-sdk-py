@@ -12,7 +12,14 @@ from typing import Literal
 from shopby_sdk.base.dto import BaseDto
 from shopby_sdk.shop.product.models.catalog_item import RentalInfo
 
-OptionSaleType = Literal["AVAILABLE", "SOLD_OUT", "UNAVAILABLE"]
+OptionSaleType = Literal["AVAILABLE", "SOLDOUT", "UNAVAILABLE"]
+"""옵션 재고수량에 따른 상태.
+
+품절은 언더스코어 없는 `SOLDOUT` 이다 — 실응답으로 확인했다
+(`GET /products/135945103/options` → `flatOptions[].saleType == "SOLDOUT"`).
+`SOLD_OUT` 으로 두면 품절 옵션이 하나라도 있는 상품에서 응답 전체가 ValidationError 로
+떨어져, 호출부는 "옵션 조회 실패" 와 구분할 수 없게 된다.
+"""
 OptionSelectType = Literal["MULTI", "FLAT"]
 OptionType = Literal["STANDARD", "COMBINATION", "DEFAULT", "MAPPING", "REQUIRED"]
 

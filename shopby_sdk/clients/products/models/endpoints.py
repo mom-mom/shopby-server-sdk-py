@@ -37,8 +37,13 @@ SaleStatusType = Literal[
 PartialSaleStatusType = Literal["READY", "STOP", "PROHIBITION"]
 """부분수정용 판매상태 (READY: 판매가능, STOP: 판매중지, PROHIBITION: 판매금지)"""
 
-OptionSaleType = Literal["AVAILABLE", "SOLD_OUT", "UNAVAILABLE"]
-"""옵션 재고수량에 따른 상태"""
+OptionSaleType = Literal["AVAILABLE", "SOLDOUT", "UNAVAILABLE"]
+"""옵션 재고수량에 따른 상태.
+
+품절은 언더스코어 없는 `SOLDOUT` 이다 — shop-api 실응답으로 확인했고, server-api 를
+직접 호출하는 기존 클라이언트도 같은 값을 쓴다
+(`wonder-weekly-airflow` `dags/shopby/externals/shopby_stock_client.py` 의 `SaleType`).
+"""
 
 OptionSelectType = Literal["MULTI", "FLAT"]
 """옵션 선택 방식 (MULTI: 분리형, FLAT: 일체형)"""
